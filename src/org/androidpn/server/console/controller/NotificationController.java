@@ -76,5 +76,4 @@ public class NotificationController extends MultiActionController {
         mav.setViewName("redirect:notification.do");
         return mav;
     }
-
 }

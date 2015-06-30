@@ -1,6 +1,8 @@
 package com.bsu.system.tool;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -100,7 +102,7 @@ public class U {
 		for(int i=0;i<len;i++){
 			if(request.getParameter(cn[i])==null)
 				continue;
-			ldata.add(new ColumnData(cn[i],hm.get(cn[i]),request.getParameter(cn[i])));
+			ldata.add(new ColumnData(cn[i], hm.get(cn[i]), request.getParameter(cn[i])));
 		}
 		return ldata;
 	}
@@ -286,7 +288,6 @@ public class U {
 	/**
 	 * 用来记录异常日志,和在服务端打印异常堆栈
 	 * @param c			发生异常的类
-	 * @param msg		要记录的异常日志信息
 	 * @param e			异常对象
 	 */
 	public static void el(String c,Exception e){
@@ -296,7 +297,6 @@ public class U {
 	/**
 	 * 用来记录异常日志,和在服务器打印异常堆栈,和向用户打印错误消息
 	 * @param c				 	发生异常的类
-	 * @param msg				要记录的消息
 	 * @param e					异常对象
 	 * @param response		打印对象
 	 * @param jmsgno			json消息编号
@@ -332,5 +332,60 @@ public class U {
 		}
 		
 		return retval;
+	}
+
+	/**
+	 * 模拟post方式发送表单数据
+	 * @param path			url路径
+	 * @param params		url参数
+	 * @return				返回服务器响应的数据
+	 * @throws Exception
+	 */
+	public static byte[] sendPostRequestByForm(String path, String params) throws Exception{
+		URL url = new URL(path);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");// 提交模式
+		// conn.setConnectTimeout(10000);//连接超时 单位毫秒
+		// conn.setReadTimeout(2000);//读取超时 单位毫秒
+		conn.setDoOutput(true);// 是否输入参数
+		byte[] bypes = params.toString().getBytes();
+		conn.getOutputStream().write(bypes);// 输入参数
+		InputStream inStream=conn.getInputStream();
+		return readInputStream(inStream);
+	}
+
+	/**
+	 * 从数据流中读取数据
+	 * @param inStream		输入数据流
+	 * @return				返回数据流数据
+	 * @throws Exception
+	 */
+	public static byte[] readInputStream(InputStream inStream) throws Exception{
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while( (len = inStream.read(buffer)) !=-1 ){
+			outStream.write(buffer, 0, len);
+		}
+		byte[] data = outStream.toByteArray();//网页的二进制数据
+		outStream.close();
+		inStream.close();
+		return data;
+	}
+
+	/**
+	 * 设置请求androidpn的参数
+	 * @param user	要发送的手机的唯一编码
+	 * @param msg	发送的消息
+	 * @param uri	发送的uri,如没有uri可填入空字符串
+	 * @return
+	 */
+	public static String setParams(String user,String msg,String uri){
+		uri = (uri==null)?"":uri;								//如果uri为null设置uri为空字符串
+		StringBuffer sb = new StringBuffer();
+		sb.append("action=send&broadcast=N&username=").append(user)
+				.append("&title=title&message=").append(msg)
+				.append("&uri=").append(uri);
+		return sb.toString();
 	}
 }
