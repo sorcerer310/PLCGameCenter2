@@ -2,6 +2,7 @@ package com.bsu.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
@@ -14,8 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialReaderListener;
+import com.bsu.system.tool.JSONBSUConfig;
 import com.bsu.system.tool.PLCGameStatus;
 import com.bsu.system.tool.U;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 接收串口数据的servlce,该servlte随tomcat启动,并在init函数中初始化串口的初始化操作,只执行一次.
@@ -50,19 +54,28 @@ public class PLC_ReceiveSerial extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		//1:创建properties
-		InputStream inputStream = null;
+//		InputStream inputStream = null;
+//		try {
+//			System.out.println(getClass().getClassLoader());
+//			inputStream = getClass().getClassLoader().getResourceAsStream("config.properties");
+//			U.properties.load(inputStream);
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+//		//2:创建PLCGameStatus实例子
+//		plcgs = PLCGameStatus.getInstance();
+
+		//1:初始化JSONBSUConfig配置数据
 		try {
-			System.out.println(getClass().getClassLoader());
-			inputStream = getClass().getClassLoader().getResourceAsStream("config.properties");
-			U.properties.load(inputStream);
-			
+			JSONBSUConfig.getInstance();
 		} catch (IOException e) {
-			e.printStackTrace();
+			config.getServletContext().log(e.getMessage());
+		} catch (JSONException e) {
+			config.getServletContext().log(e.getMessage());
 		}
-		
-		//2:创建PLCGameStatus实例子
-		plcgs = PLCGameStatus.getInstance();
-		
+
 		//3:初始化串口监听部分
 		System.out.println("PLC_ReceiveSerial is init");
 		config.getServletContext().log("======================PLC_ReceiveSerial is init");
@@ -92,32 +105,22 @@ public class PLC_ReceiveSerial extends HttpServlet {
 
 			@Override
 			public void readCompleted(byte command) {
-				pconfig.getServletContext().log("================comm port readCompleted:"+command);
-				switch(command){
-				case PLC_RECEIVE_BED_VIDEO:									
-					//躺床上视频
-					plcgs.set_PLC_STATUS_BED(true);
-					break;
-				case PLC_RECEIVE_DRAWER_VIDEO:
-					//抽屉视频
-					plcgs.set_PLC_STATUS_DRAWER(true);
-					break;
-				case PLC_RECEIVE_KNOCK_DOOR_VIDEO:
-					//敲门视频
-					plcgs.set_PLC_STATUS_KNOCK_DOOR(true);
-					break;
-				case PLC_RECEIVE_FLOWER_VIDEO:
-					//浇花视频
-					plcgs.set_PLC_STATUS_WATERING(true);
-					break;
-				case PLC_RECEIVE_PLAY_VIDEO:
-					//要求播放视频命令
-					plcgs.set_PLC_STATUS_PLAY_VIDEO(true);
-					break;
-				default:
-					break;
+				pconfig.getServletContext().log("================comm port readCompleted:" + command);
+				try {
+					JSONBSUConfig cfg = JSONBSUConfig.getInstance();
+					Iterator<String> it = cfg.getRecPlcData().keySet().iterator();
+					//如果有匹配配置文件里的内容则向androidpn服务器发送对应的数据
+					while(it.hasNext()){
+						String key = it.next();
+						if(key.equals(String.valueOf((int)command)))
+							U.sendPostRequestByForm(cfg.getAndroidpnUrl()
+									, U.setParams(cfg.getAndroidpnUser(), "",cfg.getRecPlcData().get(key)));
+					}
+				} catch (Exception e) {
+					PLC_ReceiveSerial.this.pconfig.getServletContext().log(e.getMessage());
 				}
-				System.out.println(command);
+
+				System.out.println("command:"+command);
 			}
 		});
 	}

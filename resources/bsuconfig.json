@@ -1,0 +1,16 @@
+{
+  "receivedata": {
+    "1": "vpath:v001",
+    "2": "vpath:v002",
+    "3": "vpath:v003",
+    "4": "vpath:v004",
+    "5": "vpath:v005"
+  },
+  "writedata":{
+
+  },
+  "androidpn":{
+    "androidpnUrl":"http://127.0.0.1:8080/Androidpn/notification.do",
+    "androidpnUser":"a7f2f7c40be84a1e9f2827306ae5db6e"
+  }
+}
