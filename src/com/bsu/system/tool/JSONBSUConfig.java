@@ -17,7 +17,15 @@ public class JSONBSUConfig {
     private static JSONBSUConfig instance = null;
     private JSONObject jo_cfg;
 
-    private String androidpnUrl,androidpnUser;	                                 //此处一定要指定用户
+    //androidpn参数
+    private String androidpnUrl,androidpnUser,title,msg = "";                                                    //一定要指定用户,否则发送消息不好用
+
+    //串口参数
+    private String port = "COM2";
+    private int baudrate = 9600;                                                                                    //比特率
+    private int databits = 7;                                                                                       //数据位
+    private int stopbits = 2;                                                                                       //停止位
+    private int parity = 2;                                                                                         //奇偶校验,2为偶校验
 
     private HashMap<String,String> recPlcData = new HashMap<String,String>();
     private HashMap<String,String> writePlcData = new HashMap<String,String>();
@@ -51,8 +59,16 @@ public class JSONBSUConfig {
         JSONObject jo_androidpn = jo_cfg.getJSONObject("androidpn");
         androidpnUrl = jo_androidpn.getString("androidpnUrl");
         androidpnUser = jo_androidpn.getString("androidpnUser");
+        title = jo_androidpn.has("title")==true?"":jo_androidpn.getString("title");
+        msg = jo_androidpn.has("msg")==true?"":jo_androidpn.getString("msg");
 
-
+        //设置串口配置数据
+        JSONObject jo_commport = jo_cfg.getJSONObject("commport");
+        port = jo_commport.getString("port");
+        baudrate = jo_commport.getInt("baudrate");
+        databits = jo_commport.getInt("databits");
+        stopbits = jo_commport.getInt("stopbits");
+        parity = jo_commport.getInt("parity");
     }
 
     /**
@@ -78,4 +94,45 @@ public class JSONBSUConfig {
     public HashMap<String, String> getRecPlcData() {
         return recPlcData;
     }
+
+    /**
+     * 端口配置数据
+     * @return
+     */
+    public String getPort() {
+        return port;
+    }
+
+    /**
+     * 比特率配置数据
+     * @return
+     */
+    public int getBaudrate() {
+        return baudrate;
+    }
+
+    /**
+     * 停止位数据
+     * @return
+     */
+    public int getStopbits() {
+        return stopbits;
+    }
+
+    /**
+     * 数据位数据
+     * @return
+     */
+    public int getDatabits() {
+        return databits;
+    }
+
+    /**
+     * 奇偶校验
+     * @return
+     */
+    public int getParity() {
+        return parity;
+    }
+
 }
