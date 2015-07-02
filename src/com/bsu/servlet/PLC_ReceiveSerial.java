@@ -36,20 +36,6 @@ public class PLC_ReceiveSerial extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		//1:创建properties
-//		InputStream inputStream = null;
-//		try {
-//			System.out.println(getClass().getClassLoader());
-//			inputStream = getClass().getClassLoader().getResourceAsStream("config.properties");
-//			U.properties.load(inputStream);
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
-//		//2:创建PLCGameStatus实例子
-//		plcgs = PLCGameStatus.getInstance();
-
 		//1:初始化JSONBSUConfig配置数据
 		try {
 			JSONBSUConfig.getInstance();

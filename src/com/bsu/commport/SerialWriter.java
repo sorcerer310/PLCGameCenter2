@@ -30,11 +30,7 @@ public class SerialWriter {
 					cfg.getDatabits(),
 					cfg.getStopbits(),
 					cfg.getParity());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (UnsupportedCommOperationException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
+		} catch (IOException |UnsupportedCommOperationException | JSONException e) {
 			e.printStackTrace();
 		}
 	}

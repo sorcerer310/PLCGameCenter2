@@ -81,13 +81,7 @@ public class SerialReader{
 				}
 			});
 			readThread.start();
-		}catch(IOException e){
-			e.printStackTrace();
-		}catch(TooManyListenersException e){
-			e.printStackTrace();
-		}catch(UnsupportedCommOperationException e){
-			e.printStackTrace();
-		} catch (JSONException e) {
+		}catch(IOException | TooManyListenersException | UnsupportedCommOperationException | JSONException e){
 			e.printStackTrace();
 		}
 	}

@@ -29,7 +29,7 @@ public class CommPortInstance {
 	private Enumeration portList;				//端口列表
 	
 	private SerialPort serialPort;			//串口对象
-	private com.bsu.commport.SerialReader sreader;			//串口读取对象
+	private SerialReader sreader;				//串口读取对象
 	private SerialWriter swriter;				//串口写对象
 	/**
 	 * 初始化串口端口
