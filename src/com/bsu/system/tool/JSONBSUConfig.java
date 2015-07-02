@@ -18,7 +18,7 @@ public class JSONBSUConfig {
     private JSONObject jo_cfg;
 
     //androidpn参数
-    private String androidpnUrl,androidpnUser,title,msg = "";                                                    //一定要指定用户,否则发送消息不好用
+    private String androidpnUrl,androidpnUser,androidpnTitle,androidpnMsg = "";                               //一定要指定用户,否则发送消息不好用
 
     //串口参数
     private String port = "COM2";
@@ -27,8 +27,8 @@ public class JSONBSUConfig {
     private int stopbits = 2;                                                                                       //停止位
     private int parity = 2;                                                                                         //奇偶校验,2为偶校验
 
-    private HashMap<String,String> recPlcData = new HashMap<String,String>();
-    private HashMap<String,String> writePlcData = new HashMap<String,String>();
+    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                                   //接收plc数据的配置数据
+    private HashMap<String,String> writePlcData = new HashMap<String,String>();                                                 //发送plc数据的配置数据
     public static JSONBSUConfig getInstance() throws IOException,JSONException{
         if(instance==null)
             instance = new JSONBSUConfig();
@@ -49,18 +49,26 @@ public class JSONBSUConfig {
 
         //转化receivedata数据
         JSONObject jo_recdata = jo_cfg.getJSONObject("receivedata");
-        Iterator<String> it = jo_recdata.keys();
-        while(it.hasNext()) {
-            String key = it.next();
+        Iterator<String> it_rec = jo_recdata.keys();
+        while(it_rec.hasNext()) {
+            String key = it_rec.next();
             recPlcData.put(key,jo_recdata.getString(key));
+        }
+
+        //转化writedata数据
+        JSONObject jo_wdata = jo_cfg.getJSONObject("writedata");
+        Iterator<String> it_write = jo_wdata.keys();
+        while(it_write.hasNext()){
+            String key = it_write.next();
+            writePlcData.put(key,jo_wdata.getString(key));
         }
 
         //指定androidpn服务器的url和要发送的用户
         JSONObject jo_androidpn = jo_cfg.getJSONObject("androidpn");
         androidpnUrl = jo_androidpn.getString("androidpnUrl");
         androidpnUser = jo_androidpn.getString("androidpnUser");
-        title = jo_androidpn.has("title")==true?"":jo_androidpn.getString("title");
-        msg = jo_androidpn.has("msg")==true?"":jo_androidpn.getString("msg");
+        androidpnTitle = jo_androidpn.has("title")==true?"":jo_androidpn.getString("title");
+        androidpnMsg = jo_androidpn.has("msg")==true?"":jo_androidpn.getString("msg");
 
         //设置串口配置数据
         JSONObject jo_commport = jo_cfg.getJSONObject("commport");
@@ -71,29 +79,15 @@ public class JSONBSUConfig {
         parity = jo_commport.getInt("parity");
     }
 
-    /**
-     * 获得androidpn服务器地址
-     * @return  返回androidpn服务器地址
-     */
-    public String getAndroidpnUrl(){
-        return androidpnUrl;
-    }
+    public String getAndroidpnUrl(){return androidpnUrl;}
+    public String getAndroidpnUser(){return androidpnUser;}
+    public String getAndroidpnTitle(){return androidpnTitle;}
+    public String getAndroidpnMsg(){return androidpnMsg;}
 
-    /**
-     * 获得要发送消息的用户
-     * @return  返回要通过androidpn发送消息的用户
-     */
-    public String getAndroidpnUser(){
-        return androidpnUser;
-    }
-
-    /**
-     * 获得接受PLC的数据
-     * @return   返回接收到的PLC的数据
-     */
     public HashMap<String, String> getRecPlcData() {
         return recPlcData;
     }
+    public HashMap<String,String> getWritePlcData(){ return writePlcData;}
 
     /**
      * 端口配置数据

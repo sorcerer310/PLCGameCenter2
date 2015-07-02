@@ -1,14 +1,10 @@
 package com.bsu.servlet;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
-import java.util.Properties;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialReaderListener;
 import com.bsu.system.tool.JSONBSUConfig;
-import com.bsu.system.tool.PLCGameStatus;
 import com.bsu.system.tool.U;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * 接收串口数据的servlce,该servlte随tomcat启动,并在init函数中初始化串口的初始化操作,只执行一次.
@@ -31,14 +25,6 @@ public class PLC_ReceiveSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommPortInstance cpi = null;
-	private PLCGameStatus plcgs = null;
-	
-	private final byte PLC_RECEIVE_BED_VIDEO = 1;									//躺床传第一个视频到手机
-	private final byte PLC_RECEIVE_DRAWER_VIDEO = 2;								//床抽屉触发手机视频
-	private final byte PLC_RECEIVE_KNOCK_DOOR_VIDEO = 3;							//敲门触发手机视频								
-	private final byte PLC_RECEIVE_FLOWER_VIDEO = 4;								//浇花触发手机视频
-	private final byte PLC_RECEIVE_PLAY_VIDEO = 5;								//从plc处接到播放视频的指令
-	
 	private ServletConfig pconfig;
 	
     /**
@@ -80,7 +66,7 @@ public class PLC_ReceiveSerial extends HttpServlet {
 		System.out.println("PLC_ReceiveSerial is init");
 		config.getServletContext().log("======================PLC_ReceiveSerial is init");
 		cpi = CommPortInstance.getInstance();
-		cpi.initCommPort("COM2");
+		cpi.initCommPort();
 		if(cpi.getSerialReader()==null){
 			System.out.println("comm port init fail");
 			config.getServletContext().log("======================PLC_ReceiveSerial comm port init fail");
@@ -94,7 +80,6 @@ public class PLC_ReceiveSerial extends HttpServlet {
 			@Override
 			public void readCompleted(String command) {
 				// TODO Auto-generated method stub
-				
 			}
 
 			@Override
@@ -114,7 +99,7 @@ public class PLC_ReceiveSerial extends HttpServlet {
 						String key = it.next();
 						if(key.equals(String.valueOf((int)command)))
 							U.sendPostRequestByForm(cfg.getAndroidpnUrl()
-									, U.setParams(cfg.getAndroidpnUser(), "",cfg.getRecPlcData().get(key)));
+									, U.setParams(cfg.getAndroidpnUser(), cfg.getAndroidpnTitle(),cfg.getAndroidpnMsg(),cfg.getRecPlcData().get(key)));
 					}
 				} catch (Exception e) {
 					PLC_ReceiveSerial.this.pconfig.getServletContext().log(e.getMessage());
@@ -138,8 +123,6 @@ public class PLC_ReceiveSerial extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		plcgs.set_PLC_STATUS_BED(true);
-		System.out.println("PLC_ReceiveSerial is doGet");
 	}
 
 }

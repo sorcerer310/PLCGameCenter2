@@ -113,7 +113,7 @@ public class SerialReader{
 	
 	public static void main(String[] args){
 		CommPortInstance cp = CommPortInstance.getInstance();
-		cp.initCommPort("COM2");
+		cp.initCommPort();
 		cp.getSerialReader().setSerialReaderListener(new SerialReaderListener(){
 			@Override
 			public void readCompleted(String command) {
