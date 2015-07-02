@@ -1,6 +1,8 @@
 package com.bsu.commport;
 
 import com.bsu.commport.CommPortInstance;
+import com.bsu.system.tool.JSONBSUConfig;
+import org.json.JSONException;
 
 import javax.comm.SerialPort;
 import javax.comm.UnsupportedCommOperationException;
@@ -18,17 +20,21 @@ public class SerialWriter {
 	
 	private SerialPort serialPort;
 	private OutputStream outputStream;
+	private JSONBSUConfig cfg = null;
 	public SerialWriter(SerialPort sport){
 		serialPort = sport;
 		try {
+			cfg = JSONBSUConfig.getInstance();
 			outputStream = serialPort.getOutputStream();
-			serialPort.setSerialPortParams(9600,
-					SerialPort.DATABITS_7,
-					SerialPort.STOPBITS_2,
-					SerialPort.PARITY_EVEN);
+			serialPort.setSerialPortParams(cfg.getBaudrate(),
+					cfg.getDatabits(),
+					cfg.getStopbits(),
+					cfg.getParity());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (UnsupportedCommOperationException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}

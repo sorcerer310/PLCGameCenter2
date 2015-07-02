@@ -1,17 +1,19 @@
 package com.bsu.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialWriter;
-import com.bsu.system.tool.PLCGameStatus;
+import com.bsu.system.tool.JSONBSUConfig;
 import com.bsu.system.tool.U;
+import org.json.JSONException;
 
 /**
  * 用于向PLC发送串口数据
@@ -22,9 +24,6 @@ public class PLC_SendSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private CommPortInstance cpi = null;
     private SerialWriter sw = null;
-    
-    private final byte SEND_PLC_WATCH_VIDEO_YES = 1;
-    private final byte SEND_PLC_WATCH_VIDEO_NO = 0;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,26 +34,27 @@ public class PLC_SendSerial extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		String plccommand = U.getRS(request,"plccmd");
 		if(sw==null){
 			U.p(response, "comm port init fail");
 			return;
 		}
-		
-		//只有PLC_STATUS_PLAY_VIDEO为true的时候才会向plc发送指令命令女鬼回位
-		if(PLCGameStatus.getInstance().get_PLC_STATUS_PLAY_VIDEO()){
-			String watch = U.getRS(request, "watch");
-			byte[] bytes;
-			if(watch.equals("yes"))
-				bytes = new byte[]{SEND_PLC_WATCH_VIDEO_YES};
-			else
-				bytes = new byte[]{SEND_PLC_WATCH_VIDEO_NO};
-			System.out.println("===========================send"+new String(bytes));
-			sw.writeCommand(bytes);
-			U.p(response,"data send success");
-		}else
-			U.p(response,"data send status is not PLC_STATUS_PLAY_VIDEO");
-	}
 
-	
-	
+		try{
+			JSONBSUConfig cfg = JSONBSUConfig.getInstance();
+			HashMap<String,String> writedata = new HashMap<String,String>();
+			Iterator<String> it = cfg.getWritePlcData().keySet().iterator();
+			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
+			while(it.hasNext()){
+				String key = it.next();
+				if(key.equals(plccommand)) {
+					sw.writeCommand(writedata.get(key).toString().getBytes());
+					this.getServletContext().log("===================send:"+key+"="+writedata.get(key).toString());
+					System.out.println("===================send:"+key+"="+writedata.get(key).toString());
+				}
+			}
+		}catch(JSONException | IOException e){
+			this.getServletContext().log(e.getMessage());
+		}
+	}
 }
