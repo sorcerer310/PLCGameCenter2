@@ -2,6 +2,8 @@ package com.bsu.commport;
 
 import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialReaderListener;
+import com.bsu.system.tool.JSONBSUConfig;
+import org.json.JSONException;
 
 import javax.comm.SerialPort;
 import javax.comm.SerialPortEvent;
@@ -21,9 +23,11 @@ public class SerialReader{
 	private InputStream inputStream;
 	private Thread readThread;
 	private SerialReaderListener listener = null;										//监听对象
-	
+	private JSONBSUConfig cfg = null;
 	public SerialReader(SerialPort sport){
 		try{
+			cfg = JSONBSUConfig.getInstance();
+
 			serialPort = sport; 
 			inputStream = serialPort.getInputStream();									//从串口获得输入流
 			serialPort.addEventListener(new SerialPortEventListener(){					//为串口增加事件监听
@@ -61,10 +65,10 @@ public class SerialReader{
 			});
 			
 			serialPort.notifyOnDataAvailable(true);
-			serialPort.setSerialPortParams(9600,
-					SerialPort.DATABITS_7,
-					SerialPort.STOPBITS_2,
-					SerialPort.PARITY_EVEN);
+			serialPort.setSerialPortParams(cfg.getBaudrate(),
+					cfg.getDatabits(),
+					cfg.getStopbits(),
+					cfg.getParity());
 			
 			readThread = new Thread(new Runnable(){
 				@Override
@@ -82,6 +86,8 @@ public class SerialReader{
 		}catch(TooManyListenersException e){
 			e.printStackTrace();
 		}catch(UnsupportedCommOperationException e){
+			e.printStackTrace();
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}

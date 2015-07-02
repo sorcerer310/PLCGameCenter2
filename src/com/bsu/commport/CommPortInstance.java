@@ -39,9 +39,9 @@ public class CommPortInstance {
 			if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL){
 				if(portId.getName().equals(pname)){
 					try {
-						serialPort = (SerialPort) portId.open("SerialReader", 2000); 	//获得串口对象
-						sreader = new com.bsu.commport.SerialReader(serialPort);							//生成串口读取对象
-						swriter = new SerialWriter(serialPort);							//生成串口写入对象
+						serialPort = (SerialPort) portId.open("SerialReader", 2000); 								//获得串口对象
+						sreader = new com.bsu.commport.SerialReader(serialPort);										//生成串口读取对象
+						swriter = new SerialWriter(serialPort);														//生成串口写入对象
 						System.out.println("======================init comm port success");
 					} catch (PortInUseException e) {
 						// TODO Auto-generated catch block
