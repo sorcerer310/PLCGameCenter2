@@ -50,7 +50,7 @@ public class SerialWriter {
 	
 	public static void main(String[] args){
 		CommPortInstance cp = CommPortInstance.getInstance();
-		cp.initCommPort("COM2");
+		cp.initCommPort();
 		try {
 			cp.getSerialWriter().writeCommand(new byte[]{00});
 		} catch (IOException e) {

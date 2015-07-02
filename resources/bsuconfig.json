@@ -32,7 +32,9 @@
   },
   "androidpn":{
     "androidpnUrl":"http://127.0.0.1:8080/Androidpn/notification.do",
-    "androidpnUser":"a7f2f7c40be84a1e9f2827306ae5db6e"
+    "androidpnUser":"a7f2f7c40be84a1e9f2827306ae5db6e",
+    "title":"",
+    "msg":""
   },
   "commport":{
     "port":"COM2",

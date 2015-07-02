@@ -34,9 +34,6 @@ public class PLC_ReceiveSerial extends HttpServlet {
         super();
     }
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		//1:创建properties
@@ -56,9 +53,7 @@ public class PLC_ReceiveSerial extends HttpServlet {
 		//1:初始化JSONBSUConfig配置数据
 		try {
 			JSONBSUConfig.getInstance();
-		} catch (IOException e) {
-			config.getServletContext().log(e.getMessage());
-		} catch (JSONException e) {
+		} catch (IOException | JSONException e) {
 			config.getServletContext().log(e.getMessage());
 		}
 
