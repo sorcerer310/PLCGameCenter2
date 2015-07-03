@@ -303,7 +303,7 @@ public class U {
 	 */
 	public static void el(String c,Exception e,HttpServletResponse response,int jmsgno){
 		p(response, JSONMsg.info(jmsgno, e.getMessage()));
-		el(c,e);
+		el(c, e);
 	}
 
 	/**
@@ -389,5 +389,17 @@ public class U {
 				.append("&message=").append(msg)
 				.append("&uri=").append(uri);
 		return sb.toString();
+	}
+
+	/**
+	 * 根据输入命令计算最后的fcs校验码
+	 * @param data		要计算的命令
+	 * @return			返回每个字符进行异或后最后的校验码
+	 */
+	public static String fcs(String data){
+		int q = 0;
+		for(int i=0;i<data.length();i++)
+			q = q^(data.substring(i,i+1).getBytes()[0]);
+		return Integer.toHexString(q);
 	}
 }

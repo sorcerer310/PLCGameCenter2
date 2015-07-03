@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,20 @@ public class PLC_SendSerial extends HttpServlet {
      */
     public PLC_SendSerial() {
         super();
-        cpi = CommPortInstance.getInstance();
-        sw = cpi.getSerialWriter();
+
     }
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+//		System.out.println("PLC_SendSerial init");
+		cpi = CommPortInstance.getInstance();
+		sw = cpi.getSerialWriter();
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doPost(req, resp);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		String plccommand = U.getRS(request,"plccmd");
@@ -42,19 +54,27 @@ public class PLC_SendSerial extends HttpServlet {
 
 		try{
 			JSONBSUConfig cfg = JSONBSUConfig.getInstance();
-			HashMap<String,String> writedata = new HashMap<String,String>();
+			HashMap<String,String> writedata = cfg.getWritePlcData();
 			Iterator<String> it = cfg.getWritePlcData().keySet().iterator();
 			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
 			while(it.hasNext()){
 				String key = it.next();
 				if(key.equals(plccommand)) {
-					sw.writeCommand(writedata.get(key).toString().getBytes());
-					this.getServletContext().log("===================send:"+key+"="+writedata.get(key).toString());
-					System.out.println("===================send:"+key+"="+writedata.get(key).toString());
+					String wdata = writedata.get(key).toString();
+					//如果字符串最后有fcs标,要将该标记替换成fcs校验码和结束符.
+					if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
+						wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
+					sw.writeCommand(wdata.getBytes());
+//					this.getServletContext().log("===================send:" + key + "=" + writedata.get(key).toString());
+					System.out.println("===================send:" + key + "=" + wdata);
+					U.p(response,"===================send:"+key+"="+wdata);
 				}
 			}
+
+//			cpi.closeSerialPort();
 		}catch(JSONException | IOException e){
-			this.getServletContext().log(e.getMessage());
+			e.printStackTrace();
+//			this.getServletContext().log(e.getMessage());
 		}
 	}
 }

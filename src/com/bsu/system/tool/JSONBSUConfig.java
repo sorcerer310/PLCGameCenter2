@@ -60,7 +60,9 @@ public class JSONBSUConfig {
         Iterator<String> it_write = jo_wdata.keys();
         while(it_write.hasNext()){
             String key = it_write.next();
-            writePlcData.put(key,jo_wdata.getString(key));
+            String data = jo_wdata.getString(key);
+            data = data.replace(" ","");
+            writePlcData.put(key,data);
         }
 
         //指定androidpn服务器的url和要发送的用户
