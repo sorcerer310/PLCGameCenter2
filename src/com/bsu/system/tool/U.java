@@ -400,6 +400,7 @@ public class U {
 		int q = 0;
 		for(int i=0;i<data.length();i++)
 			q = q^(data.substring(i,i+1).getBytes()[0]);
-		return Integer.toHexString(q);
+		//如果校验码小于10,需要用0补位
+		return q<10?"0"+Integer.toHexString(q):Integer.toHexString(q);
 	}
 }
