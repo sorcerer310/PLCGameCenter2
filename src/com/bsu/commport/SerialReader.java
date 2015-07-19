@@ -1,7 +1,5 @@
 package com.bsu.commport;
 
-import com.bsu.commport.CommPortInstance;
-import com.bsu.commport.SerialReaderListener;
 import com.bsu.system.tool.JSONBSUConfig;
 import org.json.JSONException;
 
@@ -11,6 +9,7 @@ import javax.comm.SerialPortEventListener;
 import javax.comm.UnsupportedCommOperationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.TooManyListenersException;
 
 /**
@@ -24,46 +23,48 @@ public class SerialReader{
 	private Thread readThread;
 	private SerialReaderListener listener = null;										//监听对象
 	private JSONBSUConfig cfg = null;
+	private StringBuffer sb = new StringBuffer();
 	public SerialReader(SerialPort sport){
 		try{
 			cfg = JSONBSUConfig.getInstance();
 
 			serialPort = sport; 
 			inputStream = serialPort.getInputStream();									//从串口获得输入流
-			serialPort.addEventListener(new SerialPortEventListener(){					//为串口增加事件监听
+			serialPort.addEventListener(new SerialPortEventListener() {                    //为串口增加事件监听
 				@Override
 				public void serialEvent(SerialPortEvent event) {
-					switch(event.getEventType()) {
-			        case SerialPortEvent.BI:
-			        case SerialPortEvent.OE:
-			        case SerialPortEvent.FE:
-			        case SerialPortEvent.PE:
-			        case SerialPortEvent.CD:
-			        case SerialPortEvent.CTS:
-			        case SerialPortEvent.DSR:
-			        case SerialPortEvent.RI:
-			        case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
-			            break;
-			        case SerialPortEvent.DATA_AVAILABLE:								//当有可用数据时
-			            byte[] readBuffer = new byte[256];								//初始化256字节数组
-
-			            try {
-			                while (inputStream.available() > 0) {
-			                    int numBytes = inputStream.read(readBuffer);
-			                }
-//			                System.out.println(new String(readBuffer));
-			                listener.readCompleted(new String(readBuffer));				//通知外部命令读取完成
-			                listener.readCompleted(byteArrayToInt(readBuffer));			//通知外部命令读取完成
-			                listener.readCompleted(readBuffer[0]);						//通知外部命令读取一个字节完成
-			                
-			            } catch (IOException e) {
-			            	e.printStackTrace();
-			            }
-			            break;
-			        }
+					switch (event.getEventType()) {
+						case SerialPortEvent.BI:
+						case SerialPortEvent.OE:
+						case SerialPortEvent.FE:
+						case SerialPortEvent.PE:
+						case SerialPortEvent.CD:
+						case SerialPortEvent.CTS:
+						case SerialPortEvent.DSR:
+						case SerialPortEvent.RI:
+						case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+							break;
+						case SerialPortEvent.DATA_AVAILABLE:                                                         //当有可用数据时
+							try{
+								while(inputStream.available()>0){
+									char b = (char) inputStream.read();
+									if(b!='\r')
+										sb.append(b);
+									else {
+										System.out.println("==============================" + sb.toString());
+										listener.readCommpleted(sb.toString().getBytes());                            //通知外部数据读取完成
+										sb = new StringBuffer();
+										break;
+									}
+								}
+					}catch(IOException e){
+						e.printStackTrace();
+					}
+					break;
 				}
+			}
 			});
-			
+
 			serialPort.notifyOnDataAvailable(true);
 			serialPort.setSerialPortParams(cfg.getBaudrate(),
 					cfg.getDatabits(),
@@ -103,27 +104,21 @@ public class SerialReader{
 	            (b[1] & 0xFF) << 16 |  
 	            (b[0] & 0xFF) << 24;
 
-	}  
-	
+	}
+
+	public static interface SerialReaderListener {
+		void readCommpleted(byte[] command);
+	};
+
 	public static void main(String[] args){
 		CommPortInstance cp = CommPortInstance.getInstance();
 		cp.initCommPort();
 		cp.getSerialReader().setSerialReaderListener(new SerialReaderListener(){
-			@Override
-			public void readCompleted(String command) {
-				System.out.println("============read command:"+command);
-			}
 
 			@Override
-			public void readCompleted(int command) {
-				// TODO Auto-generated method stub
-				System.out.println("=============read command:"+command);
+			public void readCommpleted(byte[] command) {
+				System.out.println("=============read command byte[]:"+command);
 			}
-
-			@Override
-			public void readCompleted(byte command) {
-				if(command==1)
-					System.out.println("=============read command:"+command);
-			}});
+		});
 	}
 }

@@ -402,4 +402,15 @@ public class U {
 			q = q^(data.substring(i,i+1).getBytes()[0]);
 		return Integer.toHexString(q);
 	}
+
+	/**
+	 * 自动替换命令中结尾处的fcs字符串为校验码
+	 * @param wdata		代入的fcs字符串
+	 * @return
+	 */
+	public static String replaceFcs(String wdata){
+		if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
+			wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
+		return wdata;
+	}
 }

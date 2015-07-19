@@ -36,20 +36,21 @@ public class CommPortInstance {
 	 */
 	public void initCommPort(){
 		portList = CommPortIdentifier.getPortIdentifiers();
+		System.out.println("===============has comm port:"+portList.hasMoreElements());
 		while(portList.hasMoreElements()){
 			portId = (CommPortIdentifier) portList.nextElement();
 			if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				try {
 					if (portId.getName().equals(JSONBSUConfig.getInstance().getPort())) {
 						serialPort = (SerialPort) portId.open("SerialReader", 2000);                                //获得串口对象
-						sreader = new com.bsu.commport.SerialReader(serialPort);                                        //生成串口读取对象
+						sreader = new SerialReader(serialPort);                                        				//生成串口读取对象
 						swriter = new SerialWriter(serialPort);                                                        //生成串口写入对象
 						System.out.println("======================init comm port success");
 						break;
 					}
 				} catch (PortInUseException | JSONException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+//					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}
 		}
