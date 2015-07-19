@@ -401,7 +401,7 @@ public class U {
 		for(int i=0;i<data.length();i++)
 			q = q^(data.substring(i,i+1).getBytes()[0]);
 		//如果校验码小于10,需要用0补位
-		return q<10?"0"+Integer.toHexString(q):Integer.toHexString(q);
+		return q<10?"0"+Integer.toHexString(q).toUpperCase():Integer.toHexString(q).toUpperCase();
 	}
 
 	/**

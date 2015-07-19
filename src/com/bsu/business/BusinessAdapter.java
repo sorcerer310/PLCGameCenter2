@@ -1,13 +1,8 @@
 package com.bsu.business;
 
-import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialReader;
 import com.bsu.commport.SerialWriter;
-import com.bsu.system.tool.JSONBSUConfig;
-import com.bsu.system.tool.U;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * 业务代码代理,用来接收串口数据并将数据发送到各个业务逻辑代码

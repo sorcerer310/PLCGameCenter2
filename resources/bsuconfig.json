@@ -19,10 +19,11 @@
       {"plcsend":"@00FA 0 00 00 00 00 0101 30 006603 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"9" ,"memo":"船舱门关"},
       {"plcsend":"@00FA 0 00 00 00 00 0101 31 000A03 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"10" ,"memo":"草船借箭完成"},
       {"plcsend":"@00FA 0 00 00 00 00 0101 30 00000B 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"11" ,"memo":"敲鼓完成"},
-      {"plcsend":"@00FA 0 00 00 00 00 0101 30 006A06 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"12" ,"memo":"106.06借东风完成"},
-      {"plcsend":"@00FA 0 00 00 00 00 0101 31 000204 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"13" ,"memo":"W2.04点火完成"},
-      {"plcsend":"@00FA 0 00 00 00 00 0101 31 000205 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"14" ,"memo":"W2.05大道门开"},
-      {"plcsend":"@00FA 0 00 00 00 00 0101 31 000206 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"15" ,"memo":"W2.06华容道门开"}
+      {"plcsend":"@00FA 0 00 00 00 00 0101 30 006803 0001fcs","plcreceive":"@00FA0040000000010100000043*","androidpncmd":"12" ,"memo":"宝剑咒语箱开"},
+      {"plcsend":"@00FA 0 00 00 00 00 0101 30 006A06 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"13" ,"memo":"106.06借东风完成"},
+      {"plcsend":"@00FA 0 00 00 00 00 0101 31 000204 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"14" ,"memo":"W2.04点火完成"},
+      {"plcsend":"@00FA 0 00 00 00 00 0101 31 000205 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"15" ,"memo":"W2.05大道门开"},
+      {"plcsend":"@00FA 0 00 00 00 00 0101 31 000206 0001fcs","plcreceive":"@00FA0040000000010100000142*","androidpncmd":"16" ,"memo":"W2.06华容道门开"}
     ],
     "stars": {
       "S0": "@00FA 0 00 00 00 00 0102 31 000000 0001 01fcs",
