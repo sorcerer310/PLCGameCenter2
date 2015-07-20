@@ -1,7 +1,7 @@
 package com.bsu.test;
 
 /**
- * ÓÃÀ´²âÊÔFCSËã·¨
+ * æµ‹è¯•FCSæ ¡éªŒç¨‹åºæ˜¯å¦æ­£ç¡®
  * Created by Administrator on 2015/7/3.
  */
 public class FCS {
