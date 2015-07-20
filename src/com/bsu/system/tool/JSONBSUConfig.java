@@ -1,6 +1,7 @@
 package com.bsu.system.tool;
 
 import org.androidpn.server.util.ConfigManager;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,25 +11,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * jsonµÄÅäÖÃÎÄ¼ş,¶ÁÈ¡bsuconfig.jsonµÄÄÚÈİ
+ * jsonçš„é…ç½®æ–‡ä»¶,è¯»å–bsuconfig.jsonçš„å†…å®¹
  * Created by FC on 2015/6/30.
  */
 public class JSONBSUConfig {
     private static JSONBSUConfig instance = null;
     private JSONObject jo_cfg;
 
-    //androidpn²ÎÊı
-    private String androidpnUrl,androidpnUser,androidpnTitle,androidpnMsg = "";                               //Ò»¶¨ÒªÖ¸¶¨ÓÃ»§,·ñÔò·¢ËÍÏûÏ¢²»ºÃÓÃ
+    //androidpnå‚æ•°
+    private String androidpnUrl,androidpnUser,androidpnTitle,androidpnMsg = "";                               //ä¸€å®šè¦æŒ‡å®šç”¨æˆ·,å¦åˆ™å‘é€æ¶ˆæ¯ä¸å¥½ç”¨
 
-    //´®¿Ú²ÎÊı
+    //ä¸²å£å‚æ•°
     private String port = "COM2";
-    private int baudrate = 9600;                                                                                    //±ÈÌØÂÊ
-    private int databits = 7;                                                                                       //Êı¾İÎ»
-    private int stopbits = 2;                                                                                       //Í£Ö¹Î»
-    private int parity = 2;                                                                                         //ÆæÅ¼Ğ£Ñé,2ÎªÅ¼Ğ£Ñé
+    private int baudrate = 9600;                                                                                     //æ¯”ç‰¹ç‡
+    private int databits = 7;                                                                                        //æ•°æ®ä½
+    private int stopbits = 2;                                                                                        //åœæ­¢ä½
+    private int parity = 2;                                                                                          //å¥‡å¶æ ¡éªŒ,2ä¸ºå¶æ•°
 
-    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                                   //½ÓÊÕplcÊı¾İµÄÅäÖÃÊı¾İ
-    private HashMap<String,String> writePlcData = new HashMap<String,String>();                                                 //·¢ËÍplcÊı¾İµÄÅäÖÃÊı¾İ
+    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                        //plcæ¥æ”¶æ•°æ®
+    private JSONArray writeMapData = new JSONArray();                                                               //plcæ˜Ÿæ˜Ÿå†™å…¥æŸ¥è¯¢æ•°æ®
+    private HashMap<String,String> writeStarData = new HashMap<String,String>();                                    //plcæ˜Ÿæ˜Ÿæ•°æ®å†™å…¥
     public static JSONBSUConfig getInstance() throws IOException,JSONException{
         if(instance==null)
             instance = new JSONBSUConfig();
@@ -38,7 +40,7 @@ public class JSONBSUConfig {
     private JSONBSUConfig() throws IOException,JSONException{
 //        System.out.println(getClass().getClassLoader());
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("bsuconfig.json");
-        InputStreamReader sr = new InputStreamReader(inputStream);
+        InputStreamReader sr = new InputStreamReader(inputStream,"UTF-8");
         BufferedReader br = new BufferedReader(sr);
         String line = null;
         StringBuffer sb = new StringBuffer();
@@ -47,7 +49,7 @@ public class JSONBSUConfig {
 
         jo_cfg = new JSONObject(sb.toString());
 
-        //×ª»¯receivedataÊı¾İ
+        //è½¬åŒ–receivedataæ•°æ®
         JSONObject jo_recdata = jo_cfg.getJSONObject("receivedata");
         Iterator<String> it_rec = jo_recdata.keys();
         while(it_rec.hasNext()) {
@@ -55,24 +57,27 @@ public class JSONBSUConfig {
             recPlcData.put(key,jo_recdata.getString(key));
         }
 
-        //×ª»¯writedataÊı¾İ
-        JSONObject jo_wdata = jo_cfg.getJSONObject("writedata");
+        //è½¬åŒ–æ˜Ÿæ˜Ÿå†™å…¥æ•°æ®
+        JSONObject jo_wdata = jo_cfg.getJSONObject("writedata").getJSONObject("stars");
         Iterator<String> it_write = jo_wdata.keys();
         while(it_write.hasNext()){
             String key = it_write.next();
             String data = jo_wdata.getString(key);
             data = data.replace(" ","");
-            writePlcData.put(key,data);
+            writeStarData.put(key,data);
         }
 
-        //Ö¸¶¨androidpn·şÎñÆ÷µÄurlºÍÒª·¢ËÍµÄÓÃ»§
+        //è½¬åŒ–åœ°å›¾å†™å…¥æ•°æ®
+        writeMapData = jo_cfg.getJSONObject("writedata").getJSONArray("maps");
+
+        //æŒ‡å®šandroidpnæœåŠ¡å™¨çš„urlå’Œè¦å‘é€çš„ç”¨æˆ·
         JSONObject jo_androidpn = jo_cfg.getJSONObject("androidpn");
         androidpnUrl = jo_androidpn.getString("androidpnUrl");
         androidpnUser = jo_androidpn.getString("androidpnUser");
         androidpnTitle = jo_androidpn.has("title")==true?"":jo_androidpn.getString("title");
         androidpnMsg = jo_androidpn.has("msg")==true?"":jo_androidpn.getString("msg");
 
-        //ÉèÖÃ´®¿ÚÅäÖÃÊı¾İ
+        //è®¾ç½®ä¸²å£é…ç½®æ•°æ®
         JSONObject jo_commport = jo_cfg.getJSONObject("commport");
         port = jo_commport.getString("port");
         baudrate = jo_commport.getInt("baudrate");
@@ -86,13 +91,12 @@ public class JSONBSUConfig {
     public String getAndroidpnTitle(){return androidpnTitle;}
     public String getAndroidpnMsg(){return androidpnMsg;}
 
-    public HashMap<String, String> getRecPlcData() {
-        return recPlcData;
-    }
-    public HashMap<String,String> getWritePlcData(){ return writePlcData;}
+    public HashMap<String, String> getRecPlcData() {return recPlcData;}
+    public HashMap<String,String> getWriteStarData(){ return writeStarData;}
+    public JSONArray getWriteMapsData(){return writeMapData;}
 
     /**
-     * ¶Ë¿ÚÅäÖÃÊı¾İ
+     * ç«¯å£é…ç½®æ•°æ®
      * @return
      */
     public String getPort() {
@@ -100,7 +104,7 @@ public class JSONBSUConfig {
     }
 
     /**
-     * ±ÈÌØÂÊÅäÖÃÊı¾İ
+     * æ¯”ç‰¹ç‡é…ç½®æ•°æ®
      * @return
      */
     public int getBaudrate() {
@@ -108,7 +112,7 @@ public class JSONBSUConfig {
     }
 
     /**
-     * Í£Ö¹Î»Êı¾İ
+     * åœæ­¢ä½æ•°æ®
      * @return
      */
     public int getStopbits() {
@@ -116,7 +120,7 @@ public class JSONBSUConfig {
     }
 
     /**
-     * Êı¾İÎ»Êı¾İ
+     * æ•°æ®ä½æ•°æ®
      * @return
      */
     public int getDatabits() {
@@ -124,7 +128,7 @@ public class JSONBSUConfig {
     }
 
     /**
-     * ÆæÅ¼Ğ£Ñé
+     * å¥‡å¶æ ¡éªŒ
      * @return
      */
     public int getParity() {

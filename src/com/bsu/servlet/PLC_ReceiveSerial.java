@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bsu.business.BusinessAdapter;
+import com.bsu.business.Map;
 import com.bsu.commport.CommPortInstance;
-import com.bsu.commport.SerialReaderListener;
+import com.bsu.commport.SerialReader;
 import com.bsu.system.tool.JSONBSUConfig;
 import com.bsu.system.tool.U;
 import org.json.JSONException;
@@ -25,6 +27,7 @@ public class PLC_ReceiveSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommPortInstance cpi = null;
+	private BusinessAdapter ba = null;
 	private ServletConfig pconfig;
 	
     /**
@@ -43,10 +46,10 @@ public class PLC_ReceiveSerial extends HttpServlet {
 			config.getServletContext().log(e.getMessage());
 		}
 
-		//3:初始化串口监听部分
+		//3:初始化串口监听和业务代理对象
 		System.out.println("PLC_ReceiveSerial is init");
 		config.getServletContext().log("======================PLC_ReceiveSerial is init");
-		cpi = CommPortInstance.getInstance();
+		cpi = CommPortInstance.getInstance();																			//串口对象
 		cpi.initCommPort();
 		if(cpi.getSerialReader()==null){
 			System.out.println("comm port init fail");
@@ -56,39 +59,17 @@ public class PLC_ReceiveSerial extends HttpServlet {
 		
 //		final ServletConfig sc = config;
 		pconfig = config;
-		cpi.getSerialReader().setSerialReaderListener(new SerialReaderListener(){
-
+		cpi.getSerialReader().setSerialReaderListener(new SerialReader.SerialReaderListener(){
 			@Override
-			public void readCompleted(String command) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void readCompleted(int command) {
-				// TODO Auto-generated method stub
-//				System.out.println(command);
-			}
-
-			@Override
-			public void readCompleted(byte command) {
-				pconfig.getServletContext().log("================comm port readCompleted:" + command);
-				try {
-					JSONBSUConfig cfg = JSONBSUConfig.getInstance();
-					Iterator<String> it = cfg.getRecPlcData().keySet().iterator();
-					//如果有匹配配置文件里的内容则向androidpn服务器发送对应的数据
-					while(it.hasNext()){
-						String key = it.next();
-						if(key.equals(String.valueOf((int)command)))
-							U.sendPostRequestByForm(cfg.getAndroidpnUrl()
-									, U.setParams(cfg.getAndroidpnUser(), cfg.getAndroidpnTitle(),cfg.getAndroidpnMsg(),cfg.getRecPlcData().get(key)));
-					}
-				} catch (Exception e) {
-					PLC_ReceiveSerial.this.pconfig.getServletContext().log(e.getMessage());
-				}
-
-				System.out.println("command:"+command);
+			public void readCommpleted(byte[] command) {
+				pconfig.getServletContext().log("================comm port readCompleted byte[]:"+new String(command));
+				ba.receive(command);
 			}
 		});
+
+		ba = BusinessAdapter.getInstance();																				//业务代理
+		ba.setSerialReaderWriter(cpi.getSerialReader(),cpi.getSerialWriter());
+
 	}
 
 	/**

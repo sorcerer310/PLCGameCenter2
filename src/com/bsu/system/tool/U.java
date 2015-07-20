@@ -401,6 +401,17 @@ public class U {
 		for(int i=0;i<data.length();i++)
 			q = q^(data.substring(i,i+1).getBytes()[0]);
 		//如果校验码小于10,需要用0补位
-		return q<10?"0"+Integer.toHexString(q):Integer.toHexString(q);
+		return q<10?"0"+Integer.toHexString(q).toUpperCase():Integer.toHexString(q).toUpperCase();
+	}
+
+	/**
+	 * 自动替换命令中结尾处的fcs字符串为校验码
+	 * @param wdata		代入的fcs字符串
+	 * @return
+	 */
+	public static String replaceFcs(String wdata){
+		if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
+			wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
+		return wdata;
 	}
 }

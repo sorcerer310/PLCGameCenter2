@@ -48,14 +48,14 @@ public class PLC_SendSerial extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		String plccommand = U.getRS(request,"plccmd");
 		if(sw==null){
-			U.p(response, "comm port init fail");
+			U.p(response, "PLC_SendSerial comm port init fail");
 			return;
 		}
 
 		try{
 			JSONBSUConfig cfg = JSONBSUConfig.getInstance();
-			HashMap<String,String> writedata = cfg.getWritePlcData();
-			Iterator<String> it = cfg.getWritePlcData().keySet().iterator();
+			HashMap<String,String> writedata = cfg.getWriteStarData();
+			Iterator<String> it = cfg.getWriteStarData().keySet().iterator();
 			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
 			while(it.hasNext()){
 				String key = it.next();
