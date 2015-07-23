@@ -410,8 +410,13 @@ public class U {
 	 * @return
 	 */
 	public static String replaceFcs(String wdata){
-		if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
-			wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
+		if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs")) {
+			StringBuffer sb_wdata = new StringBuffer();
+			sb_wdata.append(wdata.substring(0, wdata.length() - 3)).append(U.fcs(wdata.substring(0, wdata.length() - 3)))
+					.append("*\r");
+			return sb_wdata.toString();
+//			wdata = wdata.substring(0, wdata.length() - 3) + U.fcs(wdata.substring(0, wdata.length() - 3)) + "*\r";
+		}
 		return wdata;
 	}
 }
