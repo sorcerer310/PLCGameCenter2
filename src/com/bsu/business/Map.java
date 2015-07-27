@@ -59,6 +59,12 @@ public class Map implements BusinessAdapter.IBusiness{
                     try {
                         //每500毫秒发送一次查询指令
                         serialWriter.writeCommand(U.replaceFcs(maps.get(currMapIndex).plcsend).getBytes());
+                        
+                        //当执行完14后,进入15和16后,循环检测16和15
+                        if(currMapIndex==16)
+                            currMapIndex = 15;
+                        else if(currMapIndex==15)
+                            currMapIndex = 16;
                         System.out.println("Map send:" + currMapIndex + "  " + U.replaceFcs(maps.get(currMapIndex ).plcsend));
                         Thread.currentThread().sleep(500);
                     } catch (IOException | InterruptedException e) {
