@@ -36,6 +36,8 @@ public class BusinessAdapter {
         swriter = sw;
         map.sendData(sw);
     }
+
+
     /**
      * 收到数据后转发给所有业务对象
      * @param data

@@ -89,9 +89,22 @@ public class Map implements BusinessAdapter.IBusiness{
 
         //如果收到的消息与当前对应的地图plcreceive消息一致,则向androidpn服务器发命令,
         // 并切换到下一条命令继续循环发送
+        //如果当前
         if(cmd.equals(maps.get(currMapIndex).plcreceive)) {
             try {
+                //发送地图消息
                 U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), jbc.getAndroidpnMsg(), "map:" + maps.get(currMapIndex).androidpncmd));
+
+                //当第4个脚踏灯踩亮时发送消息到手机,提示玩家放火
+                if(currMapIndex==7)
+                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), jbc.getAndroidpnMsg(), "fire:0"));
+                //当借东风完成发送消息到手机,提示玩家铁锁连环放火
+                else if(currMapIndex==13)
+                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), jbc.getAndroidpnMsg(), "fire:1"));
+                //当铁锁连环放完火,提示玩家选择追击道路.
+                else if(currMapIndex==14)
+                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), jbc.getAndroidpnMsg(), "followup"));
+
                 System.out.println("Map receive:"+cmd);
                 if (currMapIndex < maps.size() - 1) {
                     currMapIndex++;                                                                                       //该条指令已收到正确数据,转到下一条
@@ -101,7 +114,6 @@ public class Map implements BusinessAdapter.IBusiness{
                 e.printStackTrace();
             }
         }
-
     }
 }
 
