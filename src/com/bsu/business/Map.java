@@ -1,6 +1,5 @@
 package com.bsu.business;
 
-import com.bsu.commport.SerialReader;
 import com.bsu.commport.SerialWriter;
 import com.bsu.system.tool.JSONBSUConfig;
 import com.bsu.system.tool.U;
@@ -10,15 +9,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * 用来处理地图的业务代码
+ * 用来处理处理所有循环的发送查询的代码
  * Created by fengchong on 2015/7/18.
  */
 public class Map implements BusinessAdapter.IBusiness{
     private ArrayList<MapData> maps = new ArrayList<MapData>();
     private int currMapIndex = 0;
     private JSONBSUConfig jbc = null;
+    private ArrayBlockingQueue<String> msgqueue = new ArrayBlockingQueue<String>(100);                              //阻塞队列用于处理发送的消息
+    private enum MSGSTATE {SEND,RECEIVE};                                                                            //消息的状态,分为发送与接收,系统根据状态,只能做发送或者接收一种状态的操作.用来模拟单工数据操作,保证数据完整性
+    private MSGSTATE switchState = MSGSTATE.SEND;
     public Map(){
 
         try {
@@ -40,8 +43,42 @@ public class Map implements BusinessAdapter.IBusiness{
         }
     }
 
-    private boolean tstopflag = true;                                       //线程是否停止标识
+    private boolean putflag = true;                                                                                 //增加消息到队列的线程标识
+    /**
+     * 开始向队列中增加查询消息
+     */
+    private void putMessage(){
+        Runnable r = new Runnable(){
+            @Override
+            public void run() {
+                while(putflag){
+                    if(currMapIndex==-1){
+                        putflag =false;
+                        break;
+                    }else{
+                        try {
+                                //当执行完14后,进入15和16后,循环检测16和15
+                                if (currMapIndex == 16)
+                                    currMapIndex = 15;
+                                else if (currMapIndex == 15)
+                                    currMapIndex = 16;
 
+                                msgqueue.put(U.replaceFcs(maps.get(currMapIndex).plcsend));
+                            Thread.currentThread().sleep(1000);                                                          //每1秒向队列中增加一条指令
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            }
+        };
+        Thread t_putMessage = new Thread(r);
+        t_putMessage.start();
+    }
+
+
+    private boolean sendflag = true;                                                                                //发送指令线程是否停止标识
     /**
      * 获得发送数据对象,向串口发送数据
      * @param sw
@@ -51,30 +88,26 @@ public class Map implements BusinessAdapter.IBusiness{
         Runnable r = new Runnable(){
             @Override
             public void run() {
-                while(tstopflag) {
-                    if(currMapIndex == -1) {
-                        tstopflag = false;
-                        break;
-                    }
-                    try {
+            while(sendflag) {
+                try {
+                    //如果当前状态为发送消息,则发送一条队列中的消息
+                    if(switchState==MSGSTATE.SEND) {
                         //每500毫秒发送一次查询指令
-                        serialWriter.writeCommand(U.replaceFcs(maps.get(currMapIndex).plcsend).getBytes());
-                        
-                        //当执行完14后,进入15和16后,循环检测16和15
-                        if(currMapIndex==16)
-                            currMapIndex = 15;
-                        else if(currMapIndex==15)
-                            currMapIndex = 16;
-                        System.out.println("Map send:" + currMapIndex + "  " + U.replaceFcs(maps.get(currMapIndex ).plcsend));
-                        Thread.currentThread().sleep(500);
-                    } catch (IOException | InterruptedException e) {
-                        e.printStackTrace();
+                        String cmd = msgqueue.take();
+                        serialWriter.writeCommand(cmd.getBytes());
+                        System.out.println("Map send:" + currMapIndex + "  " + cmd);
+                        switchState = MSGSTATE.RECEIVE;                                                              //将消息状态切换为接收,当状态为接收时不会执行发送操作,直到状态变为发送
                     }
+                    Thread.currentThread().sleep(500);                                                                  //每间隔500毫秒检查一次队列,如果有新的消息则进行发送
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
             }
         };
 
-        new Thread(r).start();
+        Thread t_sendData = new Thread(r);
+        t_sendData.start();
 
     }
 
@@ -110,6 +143,7 @@ public class Map implements BusinessAdapter.IBusiness{
                     currMapIndex++;                                                                                       //该条指令已收到正确数据,转到下一条
                 } else
                     currMapIndex = -1;
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bsu.commport.CommMessage;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialWriter;
 import com.bsu.system.tool.JSONBSUConfig;
@@ -64,7 +65,8 @@ public class PLC_SendSerial extends HttpServlet {
 					//如果字符串最后有fcs标,要将该标记替换成fcs校验码和结束符.
 					if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
 						wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
-					sw.writeCommand(wdata.getBytes());
+					CommPortInstance.getInstance().putCommMessage(new CommMessage(wdata,-1));							//时间戳设置为-1,不需要获得返回数据
+//					sw.writeCommand(wdata.getBytes());
 //					this.getServletContext().log("===================send:" + key + "=" + writedata.get(key).toString());
 					System.out.println("===================send:" + key + "=" + wdata);
 					U.p(response,"===================send:"+key+"="+wdata);

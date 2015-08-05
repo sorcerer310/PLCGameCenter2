@@ -9,10 +9,16 @@ import javax.comm.CommPortIdentifier;
 import javax.comm.PortInUseException;
 import javax.comm.SerialPort;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * 用来操作串口类
+ * 用户会使用putCommMessage函数为消息队列中增加消息.
+ * 使用SEND RECEIVE两种状态切换来保证数据的单运做.
+ * 使用时间戳来标记发送和接收的命令的配对唯一性.
  * @author fengchong
  *
  */
@@ -31,12 +37,20 @@ public class CommPortInstance {
 	private SerialPort serialPort;			//串口对象
 	private SerialReader sreader;				//串口读取对象
 	private SerialWriter swriter;				//串口写对象
+
+	private ArrayBlockingQueue<CommMessage> msgqueue = new ArrayBlockingQueue<CommMessage>(100);								//消息队列,用队列来保存要发送的消息,保证每个消息都不会被遗漏
+	private enum MSGSTATE {SEND,RECEIVE};																			//消息处理状态,默认为发送状态
+	private MSGSTATE switchState = MSGSTATE.SEND;
+	private long currTimestamp = -1;																				//当前消息的时间戳
+
+	private ArrayList<CommPortReceiveListener> listeners = new ArrayList<>();
+
 	/**
 	 * 初始化串口端口
 	 */
 	public void initCommPort(){
 		portList = CommPortIdentifier.getPortIdentifiers();
-		System.out.println("===============has comm port:"+portList.hasMoreElements());
+		System.out.println("===============has comm port:" + portList.hasMoreElements());
 		while(portList.hasMoreElements()){
 			portId = (CommPortIdentifier) portList.nextElement();
 			if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
@@ -46,6 +60,18 @@ public class CommPortInstance {
 						sreader = new SerialReader(serialPort);                                        				//生成串口读取对象
 						swriter = new SerialWriter(serialPort);                                                        //生成串口写入对象
 						System.out.println("======================init comm port success");
+
+						//监听SerialReader的接收数据,当收到数据时马上发送给所有的监听器
+						sreader.setSerialReaderListener(new SerialReader.SerialReaderListener() {
+							@Override
+							public void readCommpleted(byte[] command) {
+								Iterator<CommPortReceiveListener> it = listeners.iterator();
+								while(it.hasNext())
+									it.next().receive(new CommMessage(new String(command),currTimestamp));
+
+								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
+							}
+						});
 						break;
 					}
 				} catch (PortInUseException | JSONException | IOException e) {
@@ -53,6 +79,49 @@ public class CommPortInstance {
 					System.out.println(e.getMessage());
 				}
 			}
+		}
+	}
+
+
+	private boolean sendflag = true;
+	/**
+	 * 启用一个线程用于发送数据,当状态为发送状态每500毫秒取出一条指令进行发送
+	 */
+	private void sendData(){
+		Thread t_sendData = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(sendflag){
+					try{
+						//如果当前状态为发送消息,则发送一条队列中的消息//
+						if(switchState==MSGSTATE.SEND){
+							//每500毫秒发送一次指令
+							CommMessage msg = msgqueue.poll();
+							currTimestamp = msg.timestamp;
+							String cmd = msg.data;
+							swriter.writeCommand(cmd.getBytes());
+							System.out.println("cmd send:  " + cmd+" "+currTimestamp);
+							switchState = MSGSTATE.RECEIVE;															//发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
+						}
+						Thread.currentThread().sleep(500);
+					}catch (IOException | InterruptedException e){
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		t_sendData.start();
+	}
+
+	/**
+	 * 想消息队列中增加消息
+	 * @param cm	带时间戳的消息对象
+	 */
+	public void putCommMessage(CommMessage cm){
+		try {
+			msgqueue.put(cm);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -64,4 +133,22 @@ public class CommPortInstance {
 	public void closeSerialPort(){
 		serialPort.close();
 	}
+
+
+	/**
+	 * CommPortInstance的接收数据监听器
+	 */
+	public static interface CommPortReceiveListener{
+		void receive(CommMessage data);
+	}
+
+	/**
+	 * 增加一个监听器到容器中.
+	 * @param listener	接收数据监听器
+	 */
+	public void addCommPortReceiveListener(CommPortReceiveListener listener){
+		listeners.add(listener);
+	}
 }
+
+
