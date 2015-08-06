@@ -51,6 +51,7 @@ public class PLC_ReceiveSerial extends HttpServlet {
 			config.getServletContext().log("======================PLC_ReceiveSerial comm port init fail,no SerialReader");
 			return;
 		}else{
+			config.getServletContext().log("======================PLC_ReceiveSerial comm port init success");
 			//如果初始化成功,执行地图查询业务代码.
 			Map map = new Map();
 		}

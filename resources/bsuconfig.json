@@ -68,7 +68,7 @@
     "msg":""
   },
   "commport":{
-    "port":"COM2",
+    "port":"COM3",
     "baudrate":9600,
     "databits":7,
     "stopbits":2,

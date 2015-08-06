@@ -62,8 +62,9 @@ public class Map {
                         break;
                     }else{
                         try {
+
                             //当前状态为发送状态时才推送命令到命令队列中
-                            if(switchState==MSGSTATE.SEND) {
+//                            if(switchState==MSGSTATE.SEND) {
                                 //当执行完14后,进入15和16后,循环检测16和15
                                 if (currMapIndex == 16)
                                     currMapIndex = 15;
@@ -74,8 +75,8 @@ public class Map {
                                 long timestamp = System.currentTimeMillis();
                                 currMessage = new CommMessage(cmd, timestamp);
                                 CommPortInstance.getInstance().putCommMessage(currMessage);                           //发送带时间戳命令
-                                switchState = MSGSTATE.RECEIVE;                                                      //把状态切换为接收
-                            }
+//                                switchState = MSGSTATE.RECEIVE;                                                      //把状态切换为接收
+//                            }
                             Thread.currentThread().sleep(1000);                                                         //间隔1秒再发送下一条指令
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -121,7 +122,7 @@ public class Map {
                             } else
                                 currMapIndex = -1;
 
-                            switchState = MSGSTATE.SEND;                                                              //接收数据处理完后,转为发送状态
+//                            switchState = MSGSTATE.SEND;                                                              //接收数据处理完后,转为发送状态
 
                         } catch (Exception e) {
                             e.printStackTrace();
