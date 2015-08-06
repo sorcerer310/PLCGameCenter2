@@ -80,6 +80,8 @@ public class CommPortInstance {
 				}
 			}
 		}
+
+		sendData();																										//执行发送消息操作
 	}
 
 
@@ -97,11 +99,13 @@ public class CommPortInstance {
 						if(switchState==MSGSTATE.SEND){
 							//每500毫秒发送一次指令
 							CommMessage msg = msgqueue.poll();
-							currTimestamp = msg.timestamp;
-							String cmd = msg.data;
-							swriter.writeCommand(cmd.getBytes());
-							System.out.println("cmd send:  " + cmd+" "+currTimestamp);
-							switchState = MSGSTATE.RECEIVE;															//发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
+							if(msg!=null) {
+								currTimestamp = msg.timestamp;
+								String cmd = msg.data;
+								swriter.writeCommand(cmd.getBytes());
+								System.out.println("cmd send:  " + cmd + " " + currTimestamp);
+								switchState = MSGSTATE.RECEIVE;                                                            //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
+							}
 						}
 						Thread.currentThread().sleep(500);
 					}catch (IOException | InterruptedException e){
