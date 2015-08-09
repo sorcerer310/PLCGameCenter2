@@ -28,9 +28,11 @@ public class JSONBSUConfig {
     private int stopbits = 2;                                                                                        //停止位
     private int parity = 2;                                                                                          //奇偶校验,2为偶数
 
-    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                        //plc接收数据
+//    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
     private JSONArray writeMapData = new JSONArray();                                                               //plc星星写入查询数据
     private HashMap<String,String> writeStarData = new HashMap<String,String>();                                    //plc星星数据写入
+    private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                   //发送点火数据
+    private HashMap<String,String> writeFllowUpData = new HashMap<String,String>();                                 //发送追击数据
     public static JSONBSUConfig getInstance() throws IOException,JSONException{
         if(instance==null)
             instance = new JSONBSUConfig();
@@ -50,22 +52,19 @@ public class JSONBSUConfig {
         jo_cfg = new JSONObject(sb.toString());
 
         //转化receivedata数据
-        JSONObject jo_recdata = jo_cfg.getJSONObject("receivedata");
-        Iterator<String> it_rec = jo_recdata.keys();
-        while(it_rec.hasNext()) {
-            String key = it_rec.next();
-            recPlcData.put(key,jo_recdata.getString(key));
-        }
+//        JSONObject jo_recdata = jo_cfg.getJSONObject("receivedata");
+//        Iterator<String> it_rec = jo_recdata.keys();
+//        while(it_rec.hasNext()) {
+//            String key = it_rec.next();
+//            recPlcData.put(key,jo_recdata.getString(key));
+//        }
 
         //转化星星写入数据
-        JSONObject jo_wdata = jo_cfg.getJSONObject("writedata").getJSONObject("stars");
-        Iterator<String> it_write = jo_wdata.keys();
-        while(it_write.hasNext()){
-            String key = it_write.next();
-            String data = jo_wdata.getString(key);
-            data = data.replace(" ","");
-            writeStarData.put(key,data);
-        }
+        writeStarData = JSONObject2HashMap(jo_cfg.getJSONObject("writedata").getJSONObject("stars"));
+        //转化点火写入数据
+        writeFiresData = JSONObject2HashMap(jo_cfg.getJSONObject("writedata").getJSONObject("fires"));
+        //转化追击写入数据
+        writeFllowUpData = JSONObject2HashMap(jo_cfg.getJSONObject("writedata").getJSONObject("followup"));
 
         //转化地图写入数据
         writeMapData = jo_cfg.getJSONObject("writedata").getJSONArray("maps");
@@ -86,14 +85,33 @@ public class JSONBSUConfig {
         parity = jo_commport.getInt("parity");
     }
 
+    /**
+     * 将JSONObject数据转换为HashMap容器数据
+     * @param jo    带入的json数据
+     */
+    private HashMap<String,String> JSONObject2HashMap(JSONObject jo) throws JSONException {
+//        JSONObject jo_wdata = jo_cfg.getJSONObject("writedata").getJSONObject("stars");
+        HashMap<String,String> hm = new HashMap<String,String>();
+        Iterator<String> it_write = jo.keys();
+        while(it_write.hasNext()){
+            String key = it_write.next();
+            String data = jo.getString(key);
+            data = data.replace(" ","");
+            hm.put(key,data);
+        }
+        return hm;
+    }
+
     public String getAndroidpnUrl(){return androidpnUrl;}
     public String getAndroidpnUser(){return androidpnUser;}
     public String getAndroidpnTitle(){return androidpnTitle;}
     public String getAndroidpnMsg(){return androidpnMsg;}
 
-    public HashMap<String, String> getRecPlcData() {return recPlcData;}
+//    public HashMap<String, String> getRecPlcData() {return recPlcData;}
     public HashMap<String,String> getWriteStarData(){ return writeStarData;}
     public JSONArray getWriteMapsData(){return writeMapData;}
+    public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
+    public HashMap<String, String> getWriteFllowUpData() {return writeFllowUpData;}
 
     /**
      * 端口配置数据

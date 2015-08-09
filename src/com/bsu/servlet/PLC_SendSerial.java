@@ -55,7 +55,12 @@ public class PLC_SendSerial extends HttpServlet {
 
 		try{
 			JSONBSUConfig cfg = JSONBSUConfig.getInstance();
-			HashMap<String,String> writedata = cfg.getWriteStarData();
+
+			//合并3部分向plc发送的数据
+			HashMap<String,String> writedata = cfg.getWriteStarData();													//星星数据
+			writedata.putAll(cfg.getWriteFiresData());																	//加入点火数据
+			writedata.putAll(cfg.getWriteFllowUpData());																//加入追击数据
+
 			Iterator<String> it = cfg.getWriteStarData().keySet().iterator();
 			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
 			while(it.hasNext()){
