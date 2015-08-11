@@ -31,12 +31,12 @@ public class CommPortInstance {
 	}
 	private CommPortInstance(){}
 	
-	private CommPortIdentifier portId;		//端口标识
-	private Enumeration portList;				//端口列表
+	private CommPortIdentifier portId;																				//端口标识
+	private Enumeration portList;																						//端口列表
 	
-	private SerialPort serialPort;			//串口对象
-	private SerialReader sreader;				//串口读取对象
-	private SerialWriter swriter;				//串口写对象
+	private SerialPort serialPort;																					//串口对象
+	private SerialReader sreader;																						//串口读取对象
+	private SerialWriter swriter;																						//串口写对象
 
 	private ArrayBlockingQueue<CommMessage> msgqueue = new ArrayBlockingQueue<CommMessage>(100);								//消息队列,用队列来保存要发送的消息,保证每个消息都不会被遗漏
 	private enum MSGSTATE {SEND,RECEIVE};																			//消息处理状态,默认为发送状态
@@ -56,9 +56,9 @@ public class CommPortInstance {
 			if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				try {
 					if (portId.getName().equals(JSONBSUConfig.getInstance().getPort())) {
-						serialPort = (SerialPort) portId.open("SerialReader", 2000);                                //获得串口对象
+						serialPort = (SerialPort) portId.open("SerialReader", 2000);                               //获得串口对象
 						sreader = new SerialReader(serialPort);                                        				//生成串口读取对象
-						swriter = new SerialWriter(serialPort);                                                        //生成串口写入对象
+						swriter = new SerialWriter(serialPort);                                                      //生成串口写入对象
 						System.out.println("======================init comm port success");
 
 						//监听SerialReader的接收数据,当收到数据时马上发送给所有的监听器
@@ -104,11 +104,10 @@ public class CommPortInstance {
 								String cmd = msg.data;
 								swriter.writeCommand(cmd.getBytes());
 								System.out.println("cmd send:  " + cmd + " " + currTimestamp);
-								switchState = MSGSTATE.RECEIVE;                                                            //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
+								switchState = MSGSTATE.RECEIVE;                                                      //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
 							}
-
 						}
-						Thread.currentThread().sleep(300);
+						Thread.currentThread().sleep(300);																//每300毫秒检查一次队列中是否有消息
 					}catch (IOException | InterruptedException e){
 						e.printStackTrace();
 					}
