@@ -15,7 +15,8 @@
   <div>
     <p>直接发送plc指令</p>
     <button id="bt1">测试按钮</button>
-    <button id="bt_plctest">plc指令测试</button>
+      <button id="bt_plctest">星盘灯亮</button>
+      <button id="bt_plctest2">星盘灯灭</button>
   </div>
 
   <script type="text/javascript">
@@ -26,7 +27,17 @@
                   plccmd:"PLCTEST"
                 },
                 function(data,status){
-                  alert(data);
+                  //alert(data);
+                });
+      });
+
+      $("#bt_plctest2").click(function(){
+        $.post("/plc_send_serial",
+                {
+                  plccmd:"PLCTEST2"
+                },
+                function(data,status){
+                  //alert(data);
                 });
       });
 
