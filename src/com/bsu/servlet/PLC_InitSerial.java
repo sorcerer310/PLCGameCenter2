@@ -14,12 +14,11 @@ import com.bsu.system.tool.JSONBSUConfig;
 import org.json.JSONException;
 
 /**
- * 接收串口数据的servlce,该servlte随tomcat启动,并在init函数中初始化串口的初始化操作,只执行一次.
- * 其他servlce需要使用串口时只需要获得CommPortInstance的实例就行,不必再对串口进行初始化
- * Servlet implementation class PLC_ReceiveSerial
+ * 用来做串口串口初始化的servlte,该servlte随tomcat启动,只执行一次.
+ * 其他servlte需要使用串口时只需要获得CommPortInstance的实例就行,不必再对串口进行初始化
+ * Servlet implementation class PLC_InitSerial
  */
-//@WebServlet(description = "接收串口数据到程序中", urlPatterns = { "/PLC_ReceiveSerial" },loadOnStartup = 5)
-public class PLC_ReceiveSerial extends HttpServlet {
+public class PLC_InitSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommPortInstance cpi = null;
@@ -27,7 +26,7 @@ public class PLC_ReceiveSerial extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PLC_ReceiveSerial() {
+    public PLC_InitSerial() {
         super();
     }
 
@@ -40,35 +39,19 @@ public class PLC_ReceiveSerial extends HttpServlet {
 			config.getServletContext().log(e.getMessage());
 		}
 
-		//3:初始化串口监听和业务代理对象
-		System.out.println("PLC_ReceiveSerial is init");
-		config.getServletContext().log("======================PLC_ReceiveSerial is initing");
+		//2:初始化串口监听和业务代理对象
+		config.getServletContext().log("======================PLC_InitSerial is initing");
 		cpi = CommPortInstance.getInstance();																			//串口对象
 		cpi.initCommPort();
 
 		if(cpi.getSerialReader()==null){
-			System.out.println("comm port init fail");
-			config.getServletContext().log("======================PLC_ReceiveSerial comm port init fail,no SerialReader");
+			config.getServletContext().log("======================PLC_InitSerial comm port init fail,no SerialReader");
 			return;
 		}else{
-			config.getServletContext().log("======================PLC_ReceiveSerial comm port init success");
-			//如果初始化成功,执行地图查询业务代码.
+			config.getServletContext().log("======================PLC_InitSerial comm port init success");
+			//如果初始化成功,可执行一些循环执行的业务代码。例如地图查询业务代码.
 			Map map = new Map();
 		}
-
-//		final ServletConfig sc = config;
-//		pconfig = config;
-//		cpi.getSerialReader().setSerialReaderListener(new SerialReader.SerialReaderListener(){
-//			@Override
-//			public void readCommpleted(byte[] command) {
-//				pconfig.getServletContext().log("================comm port readCompleted byte[]:"+new String(command));
-//				ba.receive(command);
-//			}
-//		});
-//
-//		ba = BusinessAdapter.getInstance();																				//业务代理
-//		ba.setSerialReaderWriter(cpi.getSerialReader(),cpi.getSerialWriter());
-
 	}
 
 	/**
