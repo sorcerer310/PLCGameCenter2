@@ -30,9 +30,11 @@ public class JSONBSUConfig {
 
 //    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
     private JSONArray writeMapData = new JSONArray();                                                               //plc星星写入查询数据
-    private HashMap<String,String> writeStarData = new HashMap<String,String>();                                    //plc星星数据写入
-    private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                   //发送点火数据
-    private HashMap<String,String> writeFllowUpData = new HashMap<String,String>();                                 //发送追击数据
+    private HashMap<String,String> writeStarData = new HashMap<String,String>();                                                //plc星星数据写入
+    private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                               //发送点火数据
+    private HashMap<String,String> writeFllowUpData = new HashMap<String,String>();                                             //发送追击数据
+    private HashMap<String,String> writeAllData = new HashMap<String,String>();                                     //所有的writeData结点中的数据
+
     public static JSONBSUConfig getInstance() throws IOException,JSONException{
         if(instance==null)
             instance = new JSONBSUConfig();
@@ -65,6 +67,11 @@ public class JSONBSUConfig {
         writeFiresData = JSONObject2HashMap(jo_cfg.getJSONObject("writedata").getJSONObject("fires"));
         //转化追击写入数据
         writeFllowUpData = JSONObject2HashMap(jo_cfg.getJSONObject("writedata").getJSONObject("followup"));
+
+        //把所有的主动发送检查的数据都装如writeAllData容器中
+        writeAllData.putAll(writeStarData);
+        writeAllData.putAll(writeFiresData);
+        writeAllData.putAll(writeFiresData);
 
         //转化地图写入数据
         writeMapData = jo_cfg.getJSONObject("writedata").getJSONArray("maps");
@@ -112,6 +119,7 @@ public class JSONBSUConfig {
     public JSONArray getWriteMapsData(){return writeMapData;}
     public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
     public HashMap<String, String> getWriteFllowUpData() {return writeFllowUpData;}
+    public HashMap<String, String> getWriteAllData() {return writeAllData;}
 
     /**
      * 端口配置数据

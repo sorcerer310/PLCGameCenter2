@@ -19,9 +19,9 @@ import org.json.JSONException;
 
 /**
  * 用于向PLC发送串口数据,一般不需要返回值的时候用该servlet操作
+ * 该servlet需要带入一个plccmd参数,参数值在bsuconfig.json文件的writedata节点获得。
  * Servlet implementation class PLC_SendSerial
  */
-//@WebServlet("/PLC_SendSerial")
 public class PLC_SendSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private CommPortInstance cpi = null;
@@ -36,7 +36,6 @@ public class PLC_SendSerial extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-//		System.out.println("PLC_SendSerial init");
 		cpi = CommPortInstance.getInstance();
 		sw = cpi.getSerialWriter();
 	}
@@ -57,9 +56,7 @@ public class PLC_SendSerial extends HttpServlet {
 			JSONBSUConfig cfg = JSONBSUConfig.getInstance();
 
 			//合并3部分向plc发送的数据
-			HashMap<String,String> writedata = cfg.getWriteStarData();													//星星数据
-			writedata.putAll(cfg.getWriteFiresData());																	//加入点火数据
-			writedata.putAll(cfg.getWriteFllowUpData());																//加入追击数据
+			HashMap<String,String> writedata = cfg.getWriteAllData();
 
 			Iterator<String> it = cfg.getWriteStarData().keySet().iterator();
 			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
@@ -77,11 +74,8 @@ public class PLC_SendSerial extends HttpServlet {
 					U.p(response,"===================send:"+key+"="+wdata);
 				}
 			}
-
-//			cpi.closeSerialPort();
 		}catch(JSONException | IOException e){
 			e.printStackTrace();
-//			this.getServletContext().log(e.getMessage());
 		}
 	}
 }
