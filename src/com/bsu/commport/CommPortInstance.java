@@ -50,7 +50,7 @@ public class CommPortInstance {
 	 */
 	public void initCommPort(){
 		portList = CommPortIdentifier.getPortIdentifiers();
-		System.out.println("===============has comm port:" + portList.hasMoreElements());
+//		System.out.println("===============has comm port:" + portList.hasMoreElements());
 		while(portList.hasMoreElements()){
 			portId = (CommPortIdentifier) portList.nextElement();
 			if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {

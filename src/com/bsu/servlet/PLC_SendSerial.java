@@ -56,7 +56,7 @@ public class PLC_SendSerial extends HttpServlet {
 			JSONBSUConfig cfg = JSONBSUConfig.getInstance();
 
 			//合并3部分向plc发送的数据
-			HashMap<String,String> writedata = cfg.getWriteAllData();
+			HashMap<String,String> writedata = cfg.getWriteAllData();													//writedata节点中所有的数据
 
 			Iterator<String> it = cfg.getWriteStarData().keySet().iterator();
 			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
@@ -68,7 +68,7 @@ public class PLC_SendSerial extends HttpServlet {
 					if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
 						wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
 					CommPortInstance.getInstance().putCommMessage(new CommMessage(wdata,-1));							//只用于发送数据,时间戳设置为-1,不需要获得返回数据
-//					sw.writeCommand(wdata.getBytes());
+
 //					this.getServletContext().log("===================send:" + key + "=" + writedata.get(key).toString());
 					System.out.println("===================send:" + key + "=" + wdata);
 					U.p(response,"===================send:"+key+"="+wdata);
