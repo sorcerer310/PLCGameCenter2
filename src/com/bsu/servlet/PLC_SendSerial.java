@@ -58,7 +58,7 @@ public class PLC_SendSerial extends HttpServlet {
 			//合并3部分向plc发送的数据
 			HashMap<String,String> writedata = cfg.getWriteAllData();													//writedata节点中所有的数据
 
-			Iterator<String> it = cfg.getWriteStarData().keySet().iterator();
+			Iterator<String> it = writedata.keySet().iterator();
 			//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
 			while(it.hasNext()){
 				String key = it.next();

@@ -51,7 +51,6 @@ public class SerialReader{
 									if(b!='\r')
 										sb.append(b);
 									else {
-										System.out.println("==============================" + sb.toString());
 										listener.readCommpleted(sb.toString().getBytes());                            //通知外部数据读取完成
 										sb = new StringBuffer();
 										break;
