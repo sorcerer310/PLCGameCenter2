@@ -73,6 +73,7 @@ public class Map {
 
                                 String cmd = U.replaceFcs(maps.get(currMapIndex).plcsend);
                                 long timestamp = System.currentTimeMillis();
+//                                long timestamp = -1;
                                 currMessage = new CommMessage(cmd, timestamp);
                                 CommPortInstance.getInstance().putCommMessage(currMessage);                           //发送带时间戳命令
 //                                switchState = MSGSTATE.RECEIVE;                                                      //把状态切换为接收
@@ -99,8 +100,10 @@ public class Map {
             public void receive(CommMessage data) {
                 //判断当前返回值是否为
                 if(data.timestamp == currMessage.timestamp) {
-                    String cmd = currMessage.data;
+//                    String cmd = currMessage.data;
+                    String cmd = data.data;
                     //如果收到的消息与当前对应的地图plcreceive消息一致,则向androidpn服务器发命令,
+                    System.out.println(currMapIndex+"   "+cmd+"-----"+maps.get(currMapIndex).plcreceive);
                     if(cmd.equals(maps.get(currMapIndex).plcreceive)) {
                         try {
                             //发送地图消息

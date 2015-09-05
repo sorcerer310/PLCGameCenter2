@@ -15,6 +15,6 @@ public class FCS {
             byte b = s.getBytes()[0];
             q = q^b;
         }
-        System.out.println(Integer.toHexString(q));
+//        System.out.println(Integer.toHexString(q));
     }
 }

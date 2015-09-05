@@ -64,12 +64,13 @@
       "HUARONG":"@00FA 0 00 00 00 00 0102 31 000206 0001 01fcs"
     },
     "console":{
-      "PLCTEST":"@00FA 0 00 00 00 00 0102 31 000000 0001 01fcs"
+      "PLCTEST":"@00FA 0 00 00 00 00 0102 31 000000 0001 01fcs",
+      "PLCTEST2":"@00FA 0 00 00 00 00 0102 31 000200 0001 01fcs"
     }
   },
   "androidpn":{
-    "androidpnUrl":"http://127.0.0.1:8080/notification.do",
-    "androidpnUser":"a7f2f7c40be84a1e9f2827306ae5db6e",
+    "androidpnUrl":"http://127.0.0.1:8080/pgc2/notification.do",
+    "androidpnUser":"99ac01837c8349be997f1e360bdb1904",
     "title":"",
     "msg":""
   },

@@ -50,7 +50,6 @@ public class CommPortInstance {
 	 */
 	public void initCommPort(){
 		portList = CommPortIdentifier.getPortIdentifiers();
-//		System.out.println("===============has comm port:" + portList.hasMoreElements());
 		while(portList.hasMoreElements()){
 			portId = (CommPortIdentifier) portList.nextElement();
 			if(portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
@@ -68,7 +67,7 @@ public class CommPortInstance {
 								Iterator<CommPortReceiveListener> it = listeners.iterator();
 								while(it.hasNext())
 									it.next().receive(new CommMessage(new String(command),currTimestamp));
-								System.out.println("===================ReceiveData:"+new String(command));
+								System.out.println("===================CommPortInstance ReceiveData:"+new String(command));
 								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
 							}
 						});
@@ -103,7 +102,7 @@ public class CommPortInstance {
 								currTimestamp = msg.timestamp;
 								String cmd = msg.data;
 								swriter.writeCommand(cmd.getBytes());
-								System.out.println("cmd send:  " + cmd + " " + currTimestamp);
+								System.out.println("+++++++++++++++++++CommPortInstance SendData:   " + cmd);
 								switchState = MSGSTATE.RECEIVE;                                                      //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
 							}
 						}
