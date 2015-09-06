@@ -73,7 +73,7 @@ public class Map {
 
                                 String cmd = U.replaceFcs(maps.get(currMapIndex).plcsend);
                                 long timestamp = System.currentTimeMillis();
-                                currMessage = new CommMessage(cmd, timestamp);
+                                currMessage = new CommMessage(cmd,"", timestamp);
                                 CommPortInstance.getInstance().putCommMessage(currMessage);                           //发送带时间戳命令
 //                                switchState = MSGSTATE.RECEIVE;                                                      //把状态切换为接收
 //                            }

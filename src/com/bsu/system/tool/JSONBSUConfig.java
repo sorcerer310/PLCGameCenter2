@@ -29,7 +29,8 @@ public class JSONBSUConfig {
     private int parity = 2;                                                                                          //奇偶校验,2为偶数
 
 //    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
-    private JSONArray writeMapData = new JSONArray();                                                               //plc星星写入查询数据
+    private JSONArray writeMapData = new JSONArray();                                                               //plc地图查询数据
+    private JSONArray writeMapData1 = new JSONArray();                                                              //plc新地图查询数据
     private HashMap<String,String> writeStarData = new HashMap<String,String>();                                                //plc星星数据写入
     private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                               //发送点火数据
     private HashMap<String,String> writeFllowUpData = new HashMap<String,String>();                                             //发送追击数据
@@ -79,6 +80,9 @@ public class JSONBSUConfig {
 
         //转化地图写入数据
         writeMapData = jo_cfg.getJSONObject("writedata").getJSONArray("maps");
+        //转化新地图写入数据
+        writeMapData1 = jo_cfg.getJSONObject("writedata").getJSONArray("maps1") ;
+
 
         //指定androidpn服务器的url和要发送的用户
         JSONObject jo_androidpn = jo_cfg.getJSONObject("androidpn");
@@ -121,6 +125,7 @@ public class JSONBSUConfig {
 //    public HashMap<String, String> getRecPlcData() {return recPlcData;}
     public HashMap<String,String> getWriteStarData(){ return writeStarData;}
     public JSONArray getWriteMapsData(){return writeMapData;}
+    public JSONArray getWriteMapData1() {return writeMapData1;}
     public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
     public HashMap<String, String> getWriteFllowUpData() {return writeFllowUpData;}
     public HashMap<String, String> getWriteAllData() {return writeAllData;}
