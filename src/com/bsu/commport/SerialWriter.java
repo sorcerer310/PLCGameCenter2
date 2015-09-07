@@ -15,8 +15,6 @@ import java.io.OutputStream;
  *
  */
 public class SerialWriter {
-	public final static byte[] WATCH_VIDEO_YES = {01};
-	public final static byte[] WATCH_VIDEO_NO = {02};
 	
 	private SerialPort serialPort;
 	private OutputStream outputStream;

@@ -42,7 +42,7 @@ public class CommPortInstance {
 	private enum MSGSTATE {SEND,RECEIVE};																			//消息处理状态,默认为发送状态
 	private MSGSTATE switchState = MSGSTATE.SEND;
 	private long currTimestamp = -1;																				//当前消息的时间戳
-
+	private String extData = "";
 	private ArrayList<CommPortReceiveListener> listeners = new ArrayList<>();
 
 	/**
@@ -67,7 +67,7 @@ public class CommPortInstance {
 							public void readCommpleted(byte[] command) {
 								Iterator<CommPortReceiveListener> it = listeners.iterator();
 								while(it.hasNext())
-									it.next().receive(new CommMessage(new String(command),currTimestamp));
+									it.next().receive(new CommMessage(new String(command),extData,currTimestamp));
 								System.out.println("===================ReceiveData:"+new String(command));
 								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
 							}
@@ -102,8 +102,10 @@ public class CommPortInstance {
 							if(msg!=null) {
 								currTimestamp = msg.timestamp;
 								String cmd = msg.data;
+
+//								cmd = "@00TS==HelloPLC5A*";
 								swriter.writeCommand(cmd.getBytes());
-								System.out.println("cmd send:  " + cmd + " " + currTimestamp);
+								System.out.println("===================cmd send:  " + cmd );
 								switchState = MSGSTATE.RECEIVE;                                                      //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
 							}
 						}

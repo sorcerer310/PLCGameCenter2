@@ -67,7 +67,7 @@ public class PLC_SendSerial extends HttpServlet {
 					//如果字符串最后有fcs标,要将该标记替换成fcs校验码和结束符.
 					if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
 						wdata = wdata.substring(0,wdata.length()-3)+U.fcs(wdata.substring(0,wdata.length()-3))+"*\r";
-					CommPortInstance.getInstance().putCommMessage(new CommMessage(wdata,-1));							//只用于发送数据,时间戳设置为-1,不需要获得返回数据
+					CommPortInstance.getInstance().putCommMessage(new CommMessage(wdata,"",-1));							//只用于发送数据,时间戳设置为-1,不需要获得返回数据
 
 //					this.getServletContext().log("===================send:" + key + "=" + writedata.get(key).toString());
 					System.out.println("===================send:" + key + "=" + wdata);
