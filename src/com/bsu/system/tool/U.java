@@ -426,6 +426,10 @@ public class U {
 	 * @return
 	 */
 	public static String subPLCResponseData(String data){
+//        "@00FA 00 40 00 00 00 0101 0000 1234 47*"
+		String sdata = data.substring(23,data.length()-3);
+		
+
 		return null;
 	}
 
