@@ -7,8 +7,10 @@ package com.bsu.commport;
 public class CommMessage {
     public String data;
     public long timestamp;
-    public CommMessage(String d,long t){
+    public String extdata;
+    public CommMessage(String d,String ed,long t){
         data = d;
+        extdata = ed;
         timestamp = t;
     }
 }

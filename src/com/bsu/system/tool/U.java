@@ -419,4 +419,18 @@ public class U {
 		}
 		return wdata;
 	}
+
+	/**
+	 * 截取PLC返回的内存数据,去掉头部设置数据与尾部验证码
+	 * @param data		plc返回的数据
+	 * @return
+	 */
+	public static String subPLCResponseData(String data){
+//        "@00FA 00 40 00 00 00 0101 0000 1234 47*"
+		String sdata = data.substring(23,data.length()-3);
+		
+
+		return null;
+	}
+
 }
