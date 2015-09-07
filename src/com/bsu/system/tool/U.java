@@ -401,7 +401,7 @@ public class U {
 		for(int i=0;i<data.length();i++)
 			q = q^(data.substring(i,i+1).getBytes()[0]);
 		//如果校验码小于10,需要用0补位
-		return q<10?"0"+Integer.toHexString(q).toUpperCase():Integer.toHexString(q).toUpperCase();
+		return q<16?"0"+Integer.toHexString(q).toUpperCase():Integer.toHexString(q).toUpperCase();
 	}
 
 	/**
@@ -410,6 +410,7 @@ public class U {
 	 * @return
 	 */
 	public static String replaceFcs(String wdata){
+		wdata = wdata.replace(" ","");
 		if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs")) {
 			StringBuffer sb_wdata = new StringBuffer();
 			sb_wdata.append(wdata.substring(0, wdata.length() - 3)).append(U.fcs(wdata.substring(0, wdata.length() - 3)))
