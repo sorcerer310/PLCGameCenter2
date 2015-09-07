@@ -26,9 +26,9 @@ public class Map1 {
             JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData1();
             for(int i=0;i<ja_map.length();i++){
                 MapData md = new MapData();
-                md.plcsend = ((JSONObject)ja_map.get(i)).getString("plcsend");
-                md.area = ((JSONObject)ja_map.get(i)).getString("area");
-                md.memo = ((JSONObject)ja_map.get(i)).getString("memo");
+                md.plcsend = ((JSONObject)ja_map.get(i)).getString("plcsend");                                       //发送的数据
+                md.area = ((JSONObject)ja_map.get(i)).getString("area");                                              //查询的区域
+                md.address = ((JSONObject) ja_map.get(i)).getJSONArray("address");                                   //所有要检索的地址
                 maps.add(md);
             }
         } catch (JSONException e) {
@@ -107,6 +107,7 @@ public class Map1 {
      * @param data  plc返回数据
      */
     private void ParseOAreaData(String data){
+//        "@00FA 00 40 00 00 00 0101 0000 1234 47*"
 
     }
 
@@ -130,9 +131,9 @@ public class Map1 {
      * 要发送的地图的查询数据,包括发送命令,那个区的数据,和注释
      */
     class MapData{
-        public String plcsend = "";
-        public String area = "";
-        public String memo = "";
+        public String plcsend = "";                                                                                  //向plc发送的数据
+        public String area = "";                                                                                      //查询的plc的区
+        public JSONArray address = new JSONArray();                                                                  //每个区要检索的数据
     }
 }
 
