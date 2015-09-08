@@ -102,7 +102,7 @@ public class CommPortInstance {
 							if(msg!=null) {
 								currTimestamp = msg.timestamp;
 								String cmd = msg.data;
-
+								extData = msg.extdata;
 //								cmd = "@00TS==HelloPLC5A*";
 								swriter.writeCommand(cmd.getBytes());
 								System.out.println("===================cmd send:  " + cmd );

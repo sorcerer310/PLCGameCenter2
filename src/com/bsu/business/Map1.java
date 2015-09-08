@@ -94,7 +94,7 @@ public class Map1 {
             public void receive(CommMessage data) {
                 if (data.timestamp == currMessage.timestamp) {
                     String cmd = data.data;
-                    String area = data.extdata.split("|")[0];                                                           //内存区
+                    String area = data.extdata;                                                                         //内存区
 
                     switch (area) {
                         case "O":
@@ -171,7 +171,7 @@ public class Map1 {
 
                 String androidpncmd = "map:"+ad.androidpncmd;                                                        //向androidpn服务器发送的命令
                 String address = ad.ar;                                                                                 //获得当前要检索的地址
-                String[] saddress = address.split(".");                                                                 //将地址拆成两部分
+                String[] saddress = address.split("\\.");                                                                 //将地址拆成两部分
                 String unit = saddress[0];                                                                              //第一部分通道地址
                 int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分位
 
@@ -208,7 +208,7 @@ public class Map1 {
         public boolean opted = false;                                                                               //是否已处理过该数据
         public AddressData(String par,int pval,String apc){
             ar = par;
-            pval = val;
+            val = pval;
             androidpncmd = apc;
         }
     }

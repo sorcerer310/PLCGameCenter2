@@ -342,6 +342,7 @@ public class U {
 	 * @throws Exception
 	 */
 	public static byte[] sendPostRequestByForm(String path, String params) throws Exception{
+		System.out.println("--------------------------"+params);
 		URL url = new URL(path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("POST");// 提交模式
@@ -452,7 +453,7 @@ public class U {
 			//如果当前的值为0,直接为当前4位赋值为0
 			byte[] s2b = hexString2ByteArray(s);
 			for(int oi=0;oi<s2b.length;oi++)
-				bits[i*4+oi] = s2b[oi];
+				bits[15-(i*4+oi)] = s2b[oi];
 		}
 		return bits;
 	}
