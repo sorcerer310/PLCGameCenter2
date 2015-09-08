@@ -166,7 +166,7 @@ public class U {
 	 * @return
 	 */
 	public static String rl(StringBuffer sb){
-		return sb.substring(0, sb.length()-1);
+		return sb.substring(0, sb.length() - 1);
 	}
 	/**
 	 * pp:print param
@@ -423,15 +423,105 @@ public class U {
 
 	/**
 	 * 截取PLC返回的内存数据,去掉头部设置数据与尾部验证码
-	 * @param data		plc返回的数据
+	 * @param start	开始通道的位置
+	 * @param data		收到的数据
 	 * @return
 	 */
-	public static String subPLCResponseData(String data){
+	public static HashMap<String,byte[]> subPLCResponseData(String start,String data){
 //        "@00FA 00 40 00 00 00 0101 0000 1234 47*"
-		String sdata = data.substring(23,data.length()-3);
-		
+		data = data.replace(" ","");
+		String sdata = data.substring(23,data.length()-3);																//获得要分析的数据
+		int wordCount = sdata.length()/4;																				//以4位数字为一个字来计算有多少个字.
+		HashMap<String,byte[]> hm_bit = new HashMap<String,byte[]>();													//以plc通道为key,保存每个通道的16位2进制数据
+		for(int i=0;i<wordCount;i++)
+			hm_bit.put(String.valueOf(Integer.valueOf(start)+i),word2Bytes(sdata.substring(i*4,i*4+4)));
 
-		return null;
+		return hm_bit;
+	}
+
+	/**
+	 * 将当前通道的4位数字转为16位的2进制数据
+	 * @param word		4位数字
+	 * @return			返回16位2进制数据
+	 */
+	public static byte[] word2Bytes(String word){
+		//保存16位的2进制数据
+		byte[] bits = new byte[16];
+		for(int i=0;i<word.length();i++) {
+			String s = word.substring(i, i + 1);
+			//如果当前的值为0,直接为当前4位赋值为0
+			byte[] s2b = hexString2ByteArray(s);
+			for(int oi=0;oi<s2b.length;oi++)
+				bits[i*4+oi] = s2b[oi];
+		}
+		return bits;
+	}
+
+	/**
+	 * 将16进制字符转为表示2进制数据的数组.
+	 * @param hex	16进制字符
+	 * @return	返回2进制的数组
+	 */
+	public static byte[] hexString2ByteArray(String hex){
+		hex = hex.toUpperCase();
+		byte[] b = new byte[]{0,0,0,0};
+		char c = hex.charAt(0);
+		switch(hex){
+			case "0":
+				b = new byte[]{0,0,0,0};
+				break;
+			case "1":
+				b = new byte[]{0,0,0,1};
+				break;
+			case "2":
+				b = new byte[]{0,0,1,0};
+				break;
+			case "3":
+				b = new byte[]{0,0,1,1};
+				break;
+			case "4":
+				b = new byte[]{0,1,0,0};
+				break;
+			case "5":
+				b = new byte[]{0,1,0,1};
+				break;
+			case "6":
+				b = new byte[]{0,1,1,0};
+				break;
+			case "7":
+				b = new byte[]{0,1,1,1};
+				break;
+			case "8":
+				b = new byte[]{1,0,0,0};
+				break;
+			case "9":
+				b = new byte[]{1,0,0,1};
+				break;
+			case "A":
+				b = new byte[]{1,0,1,0};
+				break;
+			case "B":
+				b = new byte[]{1,0,1,1};
+				break;
+			case "C":
+				b = new byte[]{1,1,0,0};
+				break;
+			case "D":
+				b = new byte[]{1,1,0,1};
+				break;
+			case "E":
+				b = new byte[]{1,1,1,0};
+				break;
+			case "F":
+				b = new byte[]{1,1,1,1};
+				break;
+		}
+		return b;
+	}
+
+	public static void main(String[] args){
+		HashMap<String,byte[]> hm = subPLCResponseData("102","@00FA004000000001010000003B0001000800000008000033*");
+		System.out.println(hm);
 	}
 
 }
