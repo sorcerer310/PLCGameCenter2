@@ -422,15 +422,16 @@ public class U {
 	}
 
 	/**
-	 * 截取PLC返回的内存数据,去掉头部设置数据与尾部验证码
+	 * 截取PLC返回的内存数据,去掉头部设置数据与尾部验证码,根据目标点获得该点的值
+	 * @param start	开始的通道值
+	 * @param target	要获得的目标数据
 	 * @param data		plc返回的数据
 	 * @return
 	 */
-	public static String subPLCResponseData(String data){
+	public static String subPLCResponseData(String start,String target ,String data){
 //        "@00FA 00 40 00 00 00 0101 0000 1234 47*"
 		String sdata = data.substring(23,data.length()-3);
-		
-
+//		HashMap<String,byte[]>
 		return null;
 	}
 
