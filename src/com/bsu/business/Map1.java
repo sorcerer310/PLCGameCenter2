@@ -26,22 +26,7 @@ public class Map1 {
             //初始化获得各种配置数据
             jbc = JSONBSUConfig.getInstance();
             JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData1();
-            for(int i=0;i<ja_map.length();i++){
-                MapData md = new MapData();
-                JSONObject jo = ((JSONObject)ja_map.get(i));
-                md.plcsend = jo.getString("plcsend");                                                                 //发送的数据
-                md.startunit = jo.getString("startunit");
-                md.area = jo.getString("area");                                                                        //查询的区域
-
-                //处理地址数据
-                JSONArray ja_ad = jo.getJSONArray("address");                                                          //所有要检索的地址
-                for(int j=0;j<ja_ad.length();j++) {
-                    JSONObject jo_ad = ((JSONObject) ja_ad.get(j));
-                    md.address.add(new AddressData(jo_ad.getString("ar"),jo_ad.getInt("val"),jo_ad.getString("androidpncmd")));
-                }
-
-                hm_maps.put(jo.getString("area"),md);                                                                 //数据按区开
-            }
+            hm_maps = makeMapDatas(ja_map);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -50,6 +35,53 @@ public class Map1 {
 
         putMessages();
         receiveData();
+    }
+
+    /**
+     * 创建地图数据
+     * @param jsondata  获得地图的json数据
+     * @return           返回对应的MapData
+     * @throws JSONException
+     */
+    private HashMap<String,MapData> makeMapDatas(JSONArray jsondata) throws JSONException {
+        HashMap<String,MapData> hm = new HashMap<String,MapData>();
+        for(int i=0;i<jsondata.length();i++){
+            MapData md = new MapData();
+            JSONObject jo = ((JSONObject)jsondata.get(i));
+            md.plcsend = jo.getString("plcsend");                                                                 //发送的数据
+            md.startunit = jo.getString("startunit");
+            md.area = jo.getString("area");                                                                        //查询的区域
+
+            //处理地址数据
+            JSONArray ja_ad = jo.getJSONArray("address");                                                          //所有要检索的地址
+            for(int j=0;j<ja_ad.length();j++) {
+                JSONObject jo_ad = ((JSONObject) ja_ad.get(j));
+                String msg = "";
+                if(!jo_ad.isNull("msg"))
+                    msg = jo_ad.getString("msg");
+                md.address.add(new AddressData(jo_ad.getString("ar"),jo_ad.getInt("val"),jo_ad.getString("androidpncmd"),msg));
+            }
+
+            hm.put(jo.getString("area"),md);                                                                 //数据按区开
+        }
+        return hm;
+    }
+
+    /**
+     * 重设所有的地图标记
+     */
+    public void resetMapFlags(){
+        Set<Map.Entry<String,MapData>> set_maps = hm_maps.entrySet();
+        Iterator<Map.Entry<String,MapData>> it_maps = set_maps.iterator();
+        while(it_maps.hasNext()){
+            Map.Entry<String,MapData> entry = it_maps.next();
+            ArrayList<AddressData> al_ad = entry.getValue().address;
+            Iterator<AddressData> it_ad = al_ad.iterator();
+            while(it_ad.hasNext()){
+                AddressData ad = it_ad.next();
+                ad.opted = false;
+            }
+        }
     }
 
     private boolean putflag = true;
@@ -73,7 +105,7 @@ public class Map1 {
 
                         //暂停1秒再进行下一条命令的发送
                         try {
-                            Thread.currentThread().sleep(1000);
+                            Thread.currentThread().sleep(700);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -165,19 +197,26 @@ public class Map1 {
         for(int i=0;i<al_ad.size();i++){
             try {
                 AddressData ad =  al_ad.get(i);
+
+                if(ad.ar.equals("10.04"))
+                    System.out.println(ad.ar);
+
                 //如果当前数据已经处理过了则跳过该条数据
                 if(ad.opted)
                     continue;
 
-                String androidpncmd = "map:"+ad.androidpncmd;                                                        //向androidpn服务器发送的命令
                 String address = ad.ar;                                                                                 //获得当前要检索的地址
-                String[] saddress = address.split("\\.");                                                                 //将地址拆成两部分
+
+
+
+                String[] saddress = address.split("\\.");                                                              //将地址拆成两部分
                 String unit = saddress[0];                                                                              //第一部分通道地址
                 int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分位
 
                 byte v = hm_unit.get(unit)[bit];
                 if(v==ad.val){
-                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), jbc.getAndroidpnMsg(), androidpncmd));
+
+                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, ad.androidpncmd));
                     ad.opted = true;
                 }
             } catch (JSONException e) {
@@ -205,11 +244,13 @@ public class Map1 {
         public String ar = "";
         public int val = -1;
         public String androidpncmd = "";
+        public String msg = "";                                                                                       //要发送的消息
         public boolean opted = false;                                                                               //是否已处理过该数据
-        public AddressData(String par,int pval,String apc){
+        public AddressData(String par,int pval,String apc,String pmsg){
             ar = par;
             val = pval;
             androidpncmd = apc;
+            msg = pmsg;
         }
     }
 }
