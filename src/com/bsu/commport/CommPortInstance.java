@@ -74,9 +74,9 @@ public class CommPortInstance {
 						});
 						break;
 					}
-				} catch (PortInUseException | JSONException | IOException e) {
-//					e.printStackTrace();
-					System.out.println(e.getMessage());
+				} catch (Exception e) {
+					e.printStackTrace();
+//					System.out.println(e.getMessage());
 				}
 			}
 		}

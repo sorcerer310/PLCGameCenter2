@@ -71,17 +71,27 @@ public class Map1 {
      * 重设所有的地图标记
      */
     public void resetMapFlags(){
-        Set<Map.Entry<String,MapData>> set_maps = hm_maps.entrySet();
-        Iterator<Map.Entry<String,MapData>> it_maps = set_maps.iterator();
-        while(it_maps.hasNext()){
-            Map.Entry<String,MapData> entry = it_maps.next();
-            ArrayList<AddressData> al_ad = entry.getValue().address;
-            Iterator<AddressData> it_ad = al_ad.iterator();
-            while(it_ad.hasNext()){
-                AddressData ad = it_ad.next();
-                ad.opted = false;
-            }
+        try {
+            jbc = JSONBSUConfig.getInstance();
+            JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData1();
+            hm_maps = makeMapDatas(ja_map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+//        Set<Map.Entry<String,MapData>> set_maps = hm_maps.entrySet();
+//        Iterator<Map.Entry<String,MapData>> it_maps = set_maps.iterator();
+//        while(it_maps.hasNext()){
+//            Map.Entry<String,MapData> entry = it_maps.next();
+//            ArrayList<AddressData> al_ad = entry.getValue().address;
+//            Iterator<AddressData> it_ad = al_ad.iterator();
+//            while(it_ad.hasNext()){
+//                AddressData ad = it_ad.next();
+//                ad.opted = false;
+//            }
+//        }
     }
 
     private boolean putflag = true;
