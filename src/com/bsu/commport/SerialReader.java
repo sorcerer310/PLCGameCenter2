@@ -35,14 +35,23 @@ public class SerialReader{
 				public void serialEvent(SerialPortEvent event) {
 					switch (event.getEventType()) {
 						case SerialPortEvent.BI:
+							System.out.println("BI");
 						case SerialPortEvent.OE:
+							System.out.println("OE");
 						case SerialPortEvent.FE:
+							System.out.println("FE");
 						case SerialPortEvent.PE:
+							System.out.println("PE");
 						case SerialPortEvent.CD:
+							System.out.println("CD");
 						case SerialPortEvent.CTS:
+							System.out.println("CTS");
 						case SerialPortEvent.DSR:
+							System.out.println("DSR");
 						case SerialPortEvent.RI:
+							System.out.println("RI");
 						case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+							System.out.println("OUTPUT_BUFFER_EMPTY");
 							break;
 						case SerialPortEvent.DATA_AVAILABLE:                                                         //当有可用数据时
 							try{
@@ -70,21 +79,31 @@ public class SerialReader{
 					cfg.getStopbits(),
 					cfg.getParity());
 			
-			readThread = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					try{
-						Thread.sleep(20000);
-					}catch(InterruptedException e){
-						e.printStackTrace();
-					}
-				}
-			});
-			readThread.start();
-		}catch(IOException | TooManyListenersException | UnsupportedCommOperationException | JSONException e){
+//			readThread = new Thread(new Runnable(){
+//				@Override
+//				public void run() {
+//					try{
+//						Thread.sleep(20000);
+//					}catch(InterruptedException e){
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//			readThread.start();
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 关闭输入流
+	 */
+	public void close() throws IOException {
+
+			inputStream.close();
+
+	}
+
 	/**
 	 * 设置串口读取的监听器
 	 * @param l		从外部设置进来的监听器对象

@@ -120,6 +120,11 @@ public class Map1 {
                             e.printStackTrace();
                         }
                     }
+//                    try{
+//                        Thread.currentThread().sleep(5000);
+//                    }catch(InterruptedException e){
+//                        e.printStackTrace();
+//                    }
                 }
             }
         };

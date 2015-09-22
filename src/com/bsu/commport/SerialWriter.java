@@ -41,6 +41,13 @@ public class SerialWriter {
 	public void writeCommand(byte[] c) throws IOException{
 		outputStream.write(c);
 	}
+
+	/**
+	 * 关闭所有资源
+	 */
+	public void close() throws IOException {
+			outputStream.close();
+	}
 	
 	public static void main(String[] args){
 		CommPortInstance cp = CommPortInstance.getInstance();

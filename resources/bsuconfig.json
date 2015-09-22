@@ -32,7 +32,7 @@
           {"ar":"103.03","val":1,"androidpncmd":"map:3","memo":"地图旗插好推拉杆门开"},{"ar":"105.00","val":1,"androidpncmd":"map:4","memo":"军令牌拿起"},
           {"ar":"102.01","val":0,"androidpncmd":"map:5","memo":"通道第一个门电磁锁开"},{"ar":"105.01","val":1,"androidpncmd":"map:6","memo":"通道人体感应触发"},
           {"ar":"102.07","val":1,"androidpncmd":"map:7","memo":"第4个脚踏灯亮"},{"ar":"105.03","val":1,"androidpncmd":"map:8","memo":"铁锁连环接通"},
-          {"ar":"102.03","val":1,"androidpncmd":"map:9","memo":"船舱门关"},{"ar":"104.03","val":0,"androidpncmd":"map:12","memo":"宝剑咒语箱开"},
+          {"ar":"102.03","val":0,"androidpncmd":"map:9","memo":"船舱门关"},{"ar":"104.03","val":0,"androidpncmd":"map:12","memo":"宝剑咒语箱开"},
           {"ar":"106.06","val":1,"androidpncmd":"map:13","memo":"借东风完成"},{"ar":"103.06","val":1,"androidpncmd":"followup","memo":"切换到选择道路界面"}],
         "memo":"从102.00开始读6个通道的值"
       },
@@ -105,7 +105,7 @@
     "msg":""
   },
   "commport":{
-    "port":"COM4",
+    "port":"COM3",
     "baudrate":9600,
     "databits":7,
     "stopbits":2,

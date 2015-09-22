@@ -58,7 +58,7 @@ public class CommPortInstance {
 					if (portId.getName().equals(JSONBSUConfig.getInstance().getPort())) {
 						serialPort = (SerialPort) portId.open("SerialReader", 2000);                               //获得串口对象
 						sreader = new SerialReader(serialPort);                                        				//生成串口读取对象
-						swriter = new SerialWriter(serialPort);                                                      //生成串口写入对象
+
 						System.out.println("======================init comm port success");
 
 						//监听SerialReader的接收数据,当收到数据时马上发送给所有的监听器
@@ -72,6 +72,8 @@ public class CommPortInstance {
 								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
 							}
 						});
+
+						swriter = new SerialWriter(serialPort);                                                      //生成串口写入对象
 						break;
 					}
 				} catch (Exception e) {
@@ -84,7 +86,7 @@ public class CommPortInstance {
 		sendData();																										//执行发送消息操作
 	}
 
-
+	private int ex_rs232 = 0;
 	private boolean sendflag = true;
 	/**
 	 * 启用一个线程用于发送数据,当状态为发送状态每500毫秒取出一条指令进行发送
@@ -96,19 +98,49 @@ public class CommPortInstance {
 				while(sendflag){
 					try{
 						//如果当前状态为发送消息,则发送一条队列中的消息//
-						if(switchState==MSGSTATE.SEND){
+						if(switchState==MSGSTATE.SEND) {
 							//每500毫秒发送一次指令
 							CommMessage msg = msgqueue.poll();
-							if(msg!=null) {
+							if (msg != null) {
 								currTimestamp = msg.timestamp;
 								String cmd = msg.data;
 								extData = msg.extdata;
 //								cmd = "@00TS==HelloPLC5A*";
 								swriter.writeCommand(cmd.getBytes());
-								System.out.println("===================cmd send:  " + cmd );
+								System.out.println("===================cmd send:  " + cmd);
 								switchState = MSGSTATE.RECEIVE;                                                      //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
 							}
 						}
+//						}else{
+//							ex_rs232++;
+////							System.out.println("ex_rs232 count:" + ex_rs232);
+//						}
+//
+//						if(ex_rs232>=5&&ex_rs232<6){
+//////							CommPortInstance.getInstance().closeSerialPort();
+//////							CommPortInstance.getInstance().initCommPort();
+//
+//							serialPort.removeEventListener();
+//							sreader.close();
+//							sreader = new SerialReader(serialPort);                                                        //生成串口读取对象
+//
+//							//监听SerialReader的接收数据,当收到数据时马上发送给所有的监听器
+//							sreader.setSerialReaderListener(new SerialReader.SerialReaderListener() {
+//								@Override
+//								public void readCommpleted(byte[] command) {
+//									Iterator<CommPortReceiveListener> it = listeners.iterator();
+//									while(it.hasNext())
+//										it.next().receive(new CommMessage(new String(command),extData,currTimestamp));
+//									System.out.println("===================ReceiveData:"+new String(command));
+//								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
+//								}
+//							});
+//
+//							System.out.println("}}}}}}}}}}}}}}}}}}}}}}}}}}read comm is restart");
+//							switchState=MSGSTATE.SEND;
+//							ex_rs232 = 999;
+//						}
+
 						Thread.currentThread().sleep(300);																//每300毫秒检查一次队列中是否有消息
 					}catch (IOException | InterruptedException e){
 						e.printStackTrace();
@@ -137,7 +169,14 @@ public class CommPortInstance {
 	 * 关闭串口
 	 */
 	public void closeSerialPort(){
-		serialPort.close();
+		try {
+			sreader.close();
+			swriter.close();
+			serialPort.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 
