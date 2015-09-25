@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.Map;
 
 /**
  * 采用大块内存读取方式读取plc的数据
@@ -25,7 +24,7 @@ public class Map {
         try{
             //初始化获得各种配置数据
             jbc = JSONBSUConfig.getInstance();
-            JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData1();
+            JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData();
             hm_maps = makeMapDatas(ja_map);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,7 +72,7 @@ public class Map {
     public void resetMapFlags(){
         try {
             jbc = JSONBSUConfig.getInstance();
-            JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData1();
+            JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMapData();
             hm_maps = makeMapDatas(ja_map);
         } catch (IOException e) {
             e.printStackTrace();

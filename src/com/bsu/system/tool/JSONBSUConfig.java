@@ -27,8 +27,7 @@ public class JSONBSUConfig {
     private int parity = 2;                                                                                          //奇偶校验,2为偶数
 
 //    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
-    private JSONArray writeMapData = new JSONArray();                                                               //plc地图查询数据
-    private JSONArray writeMapData1 = new JSONArray();                                                              //plc新地图查询数据
+    private JSONArray writeMapData = new JSONArray();                                                              //plc新地图查询数据
     private HashMap<String,String> writeStarData = new HashMap<String,String>();                                                //plc星星数据写入
     private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                               //发送点火数据
     private HashMap<String,String> writeFollowUpData = new HashMap<String,String>();                                             //发送追击数据
@@ -53,14 +52,6 @@ public class JSONBSUConfig {
 
         jo_cfg = new JSONObject(sb.toString());
 
-        //转化receivedata数据
-//        JSONObject jo_recdata = jo_cfg.getJSONObject("receivedata");
-//        Iterator<String> it_rec = jo_recdata.keys();
-//        while(it_rec.hasNext()) {
-//            String key = it_rec.next();
-//            recPlcData.put(key,jo_recdata.getString(key));
-//        }
-
         //转化星星写入数据
         writeStarData = JSONObject2HashMap(jo_cfg.getJSONObject("writedata").getJSONObject("stars"));
         //转化点火写入数据
@@ -77,10 +68,8 @@ public class JSONBSUConfig {
         writeAllData.putAll(writeFollowUpData);
         writeAllData.putAll(writeConsoleData);
 
-        //转化地图写入数据
-        writeMapData = jo_cfg.getJSONObject("writedata").getJSONArray("maps");
         //转化新地图写入数据
-        writeMapData1 = jo_cfg.getJSONObject("writedata").getJSONArray("maps1") ;
+        writeMapData = jo_cfg.getJSONObject("writedata").getJSONArray("maps") ;
 
 
         //指定androidpn服务器的url和要发送的用户
@@ -123,8 +112,7 @@ public class JSONBSUConfig {
 
 //    public HashMap<String, String> getRecPlcData() {return recPlcData;}
     public HashMap<String,String> getWriteStarData(){ return writeStarData;}
-    public JSONArray getWriteMapsData(){return writeMapData;}
-    public JSONArray getWriteMapData1() {return writeMapData1;}
+    public JSONArray getWriteMapData() {return writeMapData;}
     public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
     public HashMap<String, String> getWriteFollowUpData() {return writeFollowUpData;}
     public HashMap<String, String> getWriteAllData() {return writeAllData;}
