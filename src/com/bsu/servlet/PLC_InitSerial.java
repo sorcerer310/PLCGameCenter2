@@ -9,11 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bsu.business.Map;
-import com.bsu.business.Map1;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.system.tool.JSONBSUConfig;
 import org.json.JSONException;
-import sun.org.mozilla.javascript.internal.ast.TryStatement;
 
 /**
  * 用来做串口串口初始化的servlte,该servlte随tomcat启动,只执行一次.
@@ -24,7 +22,7 @@ public class PLC_InitSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommPortInstance cpi = null;
-	public Map1 map;
+	public Map map;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -53,7 +51,7 @@ public class PLC_InitSerial extends HttpServlet {
 			config.getServletContext().log("======================PLC_InitSerial comm port init success");
 			//如果初始化成功,可执行一些循环执行的业务代码。例如地图查询业务代码.
 //			Map map = new Map();
-			map = new Map1();
+			map = new Map();
 		}
 	}
 
