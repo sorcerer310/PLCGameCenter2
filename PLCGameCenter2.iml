@@ -69,7 +69,7 @@
       <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="module-library">
       <library name="antlr-2.7.6.jar">
         <CLASSES>
@@ -320,7 +320,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://C:/Users/Administrator/.m2/repository/org/apache/mina/mina-core/2.0.0-RC1/mina-core-2.0.0-RC1-sources.jar" />
+          <root url="file://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.0-RC1/mina-core-2.0.0-RC1-sources.jar" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -394,7 +394,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://C:/Users/Administrator/.m2/repository/org/springframework/spring-webmvc/2.5.6/spring-webmvc-2.5.6-sources.jar" />
+          <root url="file://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/2.5.6/spring-webmvc-2.5.6-sources.jar" />
         </SOURCES>
       </library>
     </orderEntry>

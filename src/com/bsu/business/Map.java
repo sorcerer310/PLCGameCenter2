@@ -114,7 +114,7 @@ public class Map {
 
                         //暂停1秒再进行下一条命令的发送
                         try {
-                            Thread.currentThread().sleep(700);
+                            Thread.currentThread().sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

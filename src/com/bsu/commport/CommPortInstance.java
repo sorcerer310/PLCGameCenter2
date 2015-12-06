@@ -135,11 +135,13 @@ public class CommPortInstance {
 //								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
 //								}
 //							});
-//
+//ng
 //							System.out.println("}}}}}}}}}}}}}}}}}}}}}}}}}}read comm is restart");
 //							switchState=MSGSTATE.SEND;
 //							ex_rs232 = 999;
 //						}
+
+						System.out.println("}}}}}}}}}}}}}}}}}}}}}}}}}"+msgqueue.size());
 
 						Thread.currentThread().sleep(300);																//每300毫秒检查一次队列中是否有消息
 					}catch (IOException | InterruptedException e){
