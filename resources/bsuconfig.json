@@ -11,7 +11,7 @@
       {"plcsend":"@00FA 0 00 00 00 00 0101 B0 006600 0006fcs","area":"O",
         "startunit":"102",
         "address":[{"ar":"103.01","val":1,"androidpncmd":"map:1","memo":"星盘成功第一房间门开"},{"ar":"102.00","val":0,"androidpncmd":"map:2","memo":"乌龟电磁锁断开"},
-          {"ar":"103.03","val":1,"androidpncmd":"map:3","memo":"地图旗插好推拉杆门开"},{"ar":"105.00","val":1,"androidpncmd":"map:4","memo":"军令牌拿起"},
+          {"ar":"103.03","val":1,"androidpncmd":"map:3","memo":"地图旗插好推拉杆门开"},{"ar":"105.00","val":0,"androidpncmd":"map:4","memo":"军令牌插好"},
           {"ar":"102.01","val":0,"androidpncmd":"map:5","memo":"通道第一个门电磁锁开"},{"ar":"105.01","val":1,"androidpncmd":"map:6","memo":"通道人体感应触发"},
           {"ar":"102.07","val":1,"androidpncmd":"map:7","memo":"第4个脚踏灯亮"},{"ar":"105.03","val":1,"androidpncmd":"map:8","memo":"铁锁连环接通"},
           {"ar":"102.03","val":0,"androidpncmd":"map:9","memo":"船舱门关"},{"ar":"104.03","val":0,"androidpncmd":"map:12","memo":"宝剑咒语箱开"},
