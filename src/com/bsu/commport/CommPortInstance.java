@@ -199,7 +199,12 @@ public class CommPortInstance {
 	 * 将一个监听器从容器中移除
 	 * @param listener	要移除的监听器
 	 */
-	public void removeCommPortRecerveListener(CommPortReceiveListener listener){if(listener!=null)listeners.remove(listener);}
+	public void removeCommPortRecerveListener(CommPortReceiveListener listener){
+		if(listener!=null){
+			System.out.println("remove listener:"+listener.toString());
+			listeners.remove(listener);
+		}
+	}
 
 }
 
