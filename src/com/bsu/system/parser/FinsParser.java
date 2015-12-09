@@ -9,6 +9,7 @@ public class FinsParser {
     private static String read = "0101";                           //读内存方式
     private static String write = "0102";                          //写内存方式
     private static String w_bit = "31";                            //以bit方式向w区写数据
+    private static String r_bit = "B1";                            //以word方式读取w区数据
     private static String fcs = "fcs";                             //结尾
 
     /**
@@ -23,17 +24,37 @@ public class FinsParser {
         //写操作
         if(readOrWrite.equals("write")){
             StringBuffer sb = new StringBuffer(headdata);
-            sb.append(write)
-                    .append(w_bit)
+            sb.append(write)                            //写内存方式
+                    .append(w_bit)                      //以bit方式向w区写数据
+                    .append(address)                    //操作地址
                     .append("0001")                     //写入1位
-                    .append(value)
-                    .append(fcs);
+                    .append(value)                      //要写入的值
+                    .append(fcs);                       //fcs替换位
             return sb.toString();
         }
         //读操作
         else if(readOrWrite.equals("read")){
-
+            StringBuffer sb = new StringBuffer(headdata);
+            sb.append(read)
+                    .append(r_bit)                      //读内存方式
+                    .append(address)                    //操作地址
+                    .append("0001")                     //读取1位
+                    .append(fcs);                       //fcs替换位
         }
         return null;
+    }
+
+    /**
+     * 如果值为00返回01，值为01返回00
+     * @param value     操作的值
+     * @return          取反后返回的值
+     */
+    public static String backValue(String value){
+        if(value.equals("00"))
+            return "01";
+        else if(value.equals("01"))
+            return "00";
+        else
+            return value;
     }
 }
