@@ -141,8 +141,6 @@ public class CommPortInstance {
 //							ex_rs232 = 999;
 //						}
 
-						System.out.println("}}}}}}}}}}}}}}}}}}}}}}}}}"+msgqueue.size());
-
 						Thread.currentThread().sleep(300);																//每300毫秒检查一次队列中是否有消息
 					}catch (IOException | InterruptedException e){
 						e.printStackTrace();
