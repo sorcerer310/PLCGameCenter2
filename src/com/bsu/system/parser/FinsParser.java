@@ -8,8 +8,11 @@ public class FinsParser {
     private static String headdata = "@00FA000000000";             //头部数据
     private static String read = "0101";                           //读内存方式
     private static String write = "0102";                          //写内存方式
-    private static String w_bit = "31";                            //以bit方式向w区写数据
-    private static String r_bit = "B1";                            //以word方式读取w区数据
+    private static String w_wbit = "31";                            //以bit方式向w区写数据
+    private static String r_wword = "B1";                            //以word方式读取w区数据
+    private static String w_ibit = "";
+    private static String r_iword = "";
+
     private static String fcs = "fcs";                             //结尾
 
     /**
@@ -21,25 +24,33 @@ public class FinsParser {
      * @return              返回生成的指令
      */
     public static String makeFinsData(String area,String address,String value,String readOrWrite){
-        //写操作
-        if(readOrWrite.equals("write")){
-            StringBuffer sb = new StringBuffer(headdata);
-            sb.append(write)                            //写内存方式
-                    .append(w_bit)                      //以bit方式向w区写数据
-                    .append(address)                    //操作地址
-                    .append("0001")                     //写入1位
-                    .append(value)                      //要写入的值
-                    .append(fcs);                       //fcs替换位
-            return sb.toString();
-        }
-        //读操作
-        else if(readOrWrite.equals("read")){
-            StringBuffer sb = new StringBuffer(headdata);
-            sb.append(read)
-                    .append(r_bit)                      //读内存方式
-                    .append(address)                    //操作地址
-                    .append("0001")                     //读取1位
-                    .append(fcs);                       //fcs替换位
+//        switch(area.toLowerCase()){
+//            case "w":
+//                break;
+//            case "i":
+//                break;
+//        }
+        if(area.toLowerCase().equals("w")) {
+            //写操作
+            if (readOrWrite.equals("write")) {
+                StringBuffer sb = new StringBuffer(headdata);
+                sb.append(write)                            //写内存方式
+                        .append(w_wbit)                      //以bit方式向w区写数据
+                        .append(address)                    //操作地址
+                        .append("0001")                     //写入1位
+                        .append(value)                      //要写入的值
+                        .append(fcs);                       //fcs替换位
+                return sb.toString();
+            }
+            //读操作
+            else if (readOrWrite.equals("read")) {
+                StringBuffer sb = new StringBuffer(headdata);
+                sb.append(read)
+                        .append(r_wword)                      //读内存方式
+                        .append(address)                    //操作地址
+                        .append("0001")                     //读取1位
+                        .append(fcs);                       //fcs替换位
+            }
         }
         return null;
     }
