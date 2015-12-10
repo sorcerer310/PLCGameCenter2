@@ -212,8 +212,8 @@ public class Map {
             try {
                 AddressData ad =  al_ad.get(i);
 
-                if(ad.ar.equals("10.04"))
-                    System.out.println(ad.ar);
+//                if(ad.ar.equals("10.04"))
+//                    System.out.println(ad.ar);
 
                 //如果当前数据已经处理过了则跳过该条数据
                 if(ad.opted)
