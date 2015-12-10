@@ -1,5 +1,7 @@
 package com.bsu.system.parser;
 
+import com.bsu.system.tool.U;
+
 /**
  * fins指令解析
  * Created by fengchong on 15/12/9.
@@ -24,12 +26,6 @@ public class FinsParser {
      * @return              返回生成的指令
      */
     public static String makeFinsData(String area,String address,String value,String readOrWrite){
-//        switch(area.toLowerCase()){
-//            case "w":
-//                break;
-//            case "i":
-//                break;
-//        }
         if(area.toLowerCase().equals("w")) {
             //写操作
             if (readOrWrite.equals("write")) {
@@ -40,7 +36,7 @@ public class FinsParser {
                         .append("0001")                     //写入1位
                         .append(value)                      //要写入的值
                         .append(fcs);                       //fcs替换位
-                return sb.toString();
+                return U.replaceFcs(sb.toString());
             }
             //读操作
             else if (readOrWrite.equals("read")) {

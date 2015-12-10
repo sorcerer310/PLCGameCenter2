@@ -54,7 +54,7 @@ public class PLC_SendSerial extends HttpServlet {
 	private String area = null;																							//操作区域
 	private String address1 = null;																						//操作地址
 	private String address2 = null;																						//操作地址2，用于H桥电路的操作，普通操作可以不用
-	private String value = null;																						//要操作的值
+	private String val1,val2 = null;																						//要操作的值
 	private String readOrWrite = null;																					//读或写数据
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		String plccommand = U.getRS(request,"plccmd");						//plc指令参数
@@ -64,15 +64,14 @@ public class PLC_SendSerial extends HttpServlet {
 		area = U.getRS(request,"area");
 		address1 = U.getRS(request,"address1");
 		address2 = U.getRS(request,"address2");
-		value = U.getRS(request,"value");
+		val1 = U.getRS(request,"val1");
+		val2 = U.getRS(request,"val2");
 		readOrWrite = U.getRS(request,"readOrWrite");
 
 		if(sw==null){
 			U.p(response, "PLC_SendSerial comm port init fail");
 			return;
 		}
-
-		responseContext = response;											//活的全局实用的response对象
 
 		try{
 			if(plccommand!=null && !plccommand.equals("")) {
@@ -100,24 +99,26 @@ public class PLC_SendSerial extends HttpServlet {
 			}else if(type!=null && !type.equals("")){
 				switch(type){
 					case "nomal":{
-						String finsdata = FinsParser.makeFinsData(area,address1,value,readOrWrite);						//生成fins指令
-						timestamp = System.currentTimeMillis();															//获得当前的时间戳
-						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",timestamp));			//发送指令到消息队列中
+						String finsdata = FinsParser.makeFinsData(area,address1,val1,readOrWrite);						//生成fins指令
+						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));					//发送指令到消息队列中
 //						CommPortInstance.getInstance().addCommPortReceiveListener(listener);							//增加监听器监听返回数据
 						break;
 					}
 					case "click":{
-						String finsdata = FinsParser.makeFinsData(area,address1,value,readOrWrite);						//生成fins指令
-						timestamp = System.currentTimeMillis();
-						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",timestamp));			//发送指令到消息队列中
-						CommPortInstance.getInstance().addCommPortReceiveListener(listener);							//增加监听器监听返回数据
+						String finsdata = FinsParser.makeFinsData(area,address1,val1,readOrWrite);						//生成fins指令
+						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));			//发送指令到消息队列中
+
+						//再发送一个取反值,模拟click操作
+						String finsdataback = FinsParser.makeFinsData(area,address1,FinsParser.backValue(val1),readOrWrite);
+						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdataback,"",-1));
 						break;
 					}
 					case "h-bridge":{
-						String resetdata = FinsParser.makeFinsData(area,address2,"00",readOrWrite);						//先写复位的数据
-						timestamp = System.currentTimeMillis();
-						CommPortInstance.getInstance().putCommMessage(new CommMessage(resetdata,"",timestamp));			//发送数据
-						CommPortInstance.getInstance().addCommPortReceiveListener(listener);							//增加监听器返回数据
+						String resetdata = FinsParser.makeFinsData(area,address2,val2,readOrWrite);					//先写复位的数据
+						CommPortInstance.getInstance().putCommMessage(new CommMessage(resetdata,"",-1));				//发送数据
+
+						String finsdata = FinsParser.makeFinsData(area,address1,val1,readOrWrite);					//再写入要操作的数据
+						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));					//发送数据
 						break;
 					}
 				}
@@ -130,45 +131,5 @@ public class PLC_SendSerial extends HttpServlet {
 		}
 
 	}
-
-	private long timestamp = -1;
-	private HttpServletResponse responseContext = null;
-	/**
-	 * 对返回数据进行监听
-	 */
-	private CommPortInstance.CommPortReceiveListener listener = new CommPortInstance.CommPortReceiveListener() {
-		@Override
-		public void receive(CommMessage data) {
-			if(data.timestamp!=-1 && data.timestamp == timestamp){
-				System.out.println("receive data,timestamp:"+timestamp+" data:"+data.data);
-				switch(type){
-					case "nomal":{
-						break;
-					}
-					case "click":{
-						//如果返回值成功
-						if(data.data.equals("")){
-							//如果返回值成功自动发送一个取反的值
-							String finsdata = FinsParser.makeFinsData(area,address1,FinsParser.backValue(value),readOrWrite);
-							CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));
-						}
-						break;
-					}
-					case "h-bridge":{
-						//如果复位数据正确
-						if(data.data.equals("")){
-							String finsdata = FinsParser.makeFinsData(area,address1,value,readOrWrite);
-							CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));
-						}
-						break;
-					}
-				}
-
-
-				CommPortInstance.getInstance().removeCommPortRecerveListener(listener);
-			}
-		}
-	};
-
 }
 
