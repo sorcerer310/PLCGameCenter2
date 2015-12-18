@@ -520,6 +520,7 @@ public class U {
 		return b;
 	}
 
+
 	public static void main(String[] args){
 		HashMap<String,byte[]> hm = subPLCResponseData("102","@00FA004000000001010000003B0001000800000008000033*");
 		System.out.println(hm);
