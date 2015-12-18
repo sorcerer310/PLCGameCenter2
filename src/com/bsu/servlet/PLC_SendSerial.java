@@ -106,7 +106,7 @@ public class PLC_SendSerial extends HttpServlet {
 					}
 					case "click":{
 						String finsdata = FinsParser.makeFinsData(area,address1,val1,readOrWrite);						//生成fins指令
-						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));			//发送指令到消息队列中
+						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));					//发送指令到消息队列中
 
 						//再发送一个取反值,模拟click操作
 						String finsdataback = FinsParser.makeFinsData(area,address1,FinsParser.backValue(val1),readOrWrite);
@@ -114,10 +114,10 @@ public class PLC_SendSerial extends HttpServlet {
 						break;
 					}
 					case "h-bridge":{
-						String resetdata = FinsParser.makeFinsData(area,address2,val2,readOrWrite);					//先写复位的数据
+						String resetdata = FinsParser.makeFinsData(area,address2,val2,readOrWrite);						//先写复位的数据
 						CommPortInstance.getInstance().putCommMessage(new CommMessage(resetdata,"",-1));				//发送数据
 
-						String finsdata = FinsParser.makeFinsData(area,address1,val1,readOrWrite);					//再写入要操作的数据
+						String finsdata = FinsParser.makeFinsData(area,address1,val1,readOrWrite);						//再写入要操作的数据
 						CommPortInstance.getInstance().putCommMessage(new CommMessage(finsdata,"",-1));					//发送数据
 						break;
 					}
