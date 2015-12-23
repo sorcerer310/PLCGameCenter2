@@ -48,9 +48,6 @@ public class PLC_SendSerial extends HttpServlet {
 
 	private String type = null;																							//指令类型:
 																														//click:发送指令成功响应后，马上发送一个取反值
-																														//nomal:发送指令后不做任何操作
-																														//h-bridgeH桥指令,用于推拉杆、电机正反转操作
-
 	private String area = null;																							//操作区域
 	private String address1 = null;																						//操作地址
 	private String address2 = null;																						//操作地址2，用于H桥电路的操作，普通操作可以不用

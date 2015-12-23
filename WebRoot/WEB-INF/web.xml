@@ -73,6 +73,15 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>plc_state_query</servlet-name>
+		<servlet-class>com.bsu.servlet.PLC_StateQuery</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>plc_state_query</servlet-name>
+		<url-pattern>/plc_state_query</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>plc_test_commport</servlet-name>
 		<servlet-class>com.bsu.servlet.PLC_TestCommPort</servlet-class>
 	</servlet>
@@ -80,7 +89,6 @@
 		<servlet-name>plc_test_commport</servlet-name>
 		<url-pattern>/plc_test_commport</url-pattern>
 	</servlet-mapping>
-
 
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>

@@ -16,7 +16,6 @@ import java.util.*;
  * Created by fc on 2015/9/6.
  */
 public class Map {
-    private ArrayList<MapData> maps = new ArrayList<MapData>();
     private HashMap<String,MapData> hm_maps = new HashMap<String ,MapData>();
     private JSONBSUConfig jbc = null;
     private CommMessage currMessage;
@@ -58,7 +57,7 @@ public class Map {
                 String msg = "";
                 if(!jo_ad.isNull("msg"))
                     msg = jo_ad.getString("msg");
-                md.address.add(new AddressData(jo_ad.getString("ar"),jo_ad.getInt("val"),jo_ad.getString("androidpncmd"),msg));
+                md.addressdatas.add(new AddressData(jo_ad.getString("ar"), jo_ad.getInt("val"), jo_ad.getString("androidpncmd"), msg));
             }
 
             hm.put(jo.getString("area"),md);                                                                 //数据按区开
@@ -207,32 +206,37 @@ public class Map {
     private void ParseAreaData(String memoryArea,String data){
         MapData md = hm_maps.get(memoryArea);
         HashMap<String,byte[]> hm_unit = U.subPLCResponseData(md.startunit,data);
-        ArrayList<AddressData> al_ad = md.address;                                                                     //所有要处理的地址
+        ArrayList<AddressData> al_ad = md.addressdatas;                                                                     //所有要处理的地址
         for(int i=0;i<al_ad.size();i++){
             try {
                 AddressData ad =  al_ad.get(i);
-
-//                if(ad.ar.equals("10.04"))
-//                    System.out.println(ad.ar);
-
                 //如果当前数据已经处理过了则跳过该条数据
                 if(ad.opted)
                     continue;
 
                 String address = ad.ar;                                                                                 //获得当前要检索的地址
-
-
-
                 String[] saddress = address.split("\\.");                                                              //将地址拆成两部分
                 String unit = saddress[0];                                                                              //第一部分通道地址
                 int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分位
 
                 byte v = hm_unit.get(unit)[bit];
                 if(v==ad.val){
-
                     U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, ad.androidpncmd));
                     ad.opted = true;
                 }
+
+                //------------------------临时增加处理敲鼓状态代码--------------------
+                if(address.equals(0.11)){
+                    //当值为0时为未准备好状态
+                    if(ad.val==0){
+                        ResponseAddressData.allState.put("dumpIsReady",false);
+                    }
+                    //当值为1时为准备好状态
+                    else if(ad.val==1){
+                        ResponseAddressData.allState.put("dumpIsReady",true);
+                    }
+                }
+                //------------------------临时增加处理敲鼓状态代码--------------------
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -241,6 +245,7 @@ public class Map {
         }
     }
 
+
     /**
      * 要发送的地图的查询数据,包括发送命令,那个区的数据,和注释
      */
@@ -248,7 +253,7 @@ public class Map {
         public String plcsend = "";                                                                                  //向plc发送的数据
         public String startunit = "";                                                                                //从哪个通道开始读取数据
         public String area = "";                                                                                      //查询的plc的区
-        public ArrayList<AddressData> address = new ArrayList<AddressData>();                                        //每个区要检索的数据
+        public ArrayList<AddressData> addressdatas = new ArrayList<AddressData>();                                        //每个区要检索的数据
     }
 
     /**
