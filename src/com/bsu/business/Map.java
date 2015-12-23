@@ -210,33 +210,36 @@ public class Map {
         for(int i=0;i<al_ad.size();i++){
             try {
                 AddressData ad =  al_ad.get(i);
+
+                String address = ad.ar;                                                                                 //获得当前要检索的地址
+
+                String[] saddress = address.split("\\.");                                                              //将地址拆成两部分
+                String unit = saddress[0];                                                                              //第一部分通道地址
+                int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分位
+                byte v = hm_unit.get(unit)[bit];                                                                        //该地址的值
+
+                //------------------------临时增加处理敲鼓状态代码--------------------
+                if(address.equals("0.11")){
+                    //当值为0时为未准备好状态
+                    if(v==0){
+                        ResponseAddressData.allState.put("dumpIsReady",false);
+                    }
+                    //当值为1时为准备好状态
+                    else if(v==1){
+                        ResponseAddressData.allState.put("dumpIsReady",true);
+                    }
+                }
+                //------------------------临时增加处理敲鼓状态代码--------------------
+
                 //如果当前数据已经处理过了则跳过该条数据
                 if(ad.opted)
                     continue;
 
-                String address = ad.ar;                                                                                 //获得当前要检索的地址
-                String[] saddress = address.split("\\.");                                                              //将地址拆成两部分
-                String unit = saddress[0];                                                                              //第一部分通道地址
-                int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分位
-
-                byte v = hm_unit.get(unit)[bit];
                 if(v==ad.val){
                     U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, ad.androidpncmd));
                     ad.opted = true;
                 }
 
-                //------------------------临时增加处理敲鼓状态代码--------------------
-                if(address.equals(0.11)){
-                    //当值为0时为未准备好状态
-                    if(ad.val==0){
-                        ResponseAddressData.allState.put("dumpIsReady",false);
-                    }
-                    //当值为1时为准备好状态
-                    else if(ad.val==1){
-                        ResponseAddressData.allState.put("dumpIsReady",true);
-                    }
-                }
-                //------------------------临时增加处理敲鼓状态代码--------------------
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception e) {
