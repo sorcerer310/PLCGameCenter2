@@ -1,11 +1,4 @@
 {
-  "receivedata": {
-    "1": "vpath:v001",
-    "2": "vpath:v002",
-    "3": "vpath:v003",
-    "4": "vpath:v004",
-    "5": "vpath:v005"
-  },
   "writedata":{
     "maps":[
       {"plcsend":"@00FA 0 00 00 00 00 0101 B0 006600 0006fcs","area":"O",
