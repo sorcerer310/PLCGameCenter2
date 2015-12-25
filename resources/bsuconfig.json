@@ -1,32 +1,143 @@
 {
-  "writedata":{
-    "maps":[
-      {"plcsend":"@00FA 0 00 00 00 00 0101 B0 006600 0006fcs","area":"O",
-        "startunit":"102",
-        "address":[{"ar":"103.01","val":1,"androidpncmd":"map:1","memo":"星盘成功第一房间门开"},{"ar":"102.00","val":0,"androidpncmd":"map:2","memo":"乌龟电磁锁断开"},
-          {"ar":"103.03","val":1,"androidpncmd":"map:3","memo":"地图旗插好推拉杆门开"},{"ar":"105.00","val":0,"androidpncmd":"map:4","memo":"军令牌插好"},
-          {"ar":"102.01","val":0,"androidpncmd":"map:5","memo":"通道第一个门电磁锁开"},{"ar":"105.01","val":1,"androidpncmd":"map:6","memo":"通道人体感应触发"},
-          {"ar":"102.07","val":1,"androidpncmd":"map:7","memo":"第4个脚踏灯亮"},{"ar":"105.03","val":1,"androidpncmd":"map:8","memo":"铁锁连环接通"},
-          {"ar":"102.03","val":0,"androidpncmd":"map:9","memo":"船舱门关"},{"ar":"104.03","val":0,"androidpncmd":"map:12","memo":"宝剑咒语箱开"},
-          {"ar":"106.06","val":1,"androidpncmd":"map:13","memo":"借东风完成"},{"ar":"103.06","val":1,"androidpncmd":"followup","memo":"切换到选择道路界面"}],
-        "memo":"从102.00开始读6个通道的值"
+  "monitordata": {
+    "areas": [
+      {
+        "fins": "@00FA 0 00 00 00 00 0101 B0 006600 0006fcs",
+        "area": "O",
+        "startunit": "102",
+        "memo": "从102.00开始读O区6个通道的值",
+        "address": [{"ar": "103.01","expectedval": 1,"androidpncmd": "map:1","memo": "星盘成功第一房间门开"},
+          {
+            "ar": "102.00",
+            "expectedval": 0,
+            "androidpncmd": "map:2",
+            "memo": "乌龟电磁锁断开"
+          },
+          {
+            "ar": "103.03",
+            "expectedval": 1,
+            "androidpncmd": "map:3",
+            "memo": "地图旗插好推拉杆门开"
+          },
+          {
+            "ar": "105.00",
+            "expectedval": 0,
+            "androidpncmd": "map:4",
+            "memo": "军令牌插好"
+          },
+          {
+            "ar": "102.01",
+            "expectedval": 0,
+            "androidpncmd": "map:5",
+            "memo": "通道第一个门电磁锁开"
+          },
+          {
+            "ar": "105.01",
+            "expectedval": 1,
+            "androidpncmd": "map:6",
+            "memo": "通道人体感应触发"
+          },
+          {
+            "ar": "102.07",
+            "expectedval": 1,
+            "androidpncmd": "map:7",
+            "memo": "第4个脚踏灯亮"
+          },
+          {
+            "ar": "105.03",
+            "expectedval": 1,
+            "androidpncmd": "map:8",
+            "memo": "铁锁连环接通"
+          },
+          {
+            "ar": "102.03",
+            "expectedval": 0,
+            "androidpncmd": "map:9",
+            "memo": "船舱门关"
+          },
+          {
+            "ar": "104.03",
+            "expectedval": 0,
+            "androidpncmd": "map:12",
+            "memo": "宝剑咒语箱开"
+          },
+          {
+            "ar": "106.06",
+            "expectedval": 1,
+            "androidpncmd": "map:13",
+            "memo": "借东风完成"
+          },
+          {
+            "ar": "103.06",
+            "expectedval": 1,
+            "androidpncmd": "followup",
+            "memo": "切换到选择道路界面"
+          }
+        ]
       },
-
-      {"plcsend":"@00FA 0 00 00 00 00 0101 B0 000000 0001fcs","area":"I",
-        "startunit":"0",
-        "address":[{"ar":"0.11","val":0,"androidpncmd":"map:11","memo":"敲鼓完成"}],
-        "memo":"从0.00开始读1个通道的值"
+      {
+        "fins": "@00FA 0 00 00 00 00 0101 B0 000000 0001fcs",
+        "area": "I",
+        "startunit": "0",
+        "memo": "从0.00开始读I区1个通道的值",
+        "address": [
+          {
+            "ar": "0.11",
+            "expectedval": 0,
+            "androidpncmd": "map:11",
+            "memo": "敲鼓完成"
+          }
+        ]
       },
-
-      {"plcsend":"@00FA 0 00 00 00 00 0101 B1 000200 0009fcs","area":"W",
-        "startunit":"2",
-        "address":[{"ar":"2.04","val":1,"androidpncmd":"map:14","memo":"博望坡点火完成"},{"ar":"2.05","val":1,"androidpncmd":"map:15","memo":"大道门开"},
-          {"ar":"2.06","val":1,"androidpncmd":"map:16","memo":"华容道门开"},{"ar":"10.03","val":1,"androidpncmd":"map:10","memo":"草船借箭完成"},
-          {"ar":"10.04","val":1,"androidpncmd":"fire:0","memo":"切换到博望坡点火界面","msg":"请将军速速前往博望坡放火"},
-          {"ar":"10.05","val":1,"androidpncmd":"fire:1","memo":"切换到铁索连环点火界面","msg":"请将军速点燃战船"}],
-        "memo":"从W2.00开始读9个通道的值"
+      {
+        "fins": "@00FA 0 00 00 00 00 0101 B1 000200 0009fcs",
+        "area": "W",
+        "startunit": "2",
+        "memo": "从W2.00开始读W区9个通道的值",
+        "address": [
+          {
+            "ar": "2.04",
+            "expectedval": 1,
+            "androidpncmd": "map:14",
+            "memo": "博望坡点火完成"
+          },
+          {
+            "ar": "2.05",
+            "expectedval": 1,
+            "androidpncmd": "map:15",
+            "memo": "大道门开"
+          },
+          {
+            "ar": "2.06",
+            "expectedval": 1,
+            "androidpncmd": "map:16",
+            "memo": "华容道门开"
+          },
+          {
+            "ar": "10.03",
+            "expectedval": 1,
+            "androidpncmd": "map:10",
+            "memo": "草船借箭完成"
+          },
+          {
+            "ar": "10.04",
+            "expectedval": 1,
+            "androidpncmd": "fire:0",
+            "memo": "切换到博望坡点火界面",
+            "msg": "请将军速速前往博望坡放火"
+          },
+          {
+            "ar": "10.05",
+            "expectedval": 1,
+            "androidpncmd": "fire:1",
+            "memo": "切换到铁索连环点火界面",
+            "msg": "请将军速点燃战船"
+          }
+        ]
       }
-    ],
+    ]
+  },
+  "sendcommand":{
     "stars": {
       "S0": "@00FA 0 00 00 00 00 0102 31 000000 0001 01fcs",
       "S1": "@00FA 0 00 00 00 00 0102 31 000001 0001 01fcs",

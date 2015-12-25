@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bsu.business.Map;
+import com.bsu.business.PLCMonitor;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.system.tool.JSONBSUConfig;
 import org.json.JSONException;
@@ -22,7 +22,7 @@ public class PLC_InitSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommPortInstance cpi = null;
-	public Map map;
+	public PLCMonitor map;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -51,7 +51,7 @@ public class PLC_InitSerial extends HttpServlet {
 			config.getServletContext().log("======================PLC_InitSerial comm port init success");
 			//如果初始化成功,可执行一些循环执行的业务代码。例如地图查询业务代码.
 //			Map map = new Map();
-			map = new Map();
+			map = new PLCMonitor();
 		}
 	}
 

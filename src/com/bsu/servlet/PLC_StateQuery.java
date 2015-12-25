@@ -1,6 +1,6 @@
 package com.bsu.servlet;
 
-import com.bsu.business.ResponseAddressData;
+import com.bsu.business.PLCRealTimeMonitorData;
 import com.bsu.system.tool.U;
 
 import javax.servlet.ServletException;
@@ -16,10 +16,10 @@ import java.io.IOException;
 @WebServlet(name = "plc_statequery")
 public class PLC_StateQuery extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //访问状态数据:http://192.168.199.202:8080/pgc2/plc_state_query?point=dumpIsReady
+        //访问状态数据:http://192.168.199.202:8080/pgc2/plc_state_query?point=0.11
         String point = U.getRS(request,"point");                         //查看鼓的状态
         String retval = null;
-        retval=(ResponseAddressData.allState.get(point)==null)?"null":ResponseAddressData.allState.get(point).toString();
+        retval=(PLCRealTimeMonitorData.getInstance().getVal(point)==null)?"null": PLCRealTimeMonitorData.getInstance().getVal(point).toString();
         U.p(response, retval);
     }
 

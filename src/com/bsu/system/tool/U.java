@@ -423,16 +423,18 @@ public class U {
 	}
 
 	/**
+	 * 向plc发送cmd指令查询plc中各点的状态,
+	 * 指令中0101为内存区读区,B0为读取I/O区以Word类型返回数据,B1为读取W区以Word类型返回数据
 	 * 截取PLC返回的内存数据,去掉头部设置数据与尾部验证码
 	 * @param start	开始通道的位置
-	 * @param data		收到的数据
-	 * @return
+	 * @param cmd		当前区的查询指令
+	 * @return			返回key为plc的通道值,value为
 	 */
-	public static HashMap<String,byte[]> subPLCResponseData(String start,String data){
-//        "@00FA 00 40 00 00 00 0101 0000 1234 47*"
-		data = data.replace(" ","");
-		String sdata = data.substring(23,data.length()-3);																//获得要分析的数据
-		int wordCount = sdata.length()/4;																				//以4位数字为一个字来计算有多少个字.
+	public static HashMap<String,byte[]> parsePLCResponseData(String start, String cmd){
+//		@00FA 00 00 00 00 0 0101 B0 006600 0006 03*
+		cmd = cmd.replace(" ","");
+		String sdata = cmd.substring(23,cmd.length()-3);																//获得要分析的数据
+		int wordCount = sdata.length()/4;																				//以4位数字2个字节为一个word来计算有多少个word
 		HashMap<String,byte[]> hm_bit = new HashMap<String,byte[]>();													//以plc通道为key,保存每个通道的16位2进制数据
 		for(int i=0;i<wordCount;i++)
 			hm_bit.put(String.valueOf(Integer.valueOf(start)+i),word2Bytes(sdata.substring(i*4,i*4+4)));
@@ -522,7 +524,7 @@ public class U {
 
 
 	public static void main(String[] args){
-		HashMap<String,byte[]> hm = subPLCResponseData("102","@00FA004000000001010000003B0001000800000008000033*");
+		HashMap<String,byte[]> hm = parsePLCResponseData("102", "@00FA004000000001010000003B0001000800000008000033*");
 		System.out.println(hm);
 	}
 
