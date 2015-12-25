@@ -385,7 +385,7 @@ public class U {
 	public static String setParams(String user,String title,String msg,String uri){
 		uri = (uri==null)?"":uri;								//如果uri为null设置uri为空字符串
 		StringBuffer sb = new StringBuffer();
-		sb.append("action=send&broadcast=N&username=").append(user)
+		sb.append("action=send&broadcast=Y&username=").append(user)
 				.append("&title=").append(title)
 				.append("&message=").append(msg)
 				.append("&uri=").append(uri);
