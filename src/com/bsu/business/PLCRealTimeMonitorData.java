@@ -19,22 +19,14 @@ public class PLCRealTimeMonitorData {
             instance = new PLCRealTimeMonitorData();
         return instance;
     }
+
+    /**
+     * 初始化函数,根据配置文件中的数据,获得要监测的数据
+     */
     private PLCRealTimeMonitorData(){
         //初始化所有地图配置数据的实时值
-        JSONBSUConfig config = null;
         try {
-            config = JSONBSUConfig.getInstance();
-            JSONArray ja_areas = config.getWriteMonitorData();
-            for(int i=0;i<ja_areas.length();i++){
-                JSONObject jo_area = ja_areas.getJSONObject(i);
-                JSONArray ja_address = jo_area.getJSONArray("address");
-                for(int j=0;j<ja_address.length();j++){
-                    JSONObject jo_ar = ja_address.getJSONObject(j);
-                    //当前地址通道值为0时保存为true,为1时保存为false
-                    //此处取反值是因为配置文件中保存的值为androidpn服务器发送消息的目标值
-                    allStateData.put(jo_ar.getString("ar"),jo_ar.getInt("expectedval")==0?true:false);
-                }
-            }
+            allStateData = JSONBSUConfig.getInstance().makePLCRealTimeMonitorData();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

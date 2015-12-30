@@ -89,6 +89,26 @@ public class JSONBSUConfig {
     }
 
     /**
+     * 根据配置文件创建需要实时监测的PLC状态数据
+     * @return  将所有区的要监视PLC状态点都集合到一个hashmap对象中
+     */
+    public HashMap<String,Boolean> makePLCRealTimeMonitorData() throws JSONException {
+        HashMap<String,Boolean> rethm = new HashMap<String,Boolean>();
+        JSONArray ja_areas = getWriteMonitorData();
+        for(int i=0;i<ja_areas.length();i++){
+            JSONObject jo_area = ja_areas.getJSONObject(i);
+            JSONArray ja_address = jo_area.getJSONArray("address");
+            for(int j=0;j<ja_address.length();j++){
+                JSONObject jo_ar = ja_address.getJSONObject(j);
+                //当前地址通道值为0时保存为true,为1时保存为false
+                //此处取反值是因为配置文件中保存的值为androidpn服务器发送消息的目标值
+                rethm.put(jo_ar.getString("ar"),jo_ar.getInt("expectedval")==0?true:false);
+            }
+        }
+        return rethm;
+    }
+
+    /**
      * 将JSONObject数据转换为HashMap容器数据
      * @param jo    带入的json数据
      */
@@ -103,6 +123,7 @@ public class JSONBSUConfig {
         }
         return hm;
     }
+
 
     public String getAndroidpnUrl(){return androidpnUrl;}
     public String getAndroidpnUser(){return androidpnUser;}
