@@ -68,7 +68,7 @@ public class CommPortInstance {
 								Iterator<CommPortReceiveListener> it = listeners.iterator();
 								while(it.hasNext())
 									it.next().receive(new CommMessage(new String(command),extData,currTimestamp));
-								System.out.println("===================ReceiveData:"+new String(command));
+//								System.out.println("===================ReceiveData:"+new String(command));
 								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
 							}
 						});
@@ -107,39 +107,10 @@ public class CommPortInstance {
 								extData = msg.extdata;
 //								cmd = "@00TS==HelloPLC5A*";
 								swriter.writeCommand(cmd.getBytes());
-								System.out.println("===================cmd send:  " + cmd);
+//								System.out.println("===================cmd send:  " + cmd);
 								switchState = MSGSTATE.RECEIVE;                                                      //发送完消息后,将状态切换为接收,保证上一条数据能正确执行接收操作.
 							}
 						}
-//						}else{
-//							ex_rs232++;
-////							System.out.println("ex_rs232 count:" + ex_rs232);
-//						}
-//
-//						if(ex_rs232>=5&&ex_rs232<6){
-//////							CommPortInstance.getInstance().closeSerialPort();
-//////							CommPortInstance.getInstance().initCommPort();
-//
-//							serialPort.removeEventListener();
-//							sreader.close();
-//							sreader = new SerialReader(serialPort);                                                        //生成串口读取对象
-//
-//							//监听SerialReader的接收数据,当收到数据时马上发送给所有的监听器
-//							sreader.setSerialReaderListener(new SerialReader.SerialReaderListener() {
-//								@Override
-//								public void readCommpleted(byte[] command) {
-//									Iterator<CommPortReceiveListener> it = listeners.iterator();
-//									while(it.hasNext())
-//										it.next().receive(new CommMessage(new String(command),extData,currTimestamp));
-//									System.out.println("===================ReceiveData:"+new String(command));
-//								switchState = MSGSTATE.SEND;															//接收操作完成后,切换为发送状态,以进行下一条数据的发送
-//								}
-//							});
-//ng
-//							System.out.println("}}}}}}}}}}}}}}}}}}}}}}}}}}read comm is restart");
-//							switchState=MSGSTATE.SEND;
-//							ex_rs232 = 999;
-//						}
 
 						Thread.currentThread().sleep(300);																//每300毫秒检查一次队列中是否有消息
 					}catch (IOException | InterruptedException e){

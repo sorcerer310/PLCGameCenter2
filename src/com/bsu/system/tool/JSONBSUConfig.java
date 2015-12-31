@@ -1,5 +1,7 @@
 package com.bsu.system.tool;
 
+import com.bsu.business.data.AddressData;
+import com.bsu.business.data.MonitorData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,10 +91,32 @@ public class JSONBSUConfig {
     }
 
     /**
-     * 根据配置文件创建需要实时监测的PLC状态数据
+     * 将所有的监视数据转为按地址区分的数据结构
      * @return  将所有区的要监视PLC状态点都集合到一个hashmap对象中
      */
-    public HashMap<String,Boolean> makePLCRealTimeMonitorData() throws JSONException {
+    public HashMap<String,AddressData> makeAllMotionData() throws JSONException {
+        HashMap<String,AddressData> rethm = new HashMap<String,AddressData>();
+        JSONArray ja_areas = getWriteMonitorData();
+        for(int i=0;i<ja_areas.length();i++){
+            JSONObject jo_area = ja_areas.getJSONObject(i);
+            JSONArray ja_address = jo_area.getJSONArray("address");
+            for(int j=0;j<ja_address.length();j++){
+                JSONObject jo_ar = ja_address.getJSONObject(j);
+                AddressData ad = new AddressData(jo_ar.getString("ar"),jo_ar.getInt("expectedval")
+                        ,jo_ar.getString("androidpncmd"),jo_ar.isNull("msg")==false?jo_ar.getString("msg"):"");
+                //当前地址通道值为0时保存为true,为1时保存为false
+                rethm.put(jo_ar.getString("ar"),ad);
+            }
+        }
+        return rethm;
+    }
+
+    /**
+     * 返回所有地址的监视数据,数据以bool型保存,
+     * @return
+     * @throws JSONException
+     */
+    public HashMap<String,Boolean> makeAllMotionBooleanData() throws JSONException{
         HashMap<String,Boolean> rethm = new HashMap<String,Boolean>();
         JSONArray ja_areas = getWriteMonitorData();
         for(int i=0;i<ja_areas.length();i++){
@@ -101,11 +125,40 @@ public class JSONBSUConfig {
             for(int j=0;j<ja_address.length();j++){
                 JSONObject jo_ar = ja_address.getJSONObject(j);
                 //当前地址通道值为0时保存为true,为1时保存为false
-                //此处取反值是因为配置文件中保存的值为androidpn服务器发送消息的目标值
-                rethm.put(jo_ar.getString("ar"),jo_ar.getInt("expectedval")==0?true:false);
+                rethm.put(jo_ar.getString("ar"),jo_ar.getInt("expectedval")==1?true:false);
             }
         }
         return rethm;
+    }
+
+    /**
+     * 将所有的监视数据转为按内存区区分的数据结构
+     * @param jsondata
+     * @return
+     * @throws JSONException
+     */
+    public HashMap<String,MonitorData> makeMapDatas(JSONArray jsondata) throws JSONException {
+        HashMap<String,MonitorData> hm = new HashMap<String,MonitorData>();
+        for(int i=0;i<jsondata.length();i++){
+            MonitorData md = new MonitorData();
+            JSONObject jo = ((JSONObject)jsondata.get(i));
+            md.fins = jo.getString("fins");                                                                            //发送的fins指令
+            md.area = jo.getString("area");                                                                            //查询的区域
+            md.startunit = jo.getString("startunit");                                                                //从该区域的当前地址开始查询
+
+            //处理地址数据
+            JSONArray ja_ad = jo.getJSONArray("address");                                                              //所有要检索的地址
+            for(int j=0;j<ja_ad.length();j++) {
+                JSONObject jo_ad = ((JSONObject) ja_ad.get(j));
+                //如果msg不为空带入msg数据
+                String msg = "";
+                if(!jo_ad.isNull("msg"))
+                    msg = jo_ad.getString("msg");
+                md.addressdatas.add(new AddressData(jo_ad.getString("ar"), jo_ad.getInt("expectedval"), jo_ad.getString("androidpncmd"), msg));
+            }
+            hm.put(jo.getString("area"),md);                                                                           //数据按区保存不同区查询plc状态的指令
+        }
+        return hm;
     }
 
     /**

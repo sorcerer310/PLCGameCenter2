@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bsu.business.AndroidpnMonitor;
 import com.bsu.business.PLCMonitor;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.system.tool.JSONBSUConfig;
@@ -22,7 +23,8 @@ public class PLC_InitSerial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	private CommPortInstance cpi = null;
-	public PLCMonitor map;
+	public PLCMonitor monitor;
+	private AndroidpnMonitor apnmonitor;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -50,8 +52,9 @@ public class PLC_InitSerial extends HttpServlet {
 		}else{
 			config.getServletContext().log("======================PLC_InitSerial comm port init success");
 			//如果初始化成功,可执行一些循环执行的业务代码。例如地图查询业务代码.
-//			Map map = new Map();
-			map = new PLCMonitor();
+			monitor = new PLCMonitor();
+			apnmonitor = new AndroidpnMonitor();
+			apnmonitor.startAndroidpnMonitor();;
 		}
 	}
 
@@ -61,9 +64,9 @@ public class PLC_InitSerial extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			map.resetMapFlags();
-			response.getWriter().print("map init success");
-			System.out.println("map init success");
+			apnmonitor.resetAndroidpnMonitorFlags();
+			response.getWriter().print("monitor init success");
+			System.out.println("monitor init success");
 		}catch (Exception e){
 			response.getWriter().print("map init failed:"+e.getMessage());
 		}

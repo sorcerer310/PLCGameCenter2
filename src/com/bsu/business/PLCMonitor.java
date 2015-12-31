@@ -1,12 +1,14 @@
 package com.bsu.business;
 
+import com.bsu.business.data.AddressData;
+import com.bsu.business.data.MonitorData;
+import com.bsu.business.data.PLCRealTimeMonitorData;
 import com.bsu.commport.CommMessage;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.system.tool.JSONBSUConfig;
 import com.bsu.system.tool.U;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
@@ -24,7 +26,7 @@ public class PLCMonitor {
             //初始化获得各种配置数据,monitordata监视数据,sendcommand发送命令,androidpn配置数据,commport串口配置数据
             jbc = JSONBSUConfig.getInstance();
             JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMonitorData();
-            hm_monitordata = makeMapDatas(ja_map);
+            hm_monitordata = jbc.makeMapDatas(ja_map);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -35,50 +37,7 @@ public class PLCMonitor {
         receiveData();                                                                                                  //接收数据
     }
 
-    /**
-     * 创建监视数据
-     * @param jsondata  获得地图的json数据
-     * @return           返回对应的MapData
-     * @throws JSONException
-     */
-    private HashMap<String,MonitorData> makeMapDatas(JSONArray jsondata) throws JSONException {
-        HashMap<String,MonitorData> hm = new HashMap<String,MonitorData>();
-        for(int i=0;i<jsondata.length();i++){
-            MonitorData md = new MonitorData();
-            JSONObject jo = ((JSONObject)jsondata.get(i));
-            md.fins = jo.getString("fins");                                                                            //发送的fins指令
-            md.area = jo.getString("area");                                                                            //查询的区域
-            md.startunit = jo.getString("startunit");                                                                //从该区域的当前地址开始查询
 
-            //处理地址数据
-            JSONArray ja_ad = jo.getJSONArray("address");                                                              //所有要检索的地址
-            for(int j=0;j<ja_ad.length();j++) {
-                JSONObject jo_ad = ((JSONObject) ja_ad.get(j));
-                //如果msg不为空带入msg数据
-                String msg = "";
-                if(!jo_ad.isNull("msg"))
-                    msg = jo_ad.getString("msg");
-                md.addressdatas.add(new AddressData(jo_ad.getString("ar"), jo_ad.getInt("expectedval"), jo_ad.getString("androidpncmd"), msg));
-            }
-            hm.put(jo.getString("area"),md);                                                                           //数据按区保存不同区查询plc状态的指令
-        }
-        return hm;
-    }
-
-    /**
-     * 重设所有的地图标记,用于复原机关
-     */
-    public void resetMapFlags(){
-        try {
-            jbc = JSONBSUConfig.getInstance();
-            JSONArray ja_map = JSONBSUConfig.getInstance().getWriteMonitorData();
-            hm_monitordata = makeMapDatas(ja_map);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private boolean putflag = true;
     /**
@@ -167,7 +126,7 @@ public class PLCMonitor {
         HashMap<String,byte[]> hm_unit = U.parsePLCResponseData(md.startunit, cmd);                                   //解析PLC返回监控查询的数据
         ArrayList<AddressData> al_ad = md.addressdatas;                                                               //所有要监控的地址通道值
         for(int i=0;i<al_ad.size();i++){
-            try {
+//            try {
                 AddressData ad =  al_ad.get(i);                                                                         //处理一条通道值
                 String address = ad.ar;                                                                                 //获得当前要检索的地址.通道。例如0.11
                 String[] saddress = address.split("\\.");                                                              //拆成两部分,前半部分为地址,后半部分为通道
@@ -176,48 +135,20 @@ public class PLCMonitor {
                 byte v = hm_unit.get(unit)[bit];                                                                        //该地址通道的值   通常为1或0，表示接通或未接通
                 PLCRealTimeMonitorData.getInstance().setVal(address,v);                                                 //保存当前地址的值
 
-                //如果当前数据已经处理过了则跳过该条数据
-                if(ad.opted)
-                    continue;
-                //否则如果当前的值达到了配置文件中的期望值,命令androidpn服务器向手机发送命令
-                if(v==ad.expectedval){
-                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, ad.androidpncmd));
-                    ad.opted = true;
-                }
+//                //如果当前数据已经处理过了则跳过该条数据
+//                if(ad.opted)
+//                    continue;
+//                //否则如果当前的值达到了配置文件中的期望值,命令androidpn服务器向手机发送命令
+//                if(v==ad.expectedval){
+//                    U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, ad.androidpncmd));
+//                    ad.opted = true;
+//                }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
-     * 要发送的地图的查询数据,包括发送命令,那个区的数据,和注释
-     */
-    class MonitorData {
-        public String fins = "";                                                                                      //向plc发送的数据
-        public String startunit = "";                                                                                //从哪个通道开始读取数据
-        public String area = "";                                                                                      //查询的plc的区
-        public ArrayList<AddressData> addressdatas = new ArrayList<AddressData>();                                   //每个区要检索的数据
-    }
-
-    /**
-     * 要判断的地址数据
-     */
-    class AddressData{
-        public String ar = "";
-        public int expectedval = -1;
-        public String androidpncmd = "";
-        public String msg = "";                                                                                       //要发送的消息
-        public boolean opted = false;                                                                               //是否已处理过该数据
-        public AddressData(String par,int pval,String apc,String pmsg){
-            ar = par;
-            expectedval = pval;
-            androidpncmd = apc;
-            msg = pmsg;
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
     }
 }

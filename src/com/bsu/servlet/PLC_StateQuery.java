@@ -1,6 +1,6 @@
 package com.bsu.servlet;
 
-import com.bsu.business.PLCRealTimeMonitorData;
+import com.bsu.business.data.PLCRealTimeMonitorData;
 import com.bsu.system.tool.U;
 
 import javax.servlet.ServletException;
