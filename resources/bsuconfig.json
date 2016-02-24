@@ -23,7 +23,7 @@
         "address": [
           {
             "ar": "0.09",
-            "expectedval": 0,
+            "expectedval": 1,
             "androidpncmd": "vpath:v003",
             "memo": "敲门完成"
           },
@@ -43,13 +43,13 @@
         "address": [
           {
             "ar": "50.00",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "vpath:v001",
             "memo": "躺床发送视频"
           },
           {
             "ar": "51.00",
-            "expectedval": 0,
+            "expectedval": 1,
             "androidpncmd": "vpath:v002",
             "memo": "床抽屉打开发送视频"
           }
@@ -59,7 +59,7 @@
   },
   "sendcommand":{
     "gameover":{
-      "success":"@00FA 0 00 00 00 00 0102 31 000300 00001 01fcs"
+      "success":"@00FA 0 00 00 00 00 0102 31 000300 0001 01fcs"
     }
   },
   "androidpn":{
