@@ -52,7 +52,7 @@
   },
   "sendcommand":{
     "gameover":{
-      "success:":"@00FA 0 00 00 00 00 0102 31 000300 00001 01fcs",
+      "success":"@00FA 0 00 00 00 00 0102 31 000300 00001 01fcs"
     }
   },
   "androidpn":{
