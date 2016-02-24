@@ -133,7 +133,7 @@ public class PLCMonitor {
                 String unit = saddress[0];                                                                              //第一部分地址      0
                 int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分通道位   11
                 byte v = hm_unit.get(unit)[bit];                                                                        //该地址通道的值   通常为1或0，表示接通或未接通
-                PLCRealTimeMonitorData.getInstance().setVal(address,v);                                                 //保存当前地址的值
+                PLCRealTimeMonitorData.getInstance().setVal(memoryArea.toUpperCase()+address,v);                        //保存当前地址的值，将区与地址还有值一起保存 "W50.00",true
 
 //                //如果当前数据已经处理过了则跳过该条数据
 //                if(ad.opted)

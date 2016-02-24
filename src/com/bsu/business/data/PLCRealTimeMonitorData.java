@@ -32,8 +32,8 @@ public class PLCRealTimeMonitorData {
             e.printStackTrace();
         }
     }
-    public HashMap<String,Boolean> allStateData = new HashMap<String,Boolean>();                             //保存所有配置文件中地址通道的实时监控值
-    private ArrayList<OnMonitorDataChangeListener> listeners = new ArrayList<OnMonitorDataChangeListener>();         //保存所有监听器
+    public HashMap<String,Boolean> allStateData = new HashMap<String,Boolean>();                                    //保存所有配置文件中地址通道的实时监控值
+    private ArrayList<OnMonitorDataChangeListener> listeners = new ArrayList<OnMonitorDataChangeListener>();                                  //保存所有监听器
 
     /**
      * 设置当前地址的值
@@ -46,7 +46,7 @@ public class PLCRealTimeMonitorData {
 
     /**
      * 以byte类型参数来保存值,当参数为0时保存为false,参数为1时保存为true
-     * @param address   要设置的地址
+     * @param address   要设置的区和地址，形式为"W50.00"
      * @param b          设置的值
      */
     public void setVal(String address,byte b){
@@ -65,7 +65,8 @@ public class PLCRealTimeMonitorData {
      * @param address   要获得值的地址
      */
     public Boolean getVal(String address){
-        return allStateData.get(address);
+        String paddress = address.toUpperCase();                                                                        //如果区域字母为小写转为大写
+        return allStateData.get(paddress);
     }
 
     /**
