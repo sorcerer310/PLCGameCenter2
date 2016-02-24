@@ -13,3 +13,7 @@ Cache-Control: no-cache
 Cookie: JSESSIONID=50BCBA22A76FB2D21508174D5CBE2A08
 
 broadcast=N&username=32f902816e1c4bd5b174c81e2ce233b3&title=title&message=context&uri=
+
+plc_send_serial有两种请求形式
+1：/plc_send_serial?plccmd=BFIRE     从bsuconfig.json中解析plccmd的命令
+2：/plc_send_serial?type=click&area=w&address1=000500&val1=01&readOrWrite=write  直接把操作的区域、地址、值发送给PLC
