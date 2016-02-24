@@ -127,13 +127,13 @@ public class PLCMonitor {
         ArrayList<AddressData> al_ad = md.addressdatas;                                                               //所有要监控的地址通道值
         for(int i=0;i<al_ad.size();i++){
 //            try {
-                AddressData ad =  al_ad.get(i);                                                                         //处理一条通道值
-                String address = ad.ar;                                                                                 //获得当前要检索的地址.通道。例如0.11
-                String[] saddress = address.split("\\.");                                                              //拆成两部分,前半部分为地址,后半部分为通道
-                String unit = saddress[0];                                                                              //第一部分地址      0
-                int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分通道位   11
-                byte v = hm_unit.get(unit)[bit];                                                                        //该地址通道的值   通常为1或0，表示接通或未接通
-                PLCRealTimeMonitorData.getInstance().setVal(address,v);                                                 //保存当前地址的值
+            AddressData ad =  al_ad.get(i);                                                                         //处理一条通道值
+            String address = ad.ar;                                                                                 //获得当前要检索的地址.通道。例如0.11
+            String[] saddress = address.split("\\.");                                                              //拆成两部分,前半部分为地址,后半部分为通道
+            String unit = saddress[0];                                                                              //第一部分地址      0
+            int bit = Integer.valueOf(saddress[1]);                                                                 //第二部分通道位   11
+            byte v = hm_unit.get(unit)[bit];                                                                        //该地址通道的值   通常为1或0，表示接通或未接通
+            PLCRealTimeMonitorData.getInstance().setVal(memoryArea.toUpperCase()+address,v);                        //保存当前地址的值，将区与地址还有值一起保存 "W50.00",true
 
 //                //如果当前数据已经处理过了则跳过该条数据
 //                if(ad.opted)
