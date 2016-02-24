@@ -2,192 +2,63 @@
   "monitordata": {
     "areas": [
       {
-        "fins": "@00FA 0 00 00 00 00 0101 B0 006600 0006fcs",
+        "fins": "@00FA 0 00 00 00 00 0101 B0 000000 0000fcs",
         "area": "O",
         "startunit": "102",
-        "memo": "从102.00开始读O区6个通道的值",
-        "address": [{"ar": "103.01","expectedval": 1,"androidpncmd": "map:1","memo": "星盘成功第一房间门开"},
-          {
-            "ar": "102.00",
-            "expectedval": 0,
-            "androidpncmd": "map:2",
-            "memo": "乌龟电磁锁断开"
-          },
-          {
-            "ar": "103.03",
-            "expectedval": 1,
-            "androidpncmd": "map:3",
-            "memo": "地图旗插好推拉杆门开"
-          },
-          {
-            "ar": "105.00",
-            "expectedval": 0,
-            "androidpncmd": "map:4",
-            "memo": "军令牌插好"
-          },
-          {
-            "ar": "102.01",
-            "expectedval": 0,
-            "androidpncmd": "map:5",
-            "memo": "通道第一个门电磁锁开"
-          },
-          {
-            "ar": "105.01",
-            "expectedval": 1,
-            "androidpncmd": "map:6",
-            "memo": "通道人体感应触发"
-          },
-          {
-            "ar": "102.07",
-            "expectedval": 1,
-            "androidpncmd": "map:7",
-            "memo": "第4个脚踏灯亮"
-          },
-          {
-            "ar": "105.03",
-            "expectedval": 1,
-            "androidpncmd": "map:8",
-            "memo": "铁锁连环接通"
-          },
-          {
-            "ar": "102.03",
-            "expectedval": 0,
-            "androidpncmd": "map:9",
-            "memo": "船舱门关"
-          },
-          {
-            "ar": "104.03",
-            "expectedval": 0,
-            "androidpncmd": "map:12",
-            "memo": "宝剑咒语箱开"
-          },
-          {
-            "ar": "106.06",
-            "expectedval": 1,
-            "androidpncmd": "map:13",
-            "memo": "借东风完成"
-          },
-          {
-            "ar": "103.06",
-            "expectedval": 1,
-            "androidpncmd": "followup",
-            "memo": "切换到选择道路界面"
-          }
-        ]
+        "memo": "从102.00开始读O区6个地址的值",
+        "address": []
       },
       {
         "fins": "@00FA 0 00 00 00 00 0101 B0 000000 0001fcs",
         "area": "I",
         "startunit": "0",
-        "memo": "从0.00开始读I区1个通道的值",
+        "memo": "从0.00开始读I区1个地址的值",
         "address": [
           {
-            "ar": "0.11",
+            "ar": "0.09",
             "expectedval": 0,
-            "androidpncmd": "map:11",
-            "memo": "敲鼓完成"
+            "androidpncmd": "vpath:v003",
+            "memo": "敲门完成"
+          },
+          {
+            "ar": "0.11",
+            "expectedval":1,
+            "androidpncmd": "vpath:v004",
+            "memo":"浇花完成"
           }
         ]
       },
       {
-        "fins": "@00FA 0 00 00 00 00 0101 B1 000200 0009fcs",
+        "fins": "@00FA 0 00 00 00 00 0101 B1 003200 0002fcs",
         "area": "W",
-        "startunit": "2",
-        "memo": "从W2.00开始读W区9个通道的值",
+        "startunit": "50",
+        "memo": "从W50.00开始读W区2个地址的值",
         "address": [
           {
-            "ar": "2.04",
+            "ar": "50.00",
             "expectedval": 1,
-            "androidpncmd": "map:14",
-            "memo": "博望坡点火完成"
+            "androidpncmd": "vpath:v001",
+            "memo": "躺床发送视频"
           },
           {
-            "ar": "2.05",
-            "expectedval": 1,
-            "androidpncmd": "map:15",
-            "memo": "大道门开"
-          },
-          {
-            "ar": "2.06",
-            "expectedval": 1,
-            "androidpncmd": "map:16",
-            "memo": "华容道门开"
-          },
-          {
-            "ar": "10.03",
-            "expectedval": 1,
-            "androidpncmd": "map:10",
-            "memo": "草船借箭完成"
-          },
-          {
-            "ar": "10.04",
-            "expectedval": 1,
-            "androidpncmd": "fire:0",
-            "memo": "切换到博望坡点火界面",
-            "msg": "请将军速速前往博望坡放火"
-          },
-          {
-            "ar": "10.05",
-            "expectedval": 1,
-            "androidpncmd": "fire:1",
-            "memo": "切换到铁索连环点火界面",
-            "msg": "请将军速点燃战船"
+            "ar": "51.00",
+            "expectedval": 0,
+            "androidpncmd": "vpath:v002",
+            "memo": "床抽屉打开发送视频"
           }
         ]
       }
     ]
   },
   "sendcommand":{
-    "stars": {
-      "S0": "@00FA 0 00 00 00 00 0102 31 000000 0001 01fcs",
-      "S1": "@00FA 0 00 00 00 00 0102 31 000001 0001 01fcs",
-      "S2": "@00FA 0 00 00 00 00 0102 31 000002 0001 01fcs",
-      "S0-2":"@00FA 0 00 00 00 00 0102 31 000A00 0001 01fcs",
-      "NS0-2": "@00FA 0 00 00 00 00 0102 31 000200 0001 01fcs",
-      "S3": "@00FA 0 00 00 00 00 0102 31 000003 0001 01fcs",
-      "S4": "@00FA 0 00 00 00 00 0102 31 000004 0001 01fcs",
-      "S5": "@00FA 0 00 00 00 00 0102 31 000005 0001 01fcs",
-      "S6": "@00FA 0 00 00 00 00 0102 31 000006 0001 01fcs",
-      "S7": "@00FA 0 00 00 00 00 0102 31 000007 0001 01fcs",
-      "S8": "@00FA 0 00 00 00 00 0102 31 000008 0001 01fcs",
-      "S9": "@00FA 0 00 00 00 00 0102 31 000009 0001 01fcs",
-      "S10": "@00FA 0 00 00 00 00 0102 31 00000A 0001 01fcs",
-      "S3-10":"@00FA 0 00 00 00 00 0102 31 000A01 0001 01fcs",
-      "NS3-10": "@00FA 0 00 00 00 00 0102 31 000201 0001 01fcs",
-      "S11": "@00FA 0 00 00 00 00 0102 31 00000B 0001 01fcs",
-      "S12": "@00FA 0 00 00 00 00 0102 31 00000C 0001 01fcs",
-      "S13": "@00FA 0 00 00 00 00 0102 31 00000D 0001 01fcs",
-      "S14": "@00FA 0 00 00 00 00 0102 31 00000E 0001 01fcs",
-      "S15": "@00FA 0 00 00 00 00 0102 31 00000F 0001 01fcs",
-      "S16": "@00FA 0 00 00 00 00 0102 31 000100 0001 01fcs",
-      "S17": "@00FA 0 00 00 00 00 0102 31 000101 0001 01fcs",
-      "S18": "@00FA 0 00 00 00 00 0102 31 000102 0001 01fcs",
-      "S19": "@00FA 0 00 00 00 00 0102 31 000103 0001 01fcs",
-      "S20": "@00FA 0 00 00 00 00 0102 31 000104 0001 01fcs",
-      "S21": "@00FA 0 00 00 00 00 0102 31 000105 0001 01fcs",
-      "S11-21":"@00FA 0 00 00 00 00 0102 31 000A02 0001 01fcs",
-      "NS11-21": "@00FA 0 00 00 00 00 0102 31 000202 0001 01fcs"
-    },
-    "fires":{
-      "BFIRE":"@00FA 0 00 00 00 00 0102 31 000203 0001 01fcs",
-      "TFIRE":"@00FA 0 00 00 00 00 0102 31 000204 0001 01fcs"
-    },
-    "followup":{
-      "BIGROAD":"@00FA 0 00 00 00 00 0102 31 000205 0001 01fcs",
-      "HUARONG":"@00FA 0 00 00 00 00 0102 31 000206 0001 01fcs",
-      "HUARONGSUCCESS":"@00FA 0 00 00 00 00 0102 31 000207 0001 01fcs",
-      "HUARONGFAILED":"@00FA 0 00 00 00 00 0102 31 000208 0001 01fcs"
-
-    },
-    "console":{
-      "PLCTEST":"@00FA 0 00 00 00 00 0102 31 000000 0001 01fcs",
-      "PLCTEST2":"@00FA 0 00 00 00 00 0102 31 000200 0001 01fcs"
+    "gameover":{
+      "success:":"@00FA 0 00 00 00 00 0102 31 000300 00001 01fcs",
     }
   },
   "androidpn":{
     "androidpnUrl":"http://127.0.0.1:8080/pgc2/notification.do",
     "androidpnUser":"",
-    "title":"回到三国之前传",
+    "title":"凶宅",
     "msg":""
   },
   "commport":{
