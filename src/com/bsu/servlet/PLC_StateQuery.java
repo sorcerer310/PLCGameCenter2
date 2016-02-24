@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "plc_statequery")
 public class PLC_StateQuery extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //访问状态数据:http://192.168.199.202:8080/pgc2/plc_state_query?point=0.11
+        //访问状态数据:http://192.168.199.202:8080/pgc2/plc_state_query?point=i0.11
         String point = U.getRS(request,"point");                         //查看鼓的状态
         String retval = null;
         retval=(PLCRealTimeMonitorData.getInstance().getVal(point)==null)?"null": PLCRealTimeMonitorData.getInstance().getVal(point).toString();
