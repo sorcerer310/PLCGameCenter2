@@ -30,10 +30,6 @@ public class JSONBSUConfig {
 
 //    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
     private JSONArray writeMonitorData = new JSONArray();                                                              //plc新地图查询数据
-    private HashMap<String,String> writeStarData = new HashMap<String,String>();                                                //plc星星数据写入
-    private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                               //发送点火数据
-    private HashMap<String,String> writeFollowUpData = new HashMap<String,String>();                                             //发送追击数据
-    private HashMap<String,String> writeConsoleData = new HashMap<String,String>();                                 //控制台数据
     private HashMap<String,String> writeAllData = new HashMap<String,String>();                                     //所有的writeData结点中的数据
 
     public static JSONBSUConfig getInstance() throws IOException,JSONException{
@@ -54,22 +50,12 @@ public class JSONBSUConfig {
 
         jo_cfg = new JSONObject(sb.toString());
 
-        //转化星星写入数据
-        writeStarData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("stars"));
-        //转化点火写入数据
-        writeFiresData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("fires"));
-        //转化追击写入数据
-        writeFollowUpData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("followup"));
-        //转化控制台写入数据
-        writeConsoleData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("console"));
-
-        //把所有的主动发送检查的数据都装如writeAllData容器中
-
-        writeAllData.putAll(writeStarData);
-        writeAllData.putAll(writeFiresData);
-        writeAllData.putAll(writeFollowUpData);
-        writeAllData.putAll(writeConsoleData);
-
+        //便历sendcommand所有的发送命令的节点,并获得其中的JSONObject数据
+        Iterator<String> keys = jo_cfg.getJSONObject("sendcommand").keys();
+        while(keys.hasNext()){
+            String key = keys.next();
+            writeAllData.putAll(JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject(key)));
+        }
         //转化新地图写入数据
         writeMonitorData = jo_cfg.getJSONObject("monitordata").getJSONArray("areas") ;
 
@@ -184,10 +170,7 @@ public class JSONBSUConfig {
     public String getAndroidpnMsg(){return androidpnMsg;}
 
 //    public HashMap<String, String> getRecPlcData() {return recPlcData;}
-    public HashMap<String,String> getWriteStarData(){ return writeStarData;}
     public JSONArray getWriteMonitorData() {return writeMonitorData;}
-    public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
-    public HashMap<String, String> getWriteFollowUpData() {return writeFollowUpData;}
     public HashMap<String, String> getWriteAllData() {return writeAllData;}
 
     /**
