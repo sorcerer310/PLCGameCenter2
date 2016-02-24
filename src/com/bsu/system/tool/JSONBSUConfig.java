@@ -28,7 +28,7 @@ public class JSONBSUConfig {
     private int stopbits = 2;                                                                                        //停止位
     private int parity = 2;                                                                                          //奇偶校验,2为偶数
 
-//    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
+    //    private HashMap<String,String> recPlcData = new HashMap<String,String>();                                         //plc接收数据
     private JSONArray writeMonitorData = new JSONArray();                                                              //plc新地图查询数据
     private HashMap<String,String> writeAllData = new HashMap<String,String>();                                     //所有的writeData结点中的数据
 
@@ -58,7 +58,6 @@ public class JSONBSUConfig {
         }
         //转化新地图写入数据
         writeMonitorData = jo_cfg.getJSONObject("monitordata").getJSONArray("areas") ;
-
 
         //指定androidpn服务器的url和要发送的用户
         JSONObject jo_androidpn = jo_cfg.getJSONObject("androidpn");
@@ -91,7 +90,7 @@ public class JSONBSUConfig {
                 AddressData ad = new AddressData(jo_ar.getString("ar"),jo_ar.getInt("expectedval")
                         ,jo_ar.getString("androidpncmd"),jo_ar.isNull("msg")==false?jo_ar.getString("msg"):"");
                 //当前地址通道值为0时保存为true,为1时保存为false
-                rethm.put(jo_ar.getString("ar"),ad);
+                rethm.put(jo_area.getString("area").toUpperCase()+jo_ar.getString("ar"),ad);
             }
         }
         return rethm;
@@ -169,7 +168,6 @@ public class JSONBSUConfig {
     public String getAndroidpnTitle(){return androidpnTitle;}
     public String getAndroidpnMsg(){return androidpnMsg;}
 
-//    public HashMap<String, String> getRecPlcData() {return recPlcData;}
     public JSONArray getWriteMonitorData() {return writeMonitorData;}
     public HashMap<String, String> getWriteAllData() {return writeAllData;}
 
