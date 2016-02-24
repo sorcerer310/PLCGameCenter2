@@ -168,11 +168,7 @@ public class JSONBSUConfig {
     public String getAndroidpnTitle(){return androidpnTitle;}
     public String getAndroidpnMsg(){return androidpnMsg;}
 
-//    public HashMap<String, String> getRecPlcData() {return recPlcData;}
-//    public HashMap<String,String> getWriteStarData(){ return writeStarData;}
     public JSONArray getWriteMonitorData() {return writeMonitorData;}
-//    public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
-//    public HashMap<String, String> getWriteFollowUpData() {return writeFollowUpData;}
     public HashMap<String, String> getWriteAllData() {return writeAllData;}
 
     /**
