@@ -50,32 +50,14 @@ public class JSONBSUConfig {
 
         jo_cfg = new JSONObject(sb.toString());
 
-        //便历所有的节点,并获得其中的JSONObject数据
+        //便历sendcommand所有的发送命令的节点,并获得其中的JSONObject数据
         Iterator<String> keys = jo_cfg.getJSONObject("sendcommand").keys();
         while(keys.hasNext()){
             String key = keys.next();
             writeAllData.putAll(JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject(key)));
         }
-
-        //转化星星写入数据
-//        writeStarData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("stars"));
-//        //转化点火写入数据
-//        writeFiresData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("fires"));
-//        //转化追击写入数据
-//        writeFollowUpData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("followup"));
-//        //转化控制台写入数据
-//        writeConsoleData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("console"));
-
-        //把所有的主动发送检查的数据都装如writeAllData容器中
-
-//        writeAllData.putAll(writeStarData);
-//        writeAllData.putAll(writeFiresData);
-//        writeAllData.putAll(writeFollowUpData);
-//        writeAllData.putAll(writeConsoleData);
-
         //转化新地图写入数据
         writeMonitorData = jo_cfg.getJSONObject("monitordata").getJSONArray("areas") ;
-
 
         //指定androidpn服务器的url和要发送的用户
         JSONObject jo_androidpn = jo_cfg.getJSONObject("androidpn");
