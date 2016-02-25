@@ -23,7 +23,7 @@
         "address": [
           {
             "ar": "0.09",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "vpath:v003",
             "memo": "敲门完成"
           },
@@ -49,13 +49,14 @@
           },
           {
             "ar": "51.00",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "vpath:v002",
             "memo": "床抽屉打开发送视频"
           }
         ]
       }
-    ]
+
+     ]
   },
   "sendcommand":{
     "gameover":{
@@ -69,7 +70,7 @@
     "msg":""
   },
   "commport":{
-    "port":"COM3",
+    "port":"COM2",
     "baudrate":9600,
     "databits":7,
     "stopbits":2,
