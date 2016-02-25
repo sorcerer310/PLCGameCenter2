@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bsu.business.PLCMonitor;
+import com.bsu.business.data.PLCRealTimeMonitorData;
 import com.bsu.commport.CommMessage;
 import com.bsu.commport.CommPortInstance;
 import com.bsu.commport.SerialWriter;
@@ -73,15 +75,21 @@ public class PLC_SendSerial extends HttpServlet {
 		try{
 			if(plccommand!=null && !plccommand.equals("")) {
 				JSONBSUConfig cfg = JSONBSUConfig.getInstance();
-
 				//合并3部分向plc发送的数据
 				HashMap<String, String> writedata = cfg.getWriteAllData();                                                    //writedata节点中所有的数据
-
 				Iterator<String> it = writedata.keySet().iterator();
 				//如果有匹配配置文件里的内容则向PLC发送对应的c-mode命令或FINS命令
 				while (it.hasNext()) {
 					String key = it.next();
 					if (key.equals(plccommand)) {
+
+						//如果当前指令为success,判断O102.03的值为true不执行if下方的发送指令操作.继续执行while循环中的下一条内容
+						//只有当前指令为success,并且O102.03的值为false时才继续执行发送该指令数据
+						if(plccommand.equals("success") && PLCRealTimeMonitorData.getInstance().getVal("O102.03")==true){
+							continue;
+						}
+
+
 						String wdata = writedata.get(key).toString();
 						//如果字符串最后有fcs标,要将该标记替换成fcs校验码和结束符.
 //					if(wdata.substring(wdata.length()-3,wdata.length()).equals("fcs"))
