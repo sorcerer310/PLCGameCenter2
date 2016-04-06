@@ -32,7 +32,7 @@ public class JSONBSUConfig {
     private JSONArray writeMonitorData = new JSONArray();                                                              //plc新地图查询数据
     private HashMap<String,String> writeStarData = new HashMap<String,String>();                                                //plc星星数据写入
     private HashMap<String,String> writeFiresData = new HashMap<String,String>();                                               //发送点火数据
-    private HashMap<String,String> writeFollowUpData = new HashMap<String,String>();                                             //发送追击数据
+//    private HashMap<String,String> writeFollowUpData = new HashMap<String,String>();                                             //发送追击数据
     private HashMap<String,String> writeConsoleData = new HashMap<String,String>();                                 //控制台数据
     private HashMap<String,String> writeAllData = new HashMap<String,String>();                                     //所有的writeData结点中的数据
 
@@ -54,12 +54,12 @@ public class JSONBSUConfig {
 
         jo_cfg = new JSONObject(sb.toString());
 
-        //转化星星写入数据
-        writeStarData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("stars"));
-        //转化点火写入数据
-        writeFiresData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("fires"));
+        //转化锁链写入数据
+        writeStarData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("chain"));
+        //转化四象写入数据
+        writeFiresData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("sixiang"));
         //转化追击写入数据
-        writeFollowUpData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("followup"));
+//        writeFollowUpData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("followup"));
         //转化控制台写入数据
         writeConsoleData = JSONObject2HashMap(jo_cfg.getJSONObject("sendcommand").getJSONObject("console"));
 
@@ -67,7 +67,7 @@ public class JSONBSUConfig {
 
         writeAllData.putAll(writeStarData);
         writeAllData.putAll(writeFiresData);
-        writeAllData.putAll(writeFollowUpData);
+//        writeAllData.putAll(writeFollowUpData);
         writeAllData.putAll(writeConsoleData);
 
         //转化新地图写入数据
@@ -187,7 +187,7 @@ public class JSONBSUConfig {
     public HashMap<String,String> getWriteStarData(){ return writeStarData;}
     public JSONArray getWriteMonitorData() {return writeMonitorData;}
     public HashMap<String, String> getWriteFiresData() {return writeFiresData; }
-    public HashMap<String, String> getWriteFollowUpData() {return writeFollowUpData;}
+//    public HashMap<String, String> getWriteFollowUpData() {return writeFollowUpData;}
     public HashMap<String, String> getWriteAllData() {return writeAllData;}
 
     /**

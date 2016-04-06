@@ -13,3 +13,20 @@ Cache-Control: no-cache
 Cookie: JSESSIONID=50BCBA22A76FB2D21508174D5CBE2A08
 
 broadcast=N&username=32f902816e1c4bd5b174c81e2ce233b3&title=title&message=context&uri=
+
+
+
+POST /pgc2/notification.do?action=send HTTP/1.1
+Accept: text/html, application/xhtml+xml, */*
+Referer: http://localhost:8080/pgc2/notification.do
+Accept-Language: zh-CN
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+Host: localhost:8080
+Content-Length: 51
+Connection: Keep-Alive
+Cache-Control: no-cache
+Cookie: JSESSIONID=5B896BDAF9322901D53B4A1826A32B94
+
+broadcast=A&username=&title=&message=&uri=chain%3A0
