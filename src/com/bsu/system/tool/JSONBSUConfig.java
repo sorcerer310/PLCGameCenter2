@@ -93,7 +93,8 @@ public class JSONBSUConfig {
                 AddressData ad = new AddressData(jo_ar.getString("ar"),jo_ar.getInt("expectedval")
                         ,jo_ar.getString("androidpncmd"),jo_ar.isNull("msg")==false?jo_ar.getString("msg"):"");
                 //当前地址通道值为0时保存为true,为1时保存为false
-                rethm.put(jo_ar.getString("ar"),ad);
+                rethm.put(jo_area.getString("area").toUpperCase()+jo_ar.getString("ar"),ad);
+//                rethm.put(jo_ar.getString("ar"),ad);
             }
         }
         return rethm;
