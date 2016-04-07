@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * Created by fengchong on 2015/12/30.
  */
 public class MonitorData {
-    public String fins = "";                                                                                      //向plc发送的数据
-    public String startunit = "";                                                                                //从哪个通道开始读取数据
-    public String area = "";                                                                                      //查询的plc的区
-    public ArrayList<AddressData> addressdatas = new ArrayList<AddressData>();                                   //每个区要检索的数据
+    public String fins = "";                                                                                            //向plc发送的数据
+    public String startunit = "";                                                                                       //从哪个通道开始读取数据
+    public String area = "";                                                                                            //查询的plc的区
+    public ArrayList<AddressData> addressdatas = new ArrayList<AddressData>();                                                    //每个区要检索的数据
 }
