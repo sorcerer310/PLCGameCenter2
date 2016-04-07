@@ -79,6 +79,12 @@
             "androidpncmd": "map:14",
             "memo": "分贝仪3"
           },
+//          {
+//            "ar": "107.03",
+//            "expectedval": 1,
+//            "androidpncmd": "map:14",
+//            "memo": "分贝仪3"
+//          },
           {
             "ar": "103.06",
             "expectedval": 1,
@@ -162,11 +168,47 @@
             "androidpncmd": "cut:1",
             "memo": "淳于导死亡"
           }
-        ,{
+          ,{
             "ar": "105.04",
             "expectedval": 1,
             "androidpncmd": "puzzle:0",
             "memo": "八卦阵升起"
+          }
+          ,{
+            "ar": "102.02",
+            "expectedval": 1,
+            "androidpncmd": "video:xuanwu1",
+            "memo": "玄武门开，播放玄武1视频"
+          }
+          ,{
+            "ar": "107.07",
+            "expectedval": 1,
+            "androidpncmd": "video:xuanwu2",
+            "memo": "分贝仪3成功，播放玄武2视频"
+          }
+          ,{
+            "ar": "107.01",
+            "expectedval": 1,
+            "androidpncmd": "msg:zhuque",
+            "memo": "朱雀宫计时器提示"
+          }
+        ,{
+            "ar": "107.02",
+            "expectedval": 1,
+            "androidpncmd": "msg:baihu",
+            "memo": "白虎宫计时器提示"
+          }
+        ,{
+            "ar": "107.03",
+            "expectedval": 1,
+            "androidpncmd": "msg:xuanwu",
+            "memo": "玄武宫计时器提示"
+          }
+        ,{
+            "ar": "107.04",
+            "expectedval": 1,
+            "androidpncmd": "msg:qinglong",
+            "memo": "青龙宫计时器提示"
           }
         ]
       },
@@ -213,7 +255,32 @@
             "expectedval": 1,
             "androidpncmd": "map:20",
             "memo": "祭坛升起"
+          },
+          {
+            "ar": "19.00",
+            "expectedval": 1,
+            "androidpncmd": "video:end1",
+            "memo": "时间到播放结局1"
           }
+        ,{
+            "ar": "19.01",
+            "expectedval": 1,
+            "androidpncmd": "video:end2",
+            "memo": "时间到播放结局2"
+          }
+        ,{
+            "ar": "19.02",
+            "expectedval": 1,
+            "androidpncmd": "video:end3",
+            "memo": "时间到播放结局3"
+          }
+        ,{
+            "ar": "19.03",
+            "expectedval": 1,
+            "androidpncmd": "video:end4",
+            "memo": "时间到播放结局4"
+          }
+
         ]
       }
     ]
