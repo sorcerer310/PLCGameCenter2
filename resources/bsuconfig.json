@@ -233,11 +233,35 @@
         ]
       },
       {
-        "fins": "@00FA 0 00 00 00 00 0101 B1 000500 0001fcs",
+        "fins": "@00FA 0 00 00 00 00 0101 B1 000400 0002fcs",
         "area": "W",
-        "startunit": "5",
-        "memo": "从W5.00开始读W区1个通道的值",
+        "startunit": "4",
+        "memo": "从W4.00开始读W区1个通道的值",
         "address": [
+          {
+            "ar": "4.00",
+            "expectedval": 1,
+            "androidpncmd": "video:end1",
+            "memo": "时间到播放结局1"
+          }
+        ,{
+            "ar": "4.01",
+            "expectedval": 1,
+            "androidpncmd": "video:end2",
+            "memo": "时间到播放结局2"
+          }
+        ,{
+            "ar": "4.02",
+            "expectedval": 1,
+            "androidpncmd": "video:end3",
+            "memo": "时间到播放结局3"
+          }
+        ,{
+            "ar": "4.03",
+            "expectedval": 1,
+            "androidpncmd": "video:end4",
+            "memo": "时间到播放结局4"
+          },
           {
             "ar": "5.01",
             "expectedval": 1,
@@ -249,30 +273,6 @@
             "expectedval": 1,
             "androidpncmd": "map:20",
             "memo": "祭坛升起"
-          },
-          {
-            "ar": "19.00",
-            "expectedval": 1,
-            "androidpncmd": "video:end1",
-            "memo": "时间到播放结局1"
-          }
-        ,{
-            "ar": "19.01",
-            "expectedval": 1,
-            "androidpncmd": "video:end2",
-            "memo": "时间到播放结局2"
-          }
-        ,{
-            "ar": "19.02",
-            "expectedval": 1,
-            "androidpncmd": "video:end3",
-            "memo": "时间到播放结局3"
-          }
-        ,{
-            "ar": "19.03",
-            "expectedval": 1,
-            "androidpncmd": "video:end4",
-            "memo": "时间到播放结局4"
           }
 
         ]
