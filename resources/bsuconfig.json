@@ -6,7 +6,7 @@
         "area": "O",
         "startunit": "100",
         "memo": "从100.00开始读O区8个通道的值",
-        "address": [{"ar": "103.01","expectedval": 1,"androidpncmd": "map:1","memo": "星盘成功第一房间门开"},
+        "address": [
           {
             "ar": "102.05",
             "expectedval": 0,
