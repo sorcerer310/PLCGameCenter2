@@ -79,12 +79,6 @@
             "androidpncmd": "map:14",
             "memo": "分贝仪3"
           },
-//          {
-//            "ar": "107.03",
-//            "expectedval": 1,
-//            "androidpncmd": "map:14",
-//            "memo": "分贝仪3"
-//          },
           {
             "ar": "103.06",
             "expectedval": 1,
