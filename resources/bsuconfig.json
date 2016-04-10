@@ -109,53 +109,6 @@
           ,
             "androidpncmd": "map:21",
             "memo": "祭坛升起"
-          },
-          {
-            "ar": "101.00",
-            "expectedval": 0,
-            "androidpncmd": "life:0",
-            "memo": "续命灯1"
-          },
-          {
-            "ar": "101.01",
-            "expectedval": 0,
-            "androidpncmd": "life:1",
-            "memo": "续命灯2"
-          }
-        ,
-          {
-            "ar": "101.02",
-            "expectedval": 0,
-            "androidpncmd": "life:2",
-            "memo": "续命灯3"
-          }
-        ,
-          {
-            "ar": "101.03",
-            "expectedval": 0,
-            "androidpncmd": "life:3",
-            "memo": "续命灯4"
-          }
-        ,
-          {
-            "ar": "101.04",
-            "expectedval": 0,
-            "androidpncmd": "life:4",
-            "memo": "续命灯5"
-          }
-        ,
-          {
-            "ar": "101.05",
-            "expectedval": 0,
-            "androidpncmd": "life:5",
-            "memo": "续命灯6"
-          }
-        ,
-          {
-            "ar": "101.06",
-            "expectedval": 0,
-            "androidpncmd": "life:6",
-            "memo": "续命灯7"
           }
           ,{
             "ar": "100.06",
