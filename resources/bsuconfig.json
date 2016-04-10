@@ -81,13 +81,13 @@
           },
           {
             "ar": "103.06",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "map:16",
             "memo": "青龙门开启"
           },
           {
             "ar": "104.02",
-            "expectedval": 1,
+            "expectedval":0,
             "androidpncmd": "map:18",
             "memo": "青龙门2"
           },
@@ -99,11 +99,65 @@
           },
           {
             "ar": "106.03",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "map:20",
             "memo": "青龙武器"
           },
           {
+            "ar": "100.04",
+            "expectedval": 1
+          ,
+            "androidpncmd": "map:21",
+            "memo": "祭坛升起"
+          },
+          {
+            "ar": "101.00",
+            "expectedval": 0,
+            "androidpncmd": "life:0",
+            "memo": "续命灯1"
+          },
+          {
+            "ar": "101.01",
+            "expectedval": 0,
+            "androidpncmd": "life:1",
+            "memo": "续命灯2"
+          }
+        ,
+          {
+            "ar": "101.02",
+            "expectedval": 0,
+            "androidpncmd": "life:2",
+            "memo": "续命灯3"
+          }
+        ,
+          {
+            "ar": "101.03",
+            "expectedval": 0,
+            "androidpncmd": "life:3",
+            "memo": "续命灯4"
+          }
+        ,
+          {
+            "ar": "101.04",
+            "expectedval": 0,
+            "androidpncmd": "life:4",
+            "memo": "续命灯5"
+          }
+        ,
+          {
+            "ar": "101.05",
+            "expectedval": 0,
+            "androidpncmd": "life:5",
+            "memo": "续命灯6"
+          }
+        ,
+          {
+            "ar": "101.06",
+            "expectedval": 0,
+            "androidpncmd": "life:6",
+            "memo": "续命灯7"
+          }
+          ,{
             "ar": "100.06",
             "expectedval": 0,
             "androidpncmd": "cut:0",
@@ -119,11 +173,11 @@
             "ar": "105.04",
             "expectedval": 1,
             "androidpncmd": "puzzle:0",
-            "memo": "四象解谜谜题开始"
+            "memo": "八卦阵升起"
           }
           ,{
             "ar": "102.02",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "video:xuanwu1",
             "memo": "玄武门开，播放玄武1视频"
           }
@@ -136,25 +190,25 @@
           ,{
             "ar": "107.01",
             "expectedval": 1,
-            "androidpncmd": "msg:2分钟后，朱雀宫解题倒计时开始",
+            "androidpncmd": "msg:zhuque",
             "memo": "朱雀宫计时器提示"
           }
         ,{
             "ar": "107.02",
             "expectedval": 1,
-            "androidpncmd": "msg:30秒后，白虎宫倒计时开始",
+            "androidpncmd": "msg:baihu",
             "memo": "白虎宫计时器提示"
           }
         ,{
             "ar": "107.03",
             "expectedval": 1,
-            "androidpncmd": "msg:30秒后，白虎宫倒计时开始",
+            "androidpncmd": "msg:xuanwu",
             "memo": "玄武宫计时器提示"
           }
         ,{
             "ar": "107.04",
             "expectedval": 1,
-            "androidpncmd": "msg:30秒后，青龙宫倒计时开始",
+            "androidpncmd": "msg:qinglong",
             "memo": "青龙宫计时器提示"
           }
         ]
@@ -167,19 +221,19 @@
         "address": [
           {
             "ar": "0.01",
-            "expectedval": 0,
+            "expectedval":1,
             "androidpncmd": "map:4",
             "memo": "象棋棋局解开"
           },
           {
             "ar": "1.07",
-            "expectedval": 0,
+            "expectedval": 1,
             "androidpncmd": "map:15",
             "memo": "酒坛"
           },
           {
             "ar": "1.09",
-            "expectedval": 0,
+            "expectedval": 1,
             "androidpncmd": "map:17",
             "memo": "5令牌开锁"
           }
@@ -216,16 +270,10 @@
             "memo": "时间到播放结局4"
           },
           {
-            "ar": "5.01",
+            "ar": "4.04",
             "expectedval": 1,
             "androidpncmd": "map:1",
             "memo": "大厅七星灯点亮"
-          },
-          {
-            "ar": "5.05",
-            "expectedval": 1,
-            "androidpncmd": "map:21",
-            "memo": "祭坛升起"
           }
 
         ]
