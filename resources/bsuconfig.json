@@ -119,7 +119,7 @@
             "ar": "105.04",
             "expectedval": 1,
             "androidpncmd": "puzzle:0",
-            "memo": "八卦阵升起"
+            "memo": "四象解谜谜题开始"
           }
           ,{
             "ar": "102.02",
@@ -224,7 +224,7 @@
           {
             "ar": "5.05",
             "expectedval": 1,
-            "androidpncmd": "map:20",
+            "androidpncmd": "map:21",
             "memo": "祭坛升起"
           }
 
