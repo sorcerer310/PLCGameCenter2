@@ -27,13 +27,13 @@
           },
           {
             "ar": "103.00",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "map:6",
             "memo": "刀伤解开,拿到车零件1"
           },
           {
             "ar": "103.02",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "map:7",
             "memo": "锁链解开,拿到车零件2"
           },
@@ -45,7 +45,7 @@
           },
           {
             "ar": "107.02",
-            "expectedval": 0,
+            "expectedval": 1,
             "androidpncmd": "map:9",
             "memo": "白虎宫计时器"
           },
@@ -57,7 +57,7 @@
           },
           {
             "ar": "102.02",
-            "expectedval": 1,
+            "expectedval": 0,
             "androidpncmd": "map:11",
             "memo": "玄武门开启"
           },
