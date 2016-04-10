@@ -105,12 +105,11 @@
           },
           {
             "ar": "100.04",
-            "expectedval": 1
-          ,
+            "expectedval": 1,
             "androidpncmd": "map:21",
             "memo": "祭坛升起"
-          }
-          ,{
+          },
+          {
             "ar": "100.06",
             "expectedval": 0,
             "androidpncmd": "cut:0",
@@ -143,25 +142,25 @@
           ,{
             "ar": "107.01",
             "expectedval": 1,
-            "androidpncmd": "msg:zhuque",
+            "androidpncmd": "msg:2分钟后,朱雀宫解题倒计时开始",
             "memo": "朱雀宫计时器提示"
           }
         ,{
             "ar": "107.02",
             "expectedval": 1,
-            "androidpncmd": "msg:baihu",
+            "androidpncmd": "msg:30秒后,白虎宫解题倒计时开始",
             "memo": "白虎宫计时器提示"
           }
         ,{
             "ar": "107.03",
             "expectedval": 1,
-            "androidpncmd": "msg:xuanwu",
+            "androidpncmd": "msg:30秒后,玄武宫解题倒计时开始",
             "memo": "玄武宫计时器提示"
           }
         ,{
             "ar": "107.04",
             "expectedval": 1,
-            "androidpncmd": "msg:qinglong",
+            "androidpncmd": "msg:30秒后,青龙宫解题倒计时开始",
             "memo": "青龙宫计时器提示"
           }
         ]
