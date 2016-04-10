@@ -41,7 +41,8 @@ public class AndroidpnMonitor {
                 AddressData ad = hm_adata.get(key);
                 if(!ad.opted && ad.expectedval_bool==state){
                     try {
-                        U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, ad.androidpncmd));
+                        for(String s:ad.androidpncmd)
+                            U.sendPostRequestByForm(jbc.getAndroidpnUrl(), U.setParams(jbc.getAndroidpnUser(), jbc.getAndroidpnTitle(), ad.msg, s));
                         ad.opted = true;
                     } catch (Exception e) {
                         e.printStackTrace();

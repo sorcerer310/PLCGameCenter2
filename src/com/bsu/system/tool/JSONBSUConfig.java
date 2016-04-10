@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -90,8 +91,13 @@ public class JSONBSUConfig {
             JSONArray ja_address = jo_area.getJSONArray("address");
             for(int j=0;j<ja_address.length();j++){
                 JSONObject jo_ar = ja_address.getJSONObject(j);
+                //转化androidpn命令
+                JSONArray ja_adc = jo_ar.getJSONArray("androidpncmd");
+                ArrayList<String> al_adc = new ArrayList<String>();
+                for(int k=0;k<ja_adc.length();k++)
+                    al_adc.add(ja_adc.getString(k));
                 AddressData ad = new AddressData(jo_ar.getString("ar"),jo_ar.getInt("expectedval")
-                        ,jo_ar.getString("androidpncmd"),jo_ar.isNull("msg")==false?jo_ar.getString("msg"):"");
+                        ,al_adc,jo_ar.isNull("msg")==false?jo_ar.getString("msg"):"");
                 //当前地址通道值为0时保存为true,为1时保存为false
                 rethm.put(jo_area.getString("area").toUpperCase()+jo_ar.getString("ar"),ad);
 //                rethm.put(jo_ar.getString("ar"),ad);
@@ -143,7 +149,12 @@ public class JSONBSUConfig {
                 String msg = "";
                 if(!jo_ad.isNull("msg"))
                     msg = jo_ad.getString("msg");
-                md.addressdatas.add(new AddressData(jo_ad.getString("ar"), jo_ad.getInt("expectedval"), jo_ad.getString("androidpncmd"), msg));
+                //此处获得触发的androidpn命令，可能一个监视点对应多条命令
+                JSONArray ja_adc = jo_ad.getJSONArray("androidpncmd");
+                ArrayList<String> al_adc = new ArrayList<String>();
+                for(int k=0;k<ja_adc.length();k++)
+                    al_adc.add(ja_adc.getString(k));
+                md.addressdatas.add(new AddressData(jo_ad.getString("ar"), jo_ad.getInt("expectedval"), al_adc, msg));
             }
             hm.put(jo.getString("area"),md);                                                                           //数据按区保存不同区查询plc状态的指令
         }

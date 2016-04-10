@@ -10,198 +10,162 @@
           {
             "ar": "102.05",
             "expectedval": 0,
-            "androidpncmd": "map:2",
-            "memo": "朱雀通道门开"
+            "androidpncmd":["map:2","msg:2分钟后,朱雀宫解题倒计时开始"],
+            "memo": "朱雀通道门开,朱雀宫计时器提示"
           },
           {
             "ar": "107.01",
             "expectedval": 1,
-            "androidpncmd": "map:3",
+            "androidpncmd": ["map:3"],
             "memo": "朱雀计时器开始"
           },
           {
             "ar": "102.01",
             "expectedval": 0,
-            "androidpncmd": "map:5",
+            "androidpncmd": ["map:5"],
             "memo": "白虎宫门开"
           },
           {
             "ar": "103.00",
             "expectedval": 0,
-            "androidpncmd": "map:6",
-            "memo": "刀伤解开,拿到车零件1"
+            "androidpncmd": ["map:6","cut:1"],
+            "memo": "刀伤解开,拿到车零件1,淳于导死亡"
           },
           {
             "ar": "103.02",
             "expectedval": 0,
-            "androidpncmd": "map:7",
+            "androidpncmd": ["map:7"],
             "memo": "锁链解开,拿到车零件2"
           },
           {
             "ar": "100.02",
             "expectedval": 1,
-            "androidpncmd": "map:8",
+            "androidpncmd": ["map:8"],
             "memo": "虎战车移动"
           },
           {
             "ar": "107.02",
             "expectedval": 1,
-            "androidpncmd": "map:9",
-            "memo": "白虎宫计时器"
+            "androidpncmd": ["map:9","msg:30秒后,白虎宫解题倒计时开始"],
+            "memo": "白虎宫计时器,给信息提示"
           },
           {
             "ar": "103.05",
             "expectedval": 0,
-            "androidpncmd": "map:10",
+            "androidpncmd": ["map:10"],
             "memo": "白虎宫武器解开"
           },
           {
             "ar": "102.02",
             "expectedval": 0,
-            "androidpncmd": "map:11",
-            "memo": "玄武门开启"
+            "androidpncmd": ["map:11","video:xuanwu1"],
+            "memo": "玄武门开启,播放玄武视频"
           },
           {
             "ar": "107.06",
             "expectedval": 1,
-            "androidpncmd": "map:12",
+            "androidpncmd": ["map:12"],
             "memo": "分贝仪1"
           },
           {
             "ar": "107.05",
             "expectedval": 1,
-            "androidpncmd": "map:13",
+            "androidpncmd": ["map:13"],
             "memo": "分贝仪2"
           },
           {
             "ar": "107.07",
             "expectedval": 1,
-            "androidpncmd": "map:14",
+            "androidpncmd": ["map:14","video:xuanwu2"],
             "memo": "分贝仪3"
           },
           {
             "ar": "103.06",
             "expectedval": 0,
-            "androidpncmd": "map:16",
+            "androidpncmd": ["map:16"],
             "memo": "青龙门开启"
           },
           {
             "ar": "104.02",
             "expectedval":0,
-            "androidpncmd": "map:18",
+            "androidpncmd": ["map:18"],
             "memo": "青龙门2"
           },
           {
             "ar": "107.04",
             "expectedval": 1,
-            "androidpncmd": "map:19",
+            "androidpncmd": ["map:19","msg:30秒后,青龙宫解题倒计时开始"],
             "memo": "青龙计时器"
           },
           {
             "ar": "106.03",
             "expectedval": 0,
-            "androidpncmd": "map:20",
+            "androidpncmd": ["map:20"],
             "memo": "青龙武器"
           },
           {
             "ar": "100.04",
             "expectedval": 1,
-            "androidpncmd": "map:21",
+            "androidpncmd": ["map:21"],
             "memo": "祭坛升起"
           },
           {
             "ar": "100.06",
             "expectedval": 0,
-            "androidpncmd": "cut:0",
+            "androidpncmd": ["cut:0"],
             "memo": "淳于导出场"
-          }
-          ,{
-            "ar": "103.00",
-            "expectedval": 0,
-            "androidpncmd": "cut:1",
-            "memo": "淳于导死亡"
           }
           ,{
             "ar": "105.04",
             "expectedval": 1,
-            "androidpncmd": "puzzle:0",
+            "androidpncmd": ["puzzle:0"],
             "memo": "八卦阵升起"
-          }
-          ,{
-            "ar": "102.02",
-            "expectedval": 0,
-            "androidpncmd": "video:xuanwu1",
-            "memo": "玄武门开，播放玄武1视频"
-          }
-          ,{
-            "ar": "107.07",
-            "expectedval": 1,
-            "androidpncmd": "video:xuanwu2",
-            "memo": "分贝仪3成功，播放玄武2视频"
-          }
-          ,{
-            "ar": "102.05",
-            "expectedval": 0,
-            "androidpncmd": "msg:2分钟后,朱雀宫解题倒计时开始",
-            "memo": "朱雀宫计时器提示"
-          }
-        ,{
-            "ar": "107.02",
-            "expectedval": 1,
-            "androidpncmd": "msg:30秒后,白虎宫解题倒计时开始",
-            "memo": "白虎宫计时器提示"
           }
         ,{
             "ar": "107.03",
             "expectedval": 1,
-            "androidpncmd": "msg:30秒后,玄武宫解题倒计时开始",
+            "androidpncmd": ["msg:30秒后,玄武宫解题倒计时开始"],
             "memo": "玄武宫计时器提示"
-          }
-        ,{
-            "ar": "107.04",
-            "expectedval": 1,
-            "androidpncmd": "msg:30秒后,青龙宫解题倒计时开始",
-            "memo": "青龙宫计时器提示"
           }
         ,{
             "ar": "101.00",
             "expectedval": -1,
-            "androidpncmd": "life:0",
+            "androidpncmd": ["life:0"],
             "memo": "生命计时1"
           }
         ,{
             "ar": "101.01",
             "expectedval": -1,
-            "androidpncmd": "life:1",
+            "androidpncmd": ["life:1"],
             "memo": "生命计时2"
           }
         ,{
             "ar": "101.02",
             "expectedval": -1,
-            "androidpncmd": "life:2",
+            "androidpncmd": ["life:2"],
             "memo": "生命计时3"
           }
         ,{
             "ar": "101.03",
             "expectedval": -1,
-            "androidpncmd": "life:3",
+            "androidpncmd": ["life:3"],
             "memo": "生命计时4"
           }
         ,{
             "ar": "101.04",
             "expectedval": -1,
-            "androidpncmd": "life:4",
+            "androidpncmd": ["life:4"],
             "memo": "生命计时5"
           }
         ,{
             "ar": "101.05",
             "expectedval": -1,
-            "androidpncmd": "life:5",
+            "androidpncmd": ["life:5"],
             "memo": "生命计时6"
           },{
             "ar": "101.06",
             "expectedval": -1,
-            "androidpncmd": "life:6",
+            "androidpncmd": ["life:6"],
             "memo": "生命计时7"
           }
         ]
@@ -215,19 +179,19 @@
           {
             "ar": "0.01",
             "expectedval":1,
-            "androidpncmd": "map:4",
+            "androidpncmd": ["map:4"],
             "memo": "象棋棋局解开"
           },
           {
             "ar": "1.07",
             "expectedval": 1,
-            "androidpncmd": "map:15",
+            "androidpncmd": ["map:15"],
             "memo": "酒坛"
           },
           {
             "ar": "1.09",
             "expectedval": 1,
-            "androidpncmd": "map:17",
+            "androidpncmd": ["map:17"],
             "memo": "5令牌开锁"
           }
         ]
@@ -241,31 +205,31 @@
           {
             "ar": "4.00",
             "expectedval": 1,
-            "androidpncmd": "video:end1",
+            "androidpncmd": ["video:end1"],
             "memo": "时间到播放结局1"
           }
         ,{
             "ar": "4.01",
             "expectedval": 1,
-            "androidpncmd": "video:end2",
+            "androidpncmd": ["video:end2"],
             "memo": "时间到播放结局2"
           }
         ,{
             "ar": "4.02",
             "expectedval": 1,
-            "androidpncmd": "video:end3",
+            "androidpncmd": ["video:end3"],
             "memo": "时间到播放结局3"
           }
         ,{
             "ar": "4.03",
             "expectedval": 1,
-            "androidpncmd": "video:end4",
+            "androidpncmd": ["video:end4"],
             "memo": "时间到播放结局4"
           },
           {
             "ar": "4.04",
             "expectedval": 1,
-            "androidpncmd": "map:1",
+            "androidpncmd": ["map:1"],
             "memo": "大厅七星灯点亮"
           }
 
