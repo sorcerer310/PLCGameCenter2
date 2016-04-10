@@ -114,7 +114,7 @@ public class JSONBSUConfig {
             for(int j=0;j<ja_address.length();j++){
                 JSONObject jo_ar = ja_address.getJSONObject(j);
                 //当前地址通道值为0时保存为true,为1时保存为false
-                rethm.put(jo_ar.getString("ar"),jo_ar.getInt("expectedval")==1?true:false);
+                rethm.put(jo_area.getString("area")+jo_ar.getString("ar"),jo_ar.getInt("expectedval")==1?true:false);
             }
         }
         return rethm;

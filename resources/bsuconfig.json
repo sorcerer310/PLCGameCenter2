@@ -140,8 +140,8 @@
             "memo": "分贝仪3成功，播放玄武2视频"
           }
           ,{
-            "ar": "107.01",
-            "expectedval": 1,
+            "ar": "102.05",
+            "expectedval": 0,
             "androidpncmd": "msg:2分钟后,朱雀宫解题倒计时开始",
             "memo": "朱雀宫计时器提示"
           }
@@ -162,6 +162,47 @@
             "expectedval": 1,
             "androidpncmd": "msg:30秒后,青龙宫解题倒计时开始",
             "memo": "青龙宫计时器提示"
+          }
+        ,{
+            "ar": "101.00",
+            "expectedval": -1,
+            "androidpncmd": "life:0",
+            "memo": "生命计时1"
+          }
+        ,{
+            "ar": "101.01",
+            "expectedval": -1,
+            "androidpncmd": "life:1",
+            "memo": "生命计时2"
+          }
+        ,{
+            "ar": "101.02",
+            "expectedval": -1,
+            "androidpncmd": "life:2",
+            "memo": "生命计时3"
+          }
+        ,{
+            "ar": "101.03",
+            "expectedval": -1,
+            "androidpncmd": "life:3",
+            "memo": "生命计时4"
+          }
+        ,{
+            "ar": "101.04",
+            "expectedval": -1,
+            "androidpncmd": "life:4",
+            "memo": "生命计时5"
+          }
+        ,{
+            "ar": "101.05",
+            "expectedval": -1,
+            "androidpncmd": "life:5",
+            "memo": "生命计时6"
+          },{
+            "ar": "101.06",
+            "expectedval": -1,
+            "androidpncmd": "life:6",
+            "memo": "生命计时7"
           }
         ]
       },
