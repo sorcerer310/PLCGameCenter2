@@ -105,7 +105,8 @@
           },
           {
             "ar": "100.04",
-            "expectedval": 1,
+            "expectedval": 1
+          ,
             "androidpncmd": "map:21",
             "memo": "祭坛升起"
           },
