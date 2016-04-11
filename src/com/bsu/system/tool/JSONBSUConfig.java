@@ -96,6 +96,7 @@ public class JSONBSUConfig {
                 ArrayList<String> al_adc = new ArrayList<String>();
                 for(int k=0;k<ja_adc.length();k++)
                     al_adc.add(ja_adc.getString(k));
+
                 AddressData ad = new AddressData(jo_ar.getString("ar"),jo_ar.getInt("expectedval")
                         ,al_adc,jo_ar.isNull("msg")==false?jo_ar.getString("msg"):"");
                 //当前地址通道值为0时保存为true,为1时保存为false
