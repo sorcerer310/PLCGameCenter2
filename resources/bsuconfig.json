@@ -14,7 +14,7 @@
             "memo": "朱雀通道门开,朱雀宫计时器提示"
           },
           {
-            "ar": "107.01",
+            "ar": "107.01", 
             "expectedval": 1,
             "androidpncmd": ["map:3"],
             "memo": "朱雀计时器开始"
@@ -46,8 +46,8 @@
           {
             "ar": "107.02",
             "expectedval": 1,
-            "androidpncmd": ["map:9","msg:30秒后,白虎宫解题倒计时开始"],
-            "memo": "白虎宫计时器,给信息提示"
+            "androidpncmd": ["map:9"],
+            "memo": "白虎宫计时器"
           },
           {
             "ar": "103.05",
@@ -231,8 +231,19 @@
             "expectedval": 1,
             "androidpncmd": ["map:1"],
             "memo": "大厅七星灯点亮"
+          },
+          {
+            "ar":"4.05",
+            "expectedval": 1,
+            "androidpncmd":["msg:30秒后,白虎宫解题倒计时开始"],
+            "memo":"白虎宫计时器信息提示"
+          },
+          {
+            "ar":"4.06",
+            "expectedval":1,
+            "androidpncmd":["chain:0"],
+            "memo":"锁链夏侯恩出现"
           }
-
         ]
       }
     ]
