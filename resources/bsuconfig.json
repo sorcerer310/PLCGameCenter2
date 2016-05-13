@@ -10,7 +10,7 @@
           {
             "ar": "102.05",
             "expectedval": 0,
-            "androidpncmd":["map:2","msg:2分钟后,朱雀宫解题倒计时开始"],
+            "androidpncmd":["map:2","msg:4分钟后,朱雀宫解题倒计时开始"],
             "memo": "朱雀通道门开,朱雀宫计时器提示"
           },
           {
@@ -118,7 +118,7 @@
         ,{
             "ar": "107.03",
             "expectedval": 1,
-            "androidpncmd": ["msg:30秒后,玄武宫解题倒计时开始"],
+            "androidpncmd": ["msg:1分钟后,玄武宫解题倒计时开始"],
             "memo": "玄武宫计时器提示"
           }
         ,{
